@@ -1,0 +1,5 @@
+{
+    "require": {
+        "youshido/graphql": "^1.5"
+    }
+}
