@@ -19,7 +19,7 @@ use Youshido\GraphQL\Execution\Processor;
 use Youshido\GraphQL\Schema\Schema;
 use Youshido\GraphQL\Type\Object\ObjectType;
 
-function my_awesome_func( WP_REST_Request $request ) {
+function graphql( WP_REST_Request $request ) {
 
     $processor = new Processor(
         new Schema(
@@ -51,17 +51,13 @@ function my_awesome_func( WP_REST_Request $request ) {
     return $processor->getResponseData();
 }
 
-function my_register_booking_api() {
+function my_register_vuefront_api() {
     register_rest_route( 'vuefront/v1', '/graphql', array(
         'methods'  => 'POST',
-        'callback' => 'my_awesome_func',
+        'callback' => 'graphql',
     ) );
 }
 
-add_action( 'rest_api_init', 'my_register_booking_api' );
+add_action( 'rest_api_init', 'my_register_vuefront_api' );
 
-function add_cors_http_header(){
-    header("Access-Control-Allow-Origin: *");
-}
-add_action('init','add_cors_http_header');
 

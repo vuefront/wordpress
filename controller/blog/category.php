@@ -8,7 +8,7 @@ use Youshido\GraphQL\Type\Scalar\StringType;
 
 require_once __DIR__ . '/../../helpers/pagination.php';
 
-class QueryBlogCategory {
+class ControllerBlogCategory {
 	public function getQuery() {
 		return array(
 			'categoryBlog'       => array(

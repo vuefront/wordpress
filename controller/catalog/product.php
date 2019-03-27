@@ -3,6 +3,7 @@
 
 use Youshido\GraphQL\Type\ListType\ListType;
 use Youshido\GraphQL\Type\Object\ObjectType;
+use Youshido\GraphQL\Type\InputObject\InputObjectType;
 use Youshido\GraphQL\Type\Scalar\IdType;
 use Youshido\GraphQL\Type\Scalar\IntType;
 use Youshido\GraphQL\Type\Scalar\FloatType;
@@ -11,7 +12,7 @@ use Youshido\GraphQL\Type\Scalar\BooleanType;
 
 require_once __DIR__ . '/../../helpers/pagination.php';
 
-class QueryCatalogProduct {
+class ControllerCatalogProduct {
     public function getMutations() {
         return array(
             'addToCart'  => array(
@@ -23,6 +24,10 @@ class QueryCatalogProduct {
                     'quantity' => array(
                         'type'         => new IntType(),
                         'defaultValue' => 1
+                    ),
+                    'options'  => array(
+                        'type'         => new ListType( $this->getCartOptionType() ),
+                        'defaultValue' => array()
                     )
                 ),
                 'resolve' => function ( $store, $args ) {
@@ -53,6 +58,18 @@ class QueryCatalogProduct {
                 ),
                 'resolve' => function ( $store, $args ) {
                     return $this->removeCart( $args );
+                }
+            ),
+            'addReview'  => array(
+                'type'    => $this->getProductType(),
+                'args'    => array(
+                    'id'     => new IntType(),
+                    'rating' => new FloatType(),
+                    'author' => new StringType(),
+                    'content' => new StringType()
+                ),
+                'resolve' => function ( $store, $args ) {
+                    return $this->addReview( $args );
                 }
             )
         );
@@ -293,9 +310,14 @@ class QueryCatalogProduct {
 
         $cart['products'] = array();
         foreach ( WC()->cart->get_cart() as $product ) {
+            if ( $product['variation_id'] !== 0 ) {
+                $product_id = $product['variation_id'];
+            } else {
+                $product_id = $product['product_id'];
+            }
             $cart['products'][] = array(
                 'key'      => $product['key'],
-                'product'  => $this->getProduct( array( 'id' => $product['product_id'] ) ),
+                'product'  => $this->getProduct( array( 'id' => $product_id ) ),
                 'quantity' => $product['quantity'],
                 'total'    => $product['line_total'] . ' ' . $this->get_woocommerce_currency_symbol()
             );
@@ -304,8 +326,45 @@ class QueryCatalogProduct {
         return $cart;
     }
 
+    private function find_matching_product_variation_id( $product_id, $attributes ) {
+        return ( new \WC_Product_Data_Store_CPT() )->find_matching_product_variation(
+            new \WC_Product( $product_id ),
+            $attributes
+        );
+    }
+
+
+    public function addReview( $args ) {
+
+        $time = current_time('mysql');
+
+        $data = array(
+            'comment_post_ID' => $args['id'],
+            'comment_author' => $args['author'],
+            'comment_content' => $args['content'],
+            'comment_date' => $time,
+        );
+
+        $comment_id = wp_insert_comment($data);
+
+        add_comment_meta($comment_id, 'rating', $args['rating']);
+
+        return $this->getProduct( $args );
+    }
+
     public function addToCart( $args ) {
-        WC()->cart->add_to_cart( $args['id'], $args['quantity'] );
+        $product = wc_get_product( $args['id'] );
+
+        if ( $product->is_type( 'variable' ) ) {
+            $options = array();
+            foreach ( $args['options'] as $option ) {
+                $options[ $option['id'] ] = $option['value'];
+            }
+            $variation_id = $this->find_matching_product_variation_id( $args['id'], $options );
+            WC()->cart->add_to_cart( $args['id'], $args['quantity'], $variation_id );
+        } else {
+            WC()->cart->add_to_cart( $args['id'], $args['quantity'] );
+        }
 
         return $this->getCart( $args );
     }
@@ -330,27 +389,32 @@ class QueryCatalogProduct {
         $product_lazy_image = wp_get_attachment_image_src( $product->get_image_id(), array( 10, 10 ) );
         $thumbLazy          = $product_lazy_image[0];
 
+        if ( $product->is_type( 'variable' ) ) {
+            $min_price = $product->get_variation_price( 'min' );
+            $max_price = $product->get_variation_price( 'max' );
+            if($min_price != $max_price) {
+                $price = $min_price . ' ' . $this->get_woocommerce_currency_symbol() . ' - ' . $max_price . ' ' . $this->get_woocommerce_currency_symbol();
+            } else {
+                $price = $min_price . ' ' . $this->get_woocommerce_currency_symbol();
+            }
+
+        } else {
+            $price = $product->get_price() . ' ' . $this->get_woocommerce_currency_symbol();
+        }
+
         $product_info = array(
             'id'               => $product->get_id(),
             'name'             => $product->get_name(),
             'description'      => $product->get_description(),
             'shortDescription' => $product->get_short_description(),
-            'price'            => $product->get_price() . ' ' . $this->get_woocommerce_currency_symbol(),
+            'price'            => $price,
             'special'          => $product->get_sale_price() . ' ' . $this->get_woocommerce_currency_symbol(),
             'model'            => $product->get_sku(),
-            'variable'         => null,
             'image'            => $thumb,
             'imageLazy'        => $thumbLazy,
             'stock'            => $product->get_stock_status() === 'instock',
             'rating'           => (float) $product->get_average_rating()
         );
-
-        if ( $product->is_type( 'variable' ) ) {
-            $product_info['variable'] = array(
-                'minPrice' => $product->get_variation_price( 'min' ) . ' ' . $this->get_woocommerce_currency_symbol(),
-                'maxPrice' => $product->get_variation_price( 'max' ) . ' ' . $this->get_woocommerce_currency_symbol(),
-            );
-        }
 
         return $product_info;
     }
@@ -387,6 +451,26 @@ class QueryCatalogProduct {
         );
     }
 
+    public function getProductReviews( $product, $args ) {
+        $product = wc_get_product( $product['id'] );
+        $result  = get_comments( array( 'post_type' => 'product', 'post_id' => $product->get_id() ) );
+
+        $comments = array();
+
+
+        foreach ( $result as $comment ) {
+            $comments[] = array(
+                'author'       => $comment->comment_author,
+                'author_email' => $comment->comment_author_email,
+                'created_at'   => $comment->comment_date,
+                'content'      => $comment->comment_content,
+                'rating'       => (float) get_comment_meta( $comment->comment_ID, 'rating', true )
+            );
+        }
+
+        return $comments;
+    }
+
     public function getProductAttributes( $product, $args ) {
         $product = wc_get_product( $product['id'] );
 
@@ -405,44 +489,44 @@ class QueryCatalogProduct {
         return $attributes;
     }
 
-    public function getProductVariations( $product, $args ) {
+    public function getProductOptions( $product, $args ) {
         $product = wc_get_product( $product['id'] );
 
-        $variations = array();
+        $options = array();
 
 
         foreach ( $product->get_attributes() as $attribute ) {
             if ( $attribute->get_variation() && $attribute->get_visible() ) {
 
-                $options = array();
+                $option_values = array();
 
                 if ( $attribute->is_taxonomy() ) {
                     $name = wc_attribute_label( $attribute->get_name(), $product );
                     foreach ( $attribute->get_terms() as $value ) {
-                        $options[] = array(
-                            'id'   => $value->term_id,
+                        $option_values[] = array(
+                            'id'   => $value->name,
                             'name' => $value->name
                         );
                     }
                 } else {
                     $name = $attribute->get_name();
-                    foreach ( $attribute->get_options() as $key => $value ) {
-                        $options[] = array(
-                            'id'   => $key,
+                    foreach ( $attribute->get_options() as $value ) {
+                        $option_values[] = array(
+                            'id'   => $value,
                             'name' => $value
                         );
                     }
                 }
 
-                $variations[] = array(
-                    'id'      => $attribute->get_id(),
-                    'name'    => $name,
-                    'options' => $options
+                $options[] = array(
+                    'id'     => 'attribute_' . sanitize_title( $attribute->get_name() ),
+                    'name'   => $name,
+                    'values' => $option_values
                 );
             }
         }
 
-        return $variations;
+        return $options;
     }
 
 
@@ -485,6 +569,19 @@ class QueryCatalogProduct {
         return $products;
     }
 
+    private function getCartOptionType() {
+        return new InputObjectType(
+            array(
+                'name'        => 'CartOption',
+                'description' => 'CartOption',
+                'fields'      => array(
+                    'id'    => new StringType(),
+                    'value' => new StringType()
+                )
+            )
+        );
+    }
+
     private function getCartType() {
         return new ObjectType(
             array(
@@ -512,10 +609,10 @@ class QueryCatalogProduct {
         );
     }
 
-    private function getVariationValueType() {
+    private function getOptionValueType() {
         return new ObjectType(
             array(
-                'name'        => 'VariationValue',
+                'name'        => 'OptionValue',
                 'description' => 'CartProduct',
                 'fields'      => array(
                     'id'   => new StringType(),
@@ -563,16 +660,6 @@ class QueryCatalogProduct {
                         'special'          => new StringType(),
                         'tax'              => new StringType(),
                         'minimum'          => new IntType(),
-                        'variable'         => new ObjectType(
-                            array(
-                                'name'        => 'VariableProduct',
-                                'description' => 'VariableProduct',
-                                'fields'      => array(
-                                    'minPrice' => new StringType(),
-                                    'maxPrice' => new StringType()
-                                )
-                            )
-                        ),
                         'stock'            => new BooleanType(),
                         'rating'           => new FloatType(),
                         'attributes'       => array(
@@ -591,21 +678,40 @@ class QueryCatalogProduct {
                                 return $this->getProductAttributes( $parent, $args );
                             }
                         ),
-                        'variations'       => array(
+                        'reviews'          => array(
                             'type'    => new ListType(
                                 new ObjectType(
                                     array(
-                                        'name'   => 'productVariation',
+                                        'name'   => 'productReview',
                                         'fields' => array(
-                                            'id'      => new StringType(),
-                                            'name'    => new StringType(),
-                                            'options' => new ListType( $this->getVariationValueType() )
+                                            'author'       => new StringType(),
+                                            'author_email' => new StringType(),
+                                            'content'      => new StringType(),
+                                            'created_at'   => new StringType(),
+                                            'rating'       => new FloatType()
                                         )
                                     )
                                 )
                             ),
                             'resolve' => function ( $parent, $args ) {
-                                return $this->getProductVariations( $parent, $args );
+                                return $this->getProductReviews( $parent, $args );
+                            }
+                        ),
+                        'options'          => array(
+                            'type'    => new ListType(
+                                new ObjectType(
+                                    array(
+                                        'name'   => 'productOption',
+                                        'fields' => array(
+                                            'id'     => new StringType(),
+                                            'name'   => new StringType(),
+                                            'values' => new ListType( $this->getOptionValueType() )
+                                        )
+                                    )
+                                )
+                            ),
+                            'resolve' => function ( $parent, $args ) {
+                                return $this->getProductOptions( $parent, $args );
                             }
                         ),
                         'images'           => array(

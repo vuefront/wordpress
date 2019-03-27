@@ -9,7 +9,7 @@ use Youshido\GraphQL\Type\Scalar\StringType;
 
 require_once __DIR__ . '/../../helpers/pagination.php';
 
-class QueryBlogPost {
+class ControllerBlogPost {
 	public function getQuery() {
 		return array(
 			'post'      => array(
