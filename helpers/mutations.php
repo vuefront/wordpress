@@ -2,7 +2,7 @@
 function getMutations() {
     $result = array();
 
-    $query_root = realpath( __DIR__ . '../../controller' );
+    $query_root = realpath( __DIR__ . '/../controller' );
 
     $files = glob( $query_root . '\**\*.php', GLOB_BRACE );
 

@@ -63,9 +63,9 @@ class ControllerCatalogProduct {
             'addReview'  => array(
                 'type'    => $this->getProductType(),
                 'args'    => array(
-                    'id'     => new IntType(),
-                    'rating' => new FloatType(),
-                    'author' => new StringType(),
+                    'id'      => new IntType(),
+                    'rating'  => new FloatType(),
+                    'author'  => new StringType(),
                     'content' => new StringType()
                 ),
                 'resolve' => function ( $store, $args ) {
@@ -336,18 +336,18 @@ class ControllerCatalogProduct {
 
     public function addReview( $args ) {
 
-        $time = current_time('mysql');
+        $time = current_time( 'mysql' );
 
         $data = array(
             'comment_post_ID' => $args['id'],
-            'comment_author' => $args['author'],
+            'comment_author'  => $args['author'],
             'comment_content' => $args['content'],
-            'comment_date' => $time,
+            'comment_date'    => $time,
         );
 
-        $comment_id = wp_insert_comment($data);
+        $comment_id = wp_insert_comment( $data );
 
-        add_comment_meta($comment_id, 'rating', $args['rating']);
+        add_comment_meta( $comment_id, 'rating', $args['rating'] );
 
         return $this->getProduct( $args );
     }
@@ -392,7 +392,7 @@ class ControllerCatalogProduct {
         if ( $product->is_type( 'variable' ) ) {
             $min_price = $product->get_variation_price( 'min' );
             $max_price = $product->get_variation_price( 'max' );
-            if($min_price != $max_price) {
+            if ( $min_price != $max_price ) {
                 $price = $min_price . ' ' . $this->get_woocommerce_currency_symbol() . ' - ' . $max_price . ' ' . $this->get_woocommerce_currency_symbol();
             } else {
                 $price = $min_price . ' ' . $this->get_woocommerce_currency_symbol();
@@ -423,7 +423,9 @@ class ControllerCatalogProduct {
         $filter_data = array(
             'page'     => $args['page'],
             'limit'    => $args['size'],
-            'paginate' => true
+            'paginate' => true,
+            'orderby'  => $args['sort'],
+            'order'    => $args['order'],
         );
 
         if ( $args['category_id'] !== 0 ) {
