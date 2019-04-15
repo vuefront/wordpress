@@ -1,6 +1,5 @@
 <?php
 
-
 use Youshido\GraphQL\Type\ListType\ListType;
 use Youshido\GraphQL\Type\Object\ObjectType;
 use Youshido\GraphQL\Type\InputObject\InputObjectType;
