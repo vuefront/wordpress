@@ -64,10 +64,17 @@ class ControllerCatalogCategory
         $category = get_term($args['id']);
 
         $image_id            = get_term_meta($category->term_id, 'thumbnail_id', true);
-        $category_image      = wp_get_attachment_image_src($image_id, 'full');
-        $thumb               = $category_image[0];
-        $category_lazy_image = wp_get_attachment_image_src($image_id, array( 10, 10 ));
-        $thumbLazy           = $category_lazy_image[0];
+
+        if (!empty($image_id)) {
+            $category_image      = wp_get_attachment_image_src($image_id, 'full');
+            $category_lazy_image = wp_get_attachment_image_src($image_id, array( 10, 10 ));
+
+            $thumb               = $category_image[0];
+            $thumbLazy           = $category_lazy_image[0];
+        } else {
+            $thumb      = wc_placeholder_img_src('full');
+            $thumbLazy = wc_placeholder_img_src(array( 10, 10 ));
+        }
 
         return array(
             'id'          => $category->term_id,
@@ -137,6 +144,15 @@ class ControllerCatalogCategory
         return $categories;
     }
 
+    public function categoryUrl($parent, $args) {
+        $category_info = $parent;
+        $result = $args['url'];
+
+        $result = str_replace("_id", $category_info['id'], $result);
+        $result = str_replace("_name", $category_info['name'], $result);
+
+        return $result;
+    }
 
     private function getCategoryType($simple = false)
     {
@@ -173,7 +189,19 @@ class ControllerCatalogCategory
                     'imageLazy'   => new StringType(),
                     'name'        => new StringType(),
                     'description' => new StringType(),
-                    'parent_id'   => new StringType()
+                    'parent_id'   => new StringType(),
+                    'url' => array(
+                        'type'    => new StringType,
+                        'args'    => array(
+                            'url' => array(
+                                'type'         => new StringType(),
+                                'defaultValue' => '_id'
+                            )
+                        ),
+                        'resolve' => function ($parent, $args) {
+                            return $this->categoryUrl($parent, $args);
+                        }
+                    )
                 )
             )
         )
