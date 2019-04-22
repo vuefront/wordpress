@@ -1,4 +1,2 @@
-# IDE settings
-.idea
-.vscode
 .editorconfig
+.vscode/

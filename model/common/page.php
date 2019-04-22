@@ -1,6 +1,6 @@
 <?php
 
-class ModelCommonPage
+class ModelCommonPage extends Model
 {
     public function getPage($page_id)
     {
