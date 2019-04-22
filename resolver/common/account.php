@@ -46,7 +46,7 @@ class ResolverCommonAccount extends Resolver
         );
 
         $user_id = wp_insert_user( $userdata );
-        if ( ! is_wp_error( $user_id ) ) {
+        if ( !is_wp_error( $user_id ) ) {
             $user = get_user_by( 'ID', $user_id );
 
             return array(

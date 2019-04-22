@@ -46,7 +46,7 @@ class TypeCommonAccount extends Type
                     )
                 ),
                 'resolve' => function ( $store, $args ) {
-                    return $this->register( $args );
+                    return $this->load->resolver('common/account/register', $args );
                 }
             ),
             'accountCheckLogged' => array(
