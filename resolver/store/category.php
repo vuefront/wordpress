@@ -23,7 +23,19 @@ class ResolverStoreCategory extends Resolver {
             'description' => $category->description,
             'parent_id'   => (string) $category->parent,
             'image'       => $thumb,
-            'imageLazy'   => $thumbLazy
+            'imageLazy'   => $thumbLazy,
+            'url' => function($root, $args) {
+                return $this->url(array(
+                    'parent' => $root,
+                    'args' => $args
+                ));
+            },
+            'categories' => function($root, $args) {
+                return $this->child(array(
+                    'parent' => $root,
+                    'args' => $args
+                ));
+            }
         );
     }
 

@@ -14,7 +14,13 @@ class ResolverBlogPost extends Resolver
             'shortDescription' => $post->post_excerpt,
             'description'      => $post->post_content,
             'image'            => $thumb,
-            'imageLazy'        => $thumbLazy
+            'imageLazy'        => $thumbLazy,
+            'reviews' => function($root, $args) {
+                return $this->load->resolver('blog/review/get', array(
+                    'parent' => $root,
+                    'args' => $args
+                ));
+            }
         );
     }
 

@@ -4,27 +4,31 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit974096f7b4808f08ff921fe0fa927ec4
+class ComposerStaticInitd1d42229c9095110dbdd0c092da24841
 {
+    public static $files = array (
+        'c594688b3441835d5575f3085da4a242' => __DIR__ . '/..' . '/webonyx/graphql-php/src/deprecated.php',
+    );
+
     public static $prefixLengthsPsr4 = array (
-        'Y' => 
+        'G' => 
         array (
-            'Youshido\\GraphQL\\' => 17,
+            'GraphQL\\' => 8,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'Youshido\\GraphQL\\' => 
+        'GraphQL\\' => 
         array (
-            0 => __DIR__ . '/..' . '/youshido/graphql/src',
+            0 => __DIR__ . '/..' . '/webonyx/graphql-php/src',
         ),
     );
 
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit974096f7b4808f08ff921fe0fa927ec4::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit974096f7b4808f08ff921fe0fa927ec4::$prefixDirsPsr4;
+            $loader->prefixLengthsPsr4 = ComposerStaticInitd1d42229c9095110dbdd0c092da24841::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInitd1d42229c9095110dbdd0c092da24841::$prefixDirsPsr4;
 
         }, null, ClassLoader::class);
     }

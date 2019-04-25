@@ -6,5 +6,5 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
-    'Youshido\\GraphQL\\' => array($vendorDir . '/youshido/graphql/src'),
+    'GraphQL\\' => array($vendorDir . '/webonyx/graphql-php/src'),
 );

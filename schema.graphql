@@ -1,0 +1,249 @@
+schema {
+  query: RootQueryType
+  mutation: RootMutationType
+}
+
+type Cart {
+  products: [CartProduct]
+}
+
+input CartOption {
+  id: String
+  value: String
+}
+
+type CartProduct {
+  key: String
+  product: Product
+  quantity: Int
+  total: String
+}
+
+type Category {
+  id: ID
+  image: String
+  imageLazy: String
+  name: String
+  description: String
+  parent_id: String
+  url(url: String): String
+  categories(limit: Int = 3): [Category]
+}
+
+type categoryBlog {
+  id: ID
+  image: String
+  imageLazy: String
+  name: String
+  description: String
+  parent_id: String
+  url(url: String): String
+  categories(limit: Int = 3): [categoryBlog]
+}
+
+type categoryBlogResult {
+  content: [categoryBlog]
+  first: Boolean
+  last: Boolean
+  number: Int
+  numberOfElements: Int
+  size: Int
+  totalPages: Int
+  totalElements: Int
+}
+
+type CategoryResult {
+  content: [Category]
+  first: Boolean
+  last: Boolean
+  number: Int
+  numberOfElements: Int
+  size: Int
+  totalPages: Int
+  totalElements: Int
+}
+
+type Currency {
+  title: String
+  code: String
+  symbol_left: String
+  symbol_right: String
+  active: Boolean
+}
+
+type Customer {
+  id: String
+  firstName: String
+  lastName: String
+  email: String
+}
+
+input CustomerInput {
+  firstName: String
+  lastName: String
+  email: String
+  password: String
+}
+
+type Language {
+  name: String
+  code: String
+  image: String
+  active: Boolean
+}
+
+type LoggedResult {
+  status: Boolean
+  customer: Customer
+}
+
+type LogoutResult {
+  status: Boolean
+}
+
+type OptionValue {
+  id: String
+  name: String
+}
+
+type Page {
+  id: ID
+  title: String
+  description: String
+  sort_order: Int
+}
+
+type PageResult {
+  content: [Page]
+  first: Boolean
+  last: Boolean
+  number: Int
+  numberOfElements: Int
+  size: Int
+  totalPages: Int
+  totalElements: Int
+}
+
+type Post {
+  id: ID
+  title: String
+  shortDescription: String
+  description: String
+  image: String
+  imageLazy: String
+  reviews: [postReview]
+}
+
+type PostResult {
+  content: [Post]
+  first: Boolean
+  last: Boolean
+  number: Int
+  numberOfElements: Int
+  size: Int
+  totalPages: Int
+  totalElements: Int
+}
+
+type postReview {
+  author: String
+  author_email: String
+  content: String
+  created_at: String
+  rating: Float
+}
+
+type Product {
+  products(limit: Int = 3): [Product]
+  id: ID
+  image: String
+  imageLazy: String
+  name: String
+  shortDescription: String
+  description: String
+  model: String
+  price: String
+  special: String
+  tax: String
+  minimum: Int
+  stock: Boolean
+  rating: Float
+  attributes: [productAttribute]
+  reviews: [productReview]
+  options: [productOption]
+  images(limit: Int = 3): [productImage]
+}
+
+type productAttribute {
+  name: String
+  options: [String]
+}
+
+type productImage {
+  image: String
+  imageLazy: String
+}
+
+type productOption {
+  id: String
+  name: String
+  values: [OptionValue]
+}
+
+type ProductResult {
+  content: [Product]
+  first: Boolean
+  last: Boolean
+  number: Int
+  numberOfElements: Int
+  size: Int
+  totalPages: Int
+  totalElements: Int
+}
+
+type productReview {
+  author: String
+  author_email: String
+  content: String
+  created_at: String
+  rating: Float
+}
+
+type RootMutationType {
+  accountLogin(email: String, password: String): Customer
+  accountLogout: LogoutResult
+  accountRegister(customer: CustomerInput): Customer
+  accountEdit(customer: CustomerInput): Customer
+  accountEditPassword(password: String): Customer
+  accountCheckLogged: LoggedResult
+  addBlogPostReview(id: Int, rating: Float, author: String, content: String): Post
+  addToCart(id: Int, quantity: Int = 1, options: [CartOption] = []): Cart
+  updateCart(key: String, quantity: Int = 1): Cart
+  removeCart(key: String): Cart
+  addToCompare(id: Int): [Product]
+  removeCompare(id: String): [Product]
+  editCurrency(code: String): [Currency]
+  editLanguage(code: String): [Language]
+  addReview(id: Int, rating: Float, author: String, content: String): Product
+  addToWishlist(id: Int): [Product]
+  removeWishlist(id: String): [Product]
+}
+
+type RootQueryType {
+  categoryBlog(id: Int): categoryBlog
+  categoriesBlogList(page: Int = 1, size: Int = 10, filter: String, parent: Int = -1, sort: String = "sort_order", order: String = "ASC"): categoryBlogResult
+  post(id: Int): Post
+  postsList(page: Int = 1, size: Int = 10, filter: String, search: String, category_id: Int = 0, sort: String = "sort_order", order: String = "ASC"): PostResult
+  cart: Cart 
+  category(id: Int): Category
+  categoriesList(page: Int = 1, size: Int = 10, filter: String, parent: Int = -1, sort: String = "sort_order", order: String = "ASC"): CategoryResult
+  compare: [Product]
+  currency: [Currency]
+  language: [Language]
+  page(id: Int): Page
+  pagesList(page: Int = 1, size: Int = 10, search: String = "", sort: String = "sort_order", order: String = "ASC"): PageResult
+  productsList(page: Int = 1, size: Int = 15, filter: String = "", special: Boolean = false, search: String = "", ids: [Int] = [], category_id: Int = 0, sort: String = "sort_order", order: String = "ASC"): ProductResult
+  product(id: Int): Product
+  wishlist: [Product]
+}
+

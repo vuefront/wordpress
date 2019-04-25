@@ -56,7 +56,37 @@ class ResolverStoreProduct extends Resolver
             'image'            => $thumb,
             'imageLazy'        => $thumbLazy,
             'stock'            => $product->stock_status === 'instock',
-            'rating'           => (float) $product->rating
+            'rating'           => (float) $product->rating,
+            'images' => function($root, $args) {
+                return $this->getImages(array(
+                    'parent' => $root,
+                    'args' => $args
+                ));
+            },
+            'products' => function($root, $args) {
+                return $this->getRelatedProducts(array(
+                    'parent' => $root,
+                    'args' => $args
+                ));
+            },
+            'attributes' => function($root, $args) {
+                return $this->getAttributes(array(
+                    'parent' => $root,
+                    'args' => $args
+                ));
+            },
+            'reviews' => function($root, $args) {
+                return $this->load->resolver('store/review/get', array(
+                    'parent' => $root,
+                    'args' => $args
+                ));
+            },
+            'options' => function($root, $args) {
+                return $this->getOptions(array(
+                    'parent' => $root,
+                    'args' => $args
+                ));
+            }
         );
 
         return $product_info;

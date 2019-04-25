@@ -2,39 +2,17 @@
 
 class ModelStartupStartup extends Model
 {
-    public function getQueries() {
+    public function getResolvers() {
+        $rawMapping = file_get_contents(DIR_PLUGIN.'mapping.json');
+        $mapping = json_decode( $rawMapping, true );
         $result = array();
-
-        $files = glob(DIR_PLUGIN.'type/**/*.php', GLOB_BRACE);
-    
-        foreach ($files as $filepath) {
-            $route = str_replace(DIR_PLUGIN.'type/', '', $filepath);
-            $route = str_replace('.php', '', $route);
-            $output = $this->load->type($route.'/getQuery');
-
-            if($output) {
-                $result = array_merge( $result, $output );
-            }
+        foreach ($mapping as $key => $value) {
+            $that = $this;
+            $result[$key] = function($root, $args, $context) use ($value, $that) {
+                return $that->load->resolver($value, $args);
+            };
         }
-    
-        return $result;
-    }
 
-    public function getMutations() {
-        $result = array();
-
-        $files = glob(DIR_PLUGIN.'type/**/*.php', GLOB_BRACE);
-    
-        foreach ($files as $filepath) {
-            $route = str_replace(DIR_PLUGIN.'type/', '', $filepath);
-            $route = str_replace('.php', '', $route);
-            $output = $this->load->type($route.'/getMutations');
-    
-            if($output) {
-                $result = array_merge( $result, $output );
-            }
-        }
-    
         return $result;
     }
 }
