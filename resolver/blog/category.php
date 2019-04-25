@@ -3,13 +3,14 @@
 class ResolverBlogCategory extends Resolver
 {
     public function get($data) {
-        $category = get_term($data['id']);
+	    $this->load->model('blog/category');
+        $category = $this->model_blog_category->getCategory($data['id']);
 
         $thumb      = '';
         $thumbLazy = '';
 
         return array(
-            'id'             => $category->term_id,
+            'id'             => $category->ID,
             'name'           => $category->name,
             'description'    => $category->description,
             'parent_id'      => (string) $category->parent,
@@ -31,30 +32,27 @@ class ResolverBlogCategory extends Resolver
     }
 
     public function getList($args) {
+    	$this->load->model('blog/category');
         $filter_data = array(
-            'number'  => $args['size'],
-            'offset'  => ($args['page'] - 1) * $args['size'],
-            'orderby' => $args['sort'],
+            'limit'  => $args['size'],
+            'start'  => ($args['page'] - 1) * $args['size'],
+            'sort' => $args['sort'],
             'order'   => $args['order']
         );
 
-        if ($args['parent'] !== 0) {
-            $filter_data['parent'] = $args['parent'];
+        if ($args['parent'] !== -1) {
+            $filter_data['filter_parent_id'] = $args['parent'];
         }
 
-        $product_categories = get_terms('category', $filter_data);
+        $product_categories = $this->model_blog_category->getCategories($filter_data);
 
-        unset($filter_data['number']);
-        unset($filter_data['offset']);
-
-        $category_total = count(get_terms('category', $filter_data));
+        $category_total = $this->model_blog_category->getTotalCategories($filter_data);
 
         $categories = array();
 
         foreach ($product_categories as $category) {
-            $categories[] = $this->get(array( 'id' => $category->term_id ));
+            $categories[] = $this->get(array( 'id' => $category->ID ));
         }
-
 
         return array(
             'content'          => $categories,
@@ -69,17 +67,18 @@ class ResolverBlogCategory extends Resolver
     }
 
     public function child($data) {
+	    $this->load->model('blog/category');
         $category = $data['parent'];
         $filter_data = array(
-            'parent' => $category['id']
+            'filter_parent_id' => $category['id']
         );
 
-        $blog_categories = get_terms('category', $filter_data);
+        $blog_categories = $this->model_blog_category->getCategories($filter_data);
 
         $categories = array();
 
         foreach ($blog_categories as $category) {
-            $categories[] = $this->get(array( 'id' => $category->term_id ));
+            $categories[] = $this->get(array( 'id' => $category->ID ));
         }
 
         return $categories;

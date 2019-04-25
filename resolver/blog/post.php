@@ -25,24 +25,21 @@ class ResolverBlogPost extends Resolver
     }
 
     public function getList($args) {
+    	$this->load->model('blog/post');
         $filter_data = array(
-            'posts_per_page' => $args['size'],
-            'offset'         => ($args['page'] - 1) * $args['size'],
-            'orderby'        => $args['sort'],
+            'limit' => $args['size'],
+            'start'         => ($args['page'] - 1) * $args['size'],
+            'sort'        => $args['sort'],
             'order'          => $args['order']
         );
 
         if ($args['category_id'] !== 0) {
-            $filter_data['category'] = $args['category_id'];
+            $filter_data['filter_category_id'] = $args['category_id'];
         }
         
-        $results = get_posts($filter_data);
+        $results = $this->model_blog_post->getPosts($filter_data);
 
-
-        unset($filter_data['posts_per_page']);
-        unset($filter_data['offset']);
-
-        $product_total = count(get_posts($filter_data));
+        $product_total = $this->model_blog_post->getTotalPosts($filter_data);
 
         $posts = array();
 

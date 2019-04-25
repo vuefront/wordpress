@@ -2,12 +2,13 @@
 
 class ResolverStoreCategory extends Resolver {
     public function get($args) {
-        $category = get_term($args['id']);
-        $image_id            = get_term_meta($category->term_id, 'thumbnail_id', true);
+    	$this->load->model('store/category');
 
-        if (!empty($image_id)) {
-            $category_image      = wp_get_attachment_image_src($image_id, 'full');
-            $category_lazy_image = wp_get_attachment_image_src($image_id, array( 10, 10 ));
+    	$category_info = $this->model_store_category->getCategory($args['id']);
+
+        if (!empty($category_info->image_id)) {
+            $category_image      = wp_get_attachment_image_src($category_info->image_id, 'full');
+            $category_lazy_image = wp_get_attachment_image_src($category_info->image_id, array( 10, 10 ));
 
             $thumb               = $category_image[0];
             $thumbLazy           = $category_lazy_image[0];
@@ -17,10 +18,10 @@ class ResolverStoreCategory extends Resolver {
         }
         
         return array(
-            'id'          => $category->term_id,
-            'name'        => $category->name,
-            'description' => $category->description,
-            'parent_id'   => (string) $category->parent,
+            'id'          => $category_info->ID,
+            'name'        => $category_info->name,
+            'description' => $category_info->description,
+            'parent_id'   => (string) $category_info->parent,
             'image'       => $thumb,
             'imageLazy'   => $thumbLazy,
             'url' => function($root, $args) {
@@ -39,32 +40,28 @@ class ResolverStoreCategory extends Resolver {
     }
 
     public function getList($args) {
+    	$this->load->model('store/category');
         $filter_data = array(
-            'orderby' => $args['sort'],
+            'sort' => $args['sort'],
             'order'   => $args['order']
         );
-
         if ($args['parent'] != -1) {
-            $filter_data['parent'] = $args['parent'];
+            $filter_data['filter_parent_id'] = $args['parent'];
         }
 
         if ($args['size'] != - 1) {
-            $filter_data['number'] = $args['size'];
-            $filter_data['offset'] = ($args['page'] - 1) * $args['size'];
+            $filter_data['start'] = ($args['page'] - 1) * $args['size'];
+            $filter_data['limit'] = $args['size'];
         }
-        $product_categories = get_terms('product_cat', $filter_data);
 
-        unset($filter_data['number']);
-        unset($filter_data['offset']);
-
-        $category_total = count(get_terms('product_cat', $filter_data));
+        $product_categories = $this->model_store_category->getCategories($filter_data);
+        $category_total = $this->model_store_category->getTotalCategories($filter_data);
 
         $categories = array();
 
         foreach ($product_categories as $category) {
-            $categories[] = $this->get(array( 'id' => $category->term_id ));
+            $categories[] = $this->get(array( 'id' => $category->ID ));
         }
-
 
         return array(
             'content'          => $categories,
@@ -79,17 +76,18 @@ class ResolverStoreCategory extends Resolver {
     }
 
     public function child($data) {
+        $this->load->model('store/category');
         $category = $data['parent'];
         $filter_data = array(
-            'parent' => $category['id']
+            'filter_parent_id' => $category['id']
         );
 
-        $product_categories = get_terms('product_cat', $filter_data);
+        $product_categories = $this->model_store_category->getCategories($filter_data);
 
         $categories = array();
 
         foreach ($product_categories as $category) {
-            $categories[] = $this->get(array( 'id' => $category->term_id ));
+            $categories[] = $this->get(array( 'id' => $category->ID ));
         }
 
         return $categories;
