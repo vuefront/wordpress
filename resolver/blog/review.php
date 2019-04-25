@@ -20,7 +20,7 @@ class ResolverBlogReview extends Resolver
     }
 
     public function get($data) {
-        $post = $data[0];
+        $post = $data['parent'];
         $result  = get_comments( array( 'post_type' => 'post', 'post_id' => $post['id'] ) );
 
         $comments = array();

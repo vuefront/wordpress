@@ -3,7 +3,6 @@
 class ResolverStoreCategory extends Resolver {
     public function get($args) {
         $category = get_term($args['id']);
-
         $image_id            = get_term_meta($category->term_id, 'thumbnail_id', true);
 
         if (!empty($image_id)) {
@@ -13,10 +12,10 @@ class ResolverStoreCategory extends Resolver {
             $thumb               = $category_image[0];
             $thumbLazy           = $category_lazy_image[0];
         } else {
-            $thumb      = wc_placeholder_img_src('full');
-            $thumbLazy = wc_placeholder_img_src(array( 10, 10 ));
+            $thumb      = '';
+            $thumbLazy = '';
         }
-
+        
         return array(
             'id'          => $category->term_id,
             'name'        => $category->name,
@@ -53,7 +52,6 @@ class ResolverStoreCategory extends Resolver {
             $filter_data['number'] = $args['size'];
             $filter_data['offset'] = ($args['page'] - 1) * $args['size'];
         }
-
         $product_categories = get_terms('product_cat', $filter_data);
 
         unset($filter_data['number']);
@@ -81,7 +79,7 @@ class ResolverStoreCategory extends Resolver {
     }
 
     public function child($data) {
-        $category = $data[0];
+        $category = $data['parent'];
         $filter_data = array(
             'parent' => $category['id']
         );
@@ -98,8 +96,8 @@ class ResolverStoreCategory extends Resolver {
     }
 
     public function url($data) {
-        $category_info = $data[0];
-        $result = $data[1]['url'];
+        $category_info = $data['parent'];
+        $result = $data['args']['url'];
 
         $result = str_replace("_id", $category_info['id'], $result);
         $result = str_replace("_name", $category_info['name'], $result);

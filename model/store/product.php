@@ -235,7 +235,7 @@ class ModelStoreProduct extends Model
     public function getCurrencySymbol($currency = '')
     {
         if (! $currency) {
-            $currency = get_woocommerce_currency();
+            $currency = get_option( 'woocommerce_currency' );
         }
 
         $symbols = apply_filters('woocommerce_currency_symbols', array(

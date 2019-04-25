@@ -14,12 +14,7 @@ class ResolverCommonAccount extends Resolver {
 
 			$current_user = $user;
 
-			return array(
-				'id'        => $user->ID,
-				'email'     => $user->user_email,
-				'firstName' => get_user_meta( $user->ID, 'first_name', true ),
-				'lastName'  => get_user_meta( $user->ID, 'last_name', true )
-			);
+			return $this->get($current_user->ID);
 		} else {
 			$error = reset( $user->errors );
 			throw new Exception( $error[0] );
@@ -47,19 +42,35 @@ class ResolverCommonAccount extends Resolver {
 
 		$user_id = wp_insert_user( $userdata );
 		if ( ! is_wp_error( $user_id ) ) {
-			$user = get_user_by( 'ID', $user_id );
-
-			return array(
-				'id'        => $user->ID,
-				'email'     => $user->user_email,
-				'firstName' => get_user_meta( $user->ID, 'first_name', true ),
-				'lastName'  => get_user_meta( $user->ID, 'last_name', true ),
-			);
+			return $this->get($user_id);
 		} else {
 			$error = reset( $user_id->errors );
 			throw new Exception( $error[0] );
 		}
-	}
+    }
+    
+    public function edit($args) {
+        global $current_user;
+
+        return $this->get($current_user->ID);
+    }
+
+    public function editPassword($args) {
+        global $current_user;
+
+        return $this->get($current_user->ID);
+    }
+
+    public function get($user_id) {
+        $user = get_user_by( 'ID', $user_id );
+
+        return array(
+            'id'        => $user->ID,
+            'email'     => $user->user_email,
+            'firstName' => get_user_meta( $user->ID, 'first_name', true ),
+            'lastName'  => get_user_meta( $user->ID, 'last_name', true ),
+        );
+    }
 
 	public function isLogged( $args ) {
 		$customer = array();

@@ -36,6 +36,3 @@ require_once( ABSPATH . WPINC . '/class-wp-locale.php' );
 
 require( ABSPATH . WPINC . '/theme.php' );
 require( ABSPATH . WPINC . '/class-wp-theme.php' );
-
-
-require( ABSPATH . '/wp-content/plugins/woocommerce/woocommerce.php' );

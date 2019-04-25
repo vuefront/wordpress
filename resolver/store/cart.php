@@ -1,11 +1,14 @@
 <?php
+require( WP_PLUGIN_DIR . '/woocommerce/woocommerce.php' );
 
 class ResolverStoreCart extends Resolver
 {
     public function add($args) {
-        $product = wc_get_product($args['id']);
+        $this->load->model('store/product');
 
-        if ($product->is_type('variable')) {
+        $product = $this->model_store_product->getProduct($args['id']);
+
+        if ($product->type == 'variable') {
             $options = array();
             foreach ($args['options'] as $option) {
                 $options[ $option['id'] ] = $option['value'];

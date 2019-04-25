@@ -20,9 +20,8 @@ class ResolverStoreReview extends Resolver
     }
 
     public function get($data) {
-        $product = $data[0];
-        $product = wc_get_product($product['id']);
-        $result  = get_comments(array( 'post_type' => 'product', 'post_id' => $product->get_id() ));
+        $product = $data['parent'];
+        $result  = get_comments(array( 'post_type' => 'product', 'post_id' => $product['id'] ));
 
         $comments = array();
 

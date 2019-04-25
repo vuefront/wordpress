@@ -19,8 +19,8 @@ class ResolverStoreProduct extends Resolver
             $thumb              = $product_image[0];
             $thumbLazy          = $product_lazy_image[0];
         } else {
-            $thumb      = wc_placeholder_img_src('full');
-            $thumbLazy = wc_placeholder_img_src(array( 10, 10 ));
+            $thumb      = '';
+            $thumbLazy = '';
         }
 
         if ($product->type == 'variable') {
@@ -143,8 +143,8 @@ class ResolverStoreProduct extends Resolver
         );
     }
     public function getRelatedProducts($data) {
-        $product = $data[0];
-        $args = $data[1];
+        $product = $data['parent'];
+        $args = $data['args'];
 
         $upsell_ids = $this->model_store_product->getProductRelated($product['id']);
 
@@ -160,7 +160,7 @@ class ResolverStoreProduct extends Resolver
         return $products;
     }
     public function getAttributes($data) {
-        $product = $data[0];
+        $product = $data['parent'];
         $results = $this->model_store_product->getProductAttributes($product['id']);
 
         $attributes = array();
@@ -178,7 +178,7 @@ class ResolverStoreProduct extends Resolver
     }
     public function getOptions($data) {
         $this->load->model('store/option');
-        $product = $data[0];
+        $product = $data['parent'];
 
         $results = $this->model_store_product->getProductAttributes($product['id']);
 
@@ -220,8 +220,8 @@ class ResolverStoreProduct extends Resolver
         return $options;
     }
     public function getImages($data) {
-        $product = $data[0];
-        $args = $data[1];
+        $product = $data['parent'];
+        $args = $data['args'];
         
         $image_ids = $this->model_store_product->getProductImages($product['id']);
         
