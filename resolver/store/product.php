@@ -11,19 +11,18 @@ class ResolverStoreProduct extends Resolver
 
     public function get($args) {
         $product = $this->model_store_product->getProduct($args['id']);
+	    if (!empty($product->image_id)) {
+		    $product_image      = wp_get_attachment_image_src($product->image_id, 'full');
+		    $product_lazy_image = wp_get_attachment_image_src($product->image_id, array( 10, 10 ));
 
-        if (!empty($product->image_id)) {
-            $product_image      = wp_get_attachment_image_src($product->image_id, 'full');
-            $product_lazy_image = wp_get_attachment_image_src($product->image_id, array( 10, 10 ));
+		    $thumb              = $product_image[0];
+		    $thumbLazy          = $product_lazy_image[0];
+	    } else {
+		    $thumb      = '';
+		    $thumbLazy = '';
+	    }
 
-            $thumb              = $product_image[0];
-            $thumbLazy          = $product_lazy_image[0];
-        } else {
-            $thumb      = '';
-            $thumbLazy = '';
-        }
-
-        if ($product->type == 'variable') {
+	    if ($product->type == 'variable') {
             $variation_id = $this->model_store_product->getVariationLowPrice($product->ID);
 
             $variation_product = $this->model_store_product->getProduct($variation_id);
@@ -93,43 +92,42 @@ class ResolverStoreProduct extends Resolver
     }
     public function getList($args) {
         $this->load->model('store/product');
-
-        $filter_data = array(
+	    $filter_data = array(
             'start' => ($args['page'] - 1) * $args['size'],
             'limit' => $args['size'],
             'sort'  => $args['sort'],
             'order' => $args['order'],
         );
 
-        if ($filter_data['sort'] == 'id') {
-            $filter_data['sort'] = 'p.ID';
-        }
+	    if ($filter_data['sort'] == 'id') {
+		    $filter_data['sort'] = 'p.ID';
+	    }
 
-        if ($args['category_id'] !== 0) {
-            $filter_data['filter_category_id'] = $args['category_id'];
-        }
+	    if ($args['category_id'] !== 0) {
+		    $filter_data['filter_category_id'] = $args['category_id'];
+	    }
 
-        if (!empty($args['ids'])) {
-            $filter_data['filter_ids'] = $args['ids'];
-        }
+	    if (!empty($args['ids'])) {
+		    $filter_data['filter_ids'] = $args['ids'];
+	    }
 
-        if (!empty($args['special'])) {
-            $filter_data['filter_special'] = true;
-        }
+	    if (!empty($args['special'])) {
+		    $filter_data['filter_special'] = true;
+	    }
 
-        if (!empty($args['search'])) {
-            $filter_data['filter_search'] = $args['search'];
-        }
+	    if (!empty($args['search'])) {
+		    $filter_data['filter_search'] = $args['search'];
+	    }
 
-        $results = $this->model_store_product->getProducts($filter_data);
+	    $results = $this->model_store_product->getProducts($filter_data);
 
-        $product_total = $this->model_store_product->getTotalProducts($filter_data);
+	    $product_total = $this->model_store_product->getTotalProducts($filter_data);
 
-        $products = [];
+	    $products = [];
 
-        foreach ($results as $product) {
-            $products[] = $this->get(array( 'id' => $product->ID ));
-        }
+	    foreach ($results as $product) {
+		    $products[] = $this->get(array( 'id' => $product->ID ));
+	    }
 
         return array(
             'content'          => $products,
