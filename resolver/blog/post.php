@@ -3,16 +3,22 @@
 class ResolverBlogPost extends Resolver
 {
     public function get($args) {
-        $post = get_post($args['id']);
+    	$this->load->model('blog/post');
+    	$post = $this->model_blog_post->getPost($args['id']);
 
-        $thumb     = get_the_post_thumbnail_url($post->ID, 'full');
-        $thumbLazy = get_the_post_thumbnail_url($post->ID, array( 10, 10 ));
+    	if($post->imageId) {
+		    $thumb     = wp_get_attachment_image_src($post->image_id, 'full');
+		    $thumbLazy = wp_get_attachment_image_src($post->image_id, array( 10, 10 ));
+	    }  else {
+    		$thumb = '';
+    		$thumbLazy = '';
+	    }
 
         return array(
             'id'               => $post->ID,
-            'title'            => $post->post_title,
-            'shortDescription' => $post->post_excerpt,
-            'description'      => $post->post_content,
+            'title'            => $post->title,
+            'shortDescription' => $post->shortDescription,
+            'description'      => $post->description,
             'image'            => $thumb,
             'imageLazy'        => $thumbLazy,
             'reviews' => function($root, $args) {

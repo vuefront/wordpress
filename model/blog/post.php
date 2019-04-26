@@ -2,21 +2,21 @@
 
 class ModelBlogPost extends Model {
 
-	public function getPost( $category_id ) {
+	public function getPost( $post_id ) {
 		global $wpdb;
 
 		$sql = "SELECT 
-            t.`term_id` AS 'ID',
-            t.`name`,
-            tt.`parent`,
-            tt.`description`
-        FROM
-            `wp_terms` t 
-            LEFT JOIN `wp_term_taxonomy` tt 
-            ON tt.`term_id` = t.`term_id` 
-        WHERE tt.`taxonomy` = 'category' and t.`term_id` = '" . (int) $category_id . "'";
+		  p.ID,
+		  p.`post_title` AS title,
+		  p.`post_content` AS description,
+		  p.`post_excerpt` AS shortDescription,
+		  (SELECT `meta_value` FROM `wp_postmeta` WHERE `post_id` = p.`ID` AND `meta_key` = '_thumbnail_id') AS image_id
+		FROM 
+		  `wp_posts` p 
+		WHERE p.`post_type` = 'post' 
+		  AND p.`post_status` = 'publish' and p.`ID` = '" . (int) $post_id . "'";
 
-		$sql .= " GROUP BY t.term_id";
+		$sql .= " GROUP BY p.ID";
 
 		$result = $wpdb->get_row( $sql );
 
@@ -27,11 +27,7 @@ class ModelBlogPost extends Model {
 		global $wpdb;
 
 		$sql = "SELECT 
-		  p.ID,
-		  p.`post_title` AS title,
-		  p.`post_content` AS description,
-		  p.`post_excerpt` AS shortDescription,
-		  (SELECT `meta_value` FROM `wp_postmeta` WHERE `post_id` = p.`ID` AND `meta_key` = '_thumbnail_id') AS image_id
+		  p.ID
 		FROM 
 		  `wp_posts` p 
 		WHERE p.`post_type` = 'post' 

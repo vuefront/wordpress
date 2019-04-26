@@ -13,6 +13,7 @@ class ResolverStartupStartup extends Resolver
             $rawInput = file_get_contents('php://input');
             $input = json_decode($rawInput, true);
             $query = $input['query'];
+
             $variableValues = isset($input['variables']) ? $input['variables'] : null;
             $result = GraphQL::executeQuery($schema, $query, $resolvers, null, $variableValues);
         } catch (\Exception $e) {
