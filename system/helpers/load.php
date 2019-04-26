@@ -28,3 +28,6 @@ require_once( ABSPATH . WPINC . '/class-wp-locale.php' );
 
 require( ABSPATH . WPINC . '/theme.php' );
 require( ABSPATH . WPINC . '/class-wp-theme.php' );
+
+require( WP_PLUGIN_DIR . '/woocommerce/woocommerce.php' );
+

@@ -1,5 +1,4 @@
 <?php
-require( WP_PLUGIN_DIR . '/woocommerce/woocommerce.php' );
 
 class ResolverStoreCart extends Resolver
 {
