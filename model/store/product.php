@@ -19,7 +19,7 @@ class ModelStoreProduct extends Model
 
         $result = $wpdb->get_row("SELECT pm.`meta_value` AS images FROM `wp_postmeta` pm WHERE pm.`post_id` = '".(int)$product_id."' AND pm.`meta_key` = '_product_image_gallery'");
 
-        $product_data = explode(',', $result->images);
+        $product_data = !empty($result->images) ? explode(',', $result->images) : array();
 
         return $product_data;
     }
@@ -60,6 +60,7 @@ class ModelStoreProduct extends Model
             ps2.meta_value as model, 
             (pr.meta_value + 0) as rating, 
             pss.meta_value as stock_status,
+            (pvm.meta_value + 0) as price_variation, 
             (pm.meta_value + 0) as price, 
             (ps.meta_value + 0) as special, 
             pt.meta_value as image_id,
@@ -68,6 +69,7 @@ class ModelStoreProduct extends Model
             LEFT JOIN wp_terms t ON t.term_id = tax.term_id WHERE rel.`object_id` = p.ID AND tax.`taxonomy` = 'product_type') AS type
             FROM wp_posts p
             LEFT JOIN wp_postmeta pm ON (pm.post_id = p.ID AND pm.meta_key = '_regular_price')
+            LEFT JOIN wp_postmeta pvm ON (pvm.post_id = p.ID AND pvm.meta_key = '_price')
             LEFT JOIN wp_postmeta ps ON (ps.post_id = p.ID AND ps.meta_key = '_sale_price')
             LEFT JOIN wp_postmeta pt ON (pt.post_id = p.ID AND pt.meta_key = '_thumbnail_id')
             LEFT JOIN wp_postmeta pr ON (pr.post_id = p.ID AND pr.meta_key = '_wc_average_rating')
@@ -76,7 +78,7 @@ class ModelStoreProduct extends Model
             WHERE p.ID = '".(int)$product_id."'";
 
         $result = $wpdb->get_row($sql);
-
+        
         return $result;
     }
 

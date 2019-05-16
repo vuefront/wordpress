@@ -5,6 +5,18 @@ use GraphQL\Utils\BuildSchema;
 class ResolverStartupStartup extends Resolver
 {
     public function index() {
+
+        if ( ! empty( $_GET['cors'] ) ) {
+			if ( ! empty( $_SERVER['HTTP_ORIGIN'] ) ) {
+				header( 'Access-Control-Allow-Origin: ' . $_SERVER['HTTP_ORIGIN'] );
+			} else {
+				header( 'Access-Control-Allow-Origin: *' );
+			}
+			header( 'Access-Control-Allow-Methods: POST, OPTIONS' );
+			header( 'Access-Control-Allow-Credentials: true' );
+			header( 'Access-Control-Allow-Headers: DNT,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range,Token,token,Cookie,cookie,content-type' );
+		}
+
         $this->load->model('startup/startup');
         
         try {

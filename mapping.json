@@ -5,6 +5,19 @@
     "accountEdit": "common/account/edit",
     "accountEditPassword": "common/account/editPassword",
     "accountCheckLogged": "common/account/isLogged",
+    "accountAddressList": "common/account/addressList",
+    "accountAddress": "common/account/address",
+    "accountAddAddress": "common/account/addAddress",
+    "accountEditAddress": "common/account/editAddress",
+    "accountRemoveAddress": "common/account/removeAddress",
+
+    "uploadFile": "common/file/upload",
+
+    "countriesList": "common/country/getList",
+    "country": "common/country/get",
+
+    "zonesList": "common/zone/getList",
+    "zone": "common/zone/get",
 
     "categoryBlog": "blog/category/get",
     "categoriesBlogList": "blog/category/getList",
@@ -40,5 +53,8 @@
     
     "wishlist": "store/wishlist/getList",
     "addToWishlist": "store/wishlist/add",
-    "removeWishlist": "store/wishlist/remove"
+    "removeWishlist": "store/wishlist/remove",
+
+    "contactSend": "common/contact/send",
+    "contact": "common/contact/get"
 }

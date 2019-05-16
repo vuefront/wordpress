@@ -3,6 +3,8 @@ schema {
   mutation: RootMutationType
 }
 
+scalar Upload
+
 type Cart {
   products: [CartProduct]
 }
@@ -153,11 +155,22 @@ type postReview {
   rating: Float
 }
 
+type Country {
+    id: ID
+    name: String
+}
+type Zone {
+    id: ID
+    name: String
+    countryId: String
+}
+
 type Product {
   products(limit: Int = 3): [Product]
   id: ID
   image: String
   imageLazy: String
+  imageBig: String
   name: String
   shortDescription: String
   description: String
@@ -182,16 +195,38 @@ type productAttribute {
 type productImage {
   image: String
   imageLazy: String
+  imageBig: String
 }
 
 type productOption {
   id: String
   name: String
+  type: String
   values: [OptionValue]
 }
 
 type ProductResult {
   content: [Product]
+  first: Boolean
+  last: Boolean
+  number: Int
+  numberOfElements: Int
+  size: Int
+  totalPages: Int
+  totalElements: Int
+}
+type CountriesResult {
+  content: [Country]
+  first: Boolean
+  last: Boolean
+  number: Int
+  numberOfElements: Int
+  size: Int
+  totalPages: Int
+  totalElements: Int
+}
+type ZonesResult {
+  content: [Zone]
   first: Boolean
   last: Boolean
   number: Int
@@ -209,12 +244,74 @@ type productReview {
   rating: Float
 }
 
+type ContactResult {
+    status: Boolean
+}
+
+type Location {
+    image: String
+    imageLazy: String
+    address: String
+    geocode: String
+    telephone: String
+    fax: String
+    open: String
+    comment: String
+}
+
+type Contact {
+    locations: [Location]
+    store: String
+    address: String
+    email: String
+    geocode: String
+    telephone: String
+    fax: String
+    open: String
+    comment: String
+}
+
+type AccountAddress {
+  id: String
+  firstName: String
+  lastName: String
+  company: String
+  address1: String
+  address2: String
+  zoneId: String
+  zone: Zone
+  countryId: String
+  country: Country
+  city: String
+  zipcode: String
+}
+
+input AccountAddressInput {
+  firstName: String
+  lastName: String
+  company: String
+  address1: String
+  address2: String
+  city: String
+  countryId: String
+  zoneId: String
+  zipcode: String
+}
+
+type FileResult {
+  code: String
+}
+
 type RootMutationType {
+  uploadFile(file: Upload): FileResult
   accountLogin(email: String, password: String): Customer
   accountLogout: LogoutResult
   accountRegister(customer: CustomerInput): Customer
   accountEdit(customer: CustomerInput): Customer
   accountEditPassword(password: String): Customer
+  accountAddAddress(address: AccountAddressInput): AccountAddress
+  accountEditAddress(id: String, address: AccountAddressInput): AccountAddress
+  accountRemoveAddress(id: String, page: Int = 1, size: Int = 10): [AccountAddress]
   accountCheckLogged: LoggedResult
   addBlogPostReview(id: Int, rating: Float, author: String, content: String): Post
   addToCart(id: Int, quantity: Int = 1, options: [CartOption] = []): Cart
@@ -227,9 +324,14 @@ type RootMutationType {
   addReview(id: Int, rating: Float, author: String, content: String): Product
   addToWishlist(id: Int): [Product]
   removeWishlist(id: String): [Product]
+  contactSend(name: String, email: String, message: String): ContactResult
 }
 
 type RootQueryType {
+  zone(id: Int): Zone
+  zonesList(page: Int = 1, size: Int = 10, search: String, country_id: String, sort: String = "name", order: String = "ASC"): ZonesResult
+  country(id: Int): Country
+  countriesList(page: Int = 1, size: Int = 10, search: String, sort: String = "name", order: String = "ASC"): CountriesResult
   categoryBlog(id: Int): categoryBlog
   categoriesBlogList(page: Int = 1, size: Int = 10, filter: String, parent: Int = -1, sort: String = "sort_order", order: String = "ASC"): categoryBlogResult
   post(id: Int): Post
@@ -245,5 +347,8 @@ type RootQueryType {
   productsList(page: Int = 1, size: Int = 15, filter: String = "", special: Boolean = false, search: String = "", ids: [Int] = [], category_id: Int = 0, sort: String = "sort_order", order: String = "ASC"): ProductResult
   product(id: Int): Product
   wishlist: [Product]
+  contact: Contact
+  accountAddressList: [AccountAddress]
+  accountAddress(id: String): AccountAddress
 }
 

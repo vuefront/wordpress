@@ -26,8 +26,11 @@ class ResolverStoreProduct extends Resolver
             $variation_id = $this->model_store_product->getVariationLowPrice($product->ID);
 
             $variation_product = $this->model_store_product->getProduct($variation_id);
-
-            $price = $variation_product->price . ' ' . $this->model_store_product->getCurrencySymbol();
+            if(!empty($variation_product->price)) {
+                $price = $variation_product->price . ' ' . $this->model_store_product->getCurrencySymbol();
+            } else {
+                $price = $product->price_variation . ' ' . $this->model_store_product->getCurrencySymbol();
+            }
 
             if ($variation_product->special > 0) {
                 $special = $variation_product->special . ' ' . $this->model_store_product->getCurrencySymbol();
@@ -53,6 +56,7 @@ class ResolverStoreProduct extends Resolver
             'special'          => $special,
             'model'            => $product->model,
             'image'            => $thumb,
+            'imageBig'            => $thumb,
             'imageLazy'        => $thumbLazy,
             'stock'            => $product->stock_status === 'instock',
             'rating'           => (float) $product->rating,
@@ -209,6 +213,7 @@ class ResolverStoreProduct extends Resolver
 
                 $options[] = array(
                     'id'     => 'attribute_' . sanitize_title($attribute['name']),
+                    'type'   => 'radio',
                     'name'   => $name,
                     'values' => $option_values
                 );
@@ -222,7 +227,7 @@ class ResolverStoreProduct extends Resolver
         $args = $data['args'];
         
         $image_ids = $this->model_store_product->getProductImages($product['id']);
-        
+
         $image_ids = array_slice($image_ids, 0, $args['limit']);
 
         $images = array();
@@ -234,6 +239,7 @@ class ResolverStoreProduct extends Resolver
             $thumbLazy          = $product_lazy_image[0];
             $images[]           = array(
                 'image'     => $thumb,
+                'imageBig'     => $thumb,
                 'imageLazy' => $thumbLazy
             );
         }
