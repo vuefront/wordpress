@@ -4,6 +4,7 @@ use GraphQL\Utils\BuildSchema;
 
 class ResolverStartupStartup extends Resolver
 {
+
     public function index() {
 
         if ( ! empty( $_GET['cors'] ) ) {
