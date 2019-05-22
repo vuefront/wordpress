@@ -6,11 +6,16 @@ class ResolverCommonPage extends Resolver
         $this->load->model('common/page');
         $page_info = $this->model_common_page->getPage($args['id']);
 
+        $keyword = str_replace(get_site_url(), '', get_page_link($page_info->ID));
+        $keyword = trim($keyword, '/?');
+        $keyword = trim($keyword, '/');
+
         return array(
             'id' => $page_info->ID,
             'title' => $page_info->title,
             'description' => $page_info->description,
-            'sort_order' => (int)$page_info->sort_order
+            'sort_order' => (int)$page_info->sort_order,
+            'keyword' => $keyword
         );
     }
 

@@ -12,13 +12,18 @@ class ResolverBlogPost extends Resolver
 	    }  else {
     		$thumb = '';
     		$thumbLazy = '';
-	    }
+        }
+        
+        $keyword = str_replace(get_site_url(), '', get_permalink($post->ID));
+        $keyword = trim($keyword, '/?');
+        $keyword = trim($keyword, '/');
 
         return array(
             'id'               => $post->ID,
             'title'            => $post->title,
             'shortDescription' => $post->shortDescription,
             'description'      => $post->description,
+            'keyword'          => $keyword,
             'image'            => $thumb,
             'imageLazy'        => $thumbLazy,
             'reviews' => function($root, $args) {

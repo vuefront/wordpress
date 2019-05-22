@@ -46,6 +46,9 @@ class ResolverStoreProduct extends Resolver
                 $special = '';
             }
         }
+        $keyword = str_replace(get_site_url(), '', get_permalink($product->ID));
+        $keyword = trim($keyword, '/?');
+        $keyword = trim($keyword, '/');
 
         $product_info = array(
             'id'               => $product->ID,
@@ -60,6 +63,7 @@ class ResolverStoreProduct extends Resolver
             'imageLazy'        => $thumbLazy,
             'stock'            => $product->stock_status === 'instock',
             'rating'           => (float) $product->rating,
+            'keyword'          => $keyword,
             'images' => function($root, $args) {
                 return $this->getImages(array(
                     'parent' => $root,

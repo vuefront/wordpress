@@ -30,6 +30,7 @@ type Category {
   parent_id: String
   url(url: String): String
   categories(limit: Int = 3): [Category]
+  keyword: String
 }
 
 type categoryBlog {
@@ -40,6 +41,7 @@ type categoryBlog {
   description: String
   parent_id: String
   url(url: String): String
+  keyword: String
   categories(limit: Int = 3): [categoryBlog]
 }
 
@@ -112,6 +114,7 @@ type Page {
   id: ID
   title: String
   description: String
+  keyword: String
   sort_order: Int
 }
 
@@ -133,6 +136,7 @@ type Post {
   description: String
   image: String
   imageLazy: String
+  keyword: String
   reviews: [postReview]
 }
 
@@ -185,6 +189,7 @@ type Product {
   reviews: [productReview]
   options: [productOption]
   images(limit: Int = 3): [productImage]
+  keyword: String
 }
 
 type productAttribute {
@@ -312,16 +317,15 @@ type RootMutationType {
   accountAddAddress(address: AccountAddressInput): AccountAddress
   accountEditAddress(id: String, address: AccountAddressInput): AccountAddress
   accountRemoveAddress(id: String, page: Int = 1, size: Int = 10): [AccountAddress]
-  accountCheckLogged: LoggedResult
-  addBlogPostReview(id: Int, rating: Float, author: String, content: String): Post
-  addToCart(id: Int, quantity: Int = 1, options: [CartOption] = []): Cart
+  addBlogPostReview(id: String, rating: Float, author: String, content: String): Post
+  addToCart(id: String, quantity: Int = 1, options: [CartOption] = []): Cart
   updateCart(key: String, quantity: Int = 1): Cart
   removeCart(key: String): Cart
   addToCompare(id: Int): [Product]
   removeCompare(id: String): [Product]
   editCurrency(code: String): [Currency]
   editLanguage(code: String): [Language]
-  addReview(id: Int, rating: Float, author: String, content: String): Product
+  addReview(id: String, rating: Float, author: String, content: String): Product
   addToWishlist(id: Int): [Product]
   removeWishlist(id: String): [Product]
   contactSend(name: String, email: String, message: String): ContactResult
@@ -332,22 +336,23 @@ type RootQueryType {
   zonesList(page: Int = 1, size: Int = 10, search: String, country_id: String, sort: String = "name", order: String = "ASC"): ZonesResult
   country(id: Int): Country
   countriesList(page: Int = 1, size: Int = 10, search: String, sort: String = "name", order: String = "ASC"): CountriesResult
-  categoryBlog(id: Int): categoryBlog
+  categoryBlog(id: String): categoryBlog
   categoriesBlogList(page: Int = 1, size: Int = 10, filter: String, parent: Int = -1, sort: String = "sort_order", order: String = "ASC"): categoryBlogResult
-  post(id: Int): Post
-  postsList(page: Int = 1, size: Int = 10, filter: String, search: String, category_id: Int = 0, sort: String = "sort_order", order: String = "ASC"): PostResult
+  post(id: String): Post
+  postsList(page: Int = 1, size: Int = 10, filter: String, search: String, category_id: String = "", sort: String = "sort_order", order: String = "ASC"): PostResult
   cart: Cart 
-  category(id: Int): Category
+  category(id: String): Category
   categoriesList(page: Int = 1, size: Int = 10, filter: String, parent: Int = -1, sort: String = "sort_order", order: String = "ASC"): CategoryResult
   compare: [Product]
   currency: [Currency]
   language: [Language]
-  page(id: Int): Page
+  page(id: String): Page
   pagesList(page: Int = 1, size: Int = 10, search: String = "", sort: String = "sort_order", order: String = "ASC"): PageResult
-  productsList(page: Int = 1, size: Int = 15, filter: String = "", special: Boolean = false, search: String = "", ids: [Int] = [], category_id: Int = 0, sort: String = "sort_order", order: String = "ASC"): ProductResult
-  product(id: Int): Product
+  productsList(page: Int = 1, size: Int = 15, filter: String = "", special: Boolean = false, search: String = "", ids: [Int] = [], category_id: String = "", sort: String = "sort_order", order: String = "ASC"): ProductResult
+  product(id: String): Product
   wishlist: [Product]
   contact: Contact
+  accountCheckLogged: LoggedResult
   accountAddressList: [AccountAddress]
   accountAddress(id: String): AccountAddress
 }

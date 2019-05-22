@@ -16,7 +16,11 @@ class ResolverStoreCategory extends Resolver {
             $thumb      = '';
             $thumbLazy = '';
         }
-        
+
+        $keyword = str_replace(get_site_url(), '', get_term_link((int)$category_info->ID));
+        $keyword = trim($keyword, '/?');
+        $keyword = trim($keyword, '/');
+
         return array(
             'id'          => $category_info->ID,
             'name'        => $category_info->name,
@@ -35,7 +39,8 @@ class ResolverStoreCategory extends Resolver {
                     'parent' => $root,
                     'args' => $args
                 ));
-            }
+            },
+            'keyword' => $keyword
         );
     }
 
@@ -99,6 +104,14 @@ class ResolverStoreCategory extends Resolver {
 
         $result = str_replace("_id", $category_info['id'], $result);
         $result = str_replace("_name", $category_info['name'], $result);
+
+        $keyword = str_replace(get_site_url(), '', get_term_link((int)$category_info['id']));
+        $keyword = trim($keyword, '/?');
+        $keyword = trim($keyword, '/');
+
+        if($keyword != '') {
+            $result = '/'.$keyword;
+        }
 
         return $result;
     }

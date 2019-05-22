@@ -9,12 +9,17 @@ class ResolverBlogCategory extends Resolver
         $thumb      = '';
         $thumbLazy = '';
 
+        $keyword = str_replace(get_site_url(), '', get_term_link((int)$category->ID));
+        $keyword = trim($keyword, '/?');
+        $keyword = trim($keyword, '/');
+
         return array(
             'id'             => $category->ID,
             'name'           => $category->name,
             'description'    => $category->description,
             'parent_id'      => (string) $category->parent,
             'image'          => $thumb,
+            'keyword'        => $keyword,
             'imageLazy'      => $thumbLazy,
             'url'            => function($root, $args) {
                 return $this->url(array(
@@ -90,6 +95,14 @@ class ResolverBlogCategory extends Resolver
 
         $result = str_replace("_id", $category_info['id'], $result);
         $result = str_replace("_name", $category_info['name'], $result);
+
+        $keyword = str_replace(get_site_url(), '', get_term_link((int)$category_info['id']));
+        $keyword = trim($keyword, '/?');
+        $keyword = trim($keyword, '/');
+
+        if($keyword != '') {
+            $result = '/'.$keyword;
+        }
 
         return $result;
     }
