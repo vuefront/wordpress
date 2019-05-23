@@ -37,9 +37,10 @@ class ModelStoreProduct extends Model
 
     public function getOptionValues($taxonomy) {
         global $wpdb;
-
+        
         $result = $wpdb->get_results("SELECT 
-            t.`name`
+            t.`name`,
+            t.`slug`
         FROM
             `wp_term_taxonomy`  tt
             LEFT JOIN `wp_terms` t ON t.`term_id` = tt.`term_id`

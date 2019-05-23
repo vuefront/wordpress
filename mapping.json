@@ -26,6 +26,8 @@
     "postsList": "blog/post/getList",
     "addBlogPostReview": "blog/review/add",
 
+    "checkoutLink": "store/checkout/link",
+
     "cart": "store/cart/get",
     "addToCart": "store/cart/add",
     "updateCart": "store/cart/update",

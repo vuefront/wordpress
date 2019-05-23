@@ -7,6 +7,7 @@ scalar Upload
 
 type Cart {
   products: [CartProduct]
+  total: String
 }
 
 input CartOption {
@@ -14,9 +15,16 @@ input CartOption {
   value: String
 }
 
+type CartProductOption {
+    name: String
+    value: String
+    type: String
+}
+
 type CartProduct {
   key: String
   product: Product
+  option: [CartProductOption]
   quantity: Int
   total: String
 }
@@ -307,6 +315,10 @@ type FileResult {
   code: String
 }
 
+type CheckoutLinkResult {
+  link: String
+}
+
 type RootMutationType {
   uploadFile(file: Upload): FileResult
   accountLogin(email: String, password: String): Customer
@@ -355,5 +367,6 @@ type RootQueryType {
   accountCheckLogged: LoggedResult
   accountAddressList: [AccountAddress]
   accountAddress(id: String): AccountAddress
+  checkoutLink: CheckoutLinkResult
 }
 

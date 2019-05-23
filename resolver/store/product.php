@@ -46,7 +46,7 @@ class ResolverStoreProduct extends Resolver
                 $special = '';
             }
         }
-        $keyword = str_replace(get_site_url(), '', get_permalink($product->ID));
+        $keyword = str_replace(get_site_url(), '', get_post_permalink((int)$product->ID));
         $keyword = trim($keyword, '/?');
         $keyword = trim($keyword, '/');
 
@@ -101,11 +101,14 @@ class ResolverStoreProduct extends Resolver
     public function getList($args) {
         $this->load->model('store/product');
 	    $filter_data = array(
-            'start' => ($args['page'] - 1) * $args['size'],
-            'limit' => $args['size'],
             'sort'  => $args['sort'],
             'order' => $args['order'],
         );
+
+        if($args['size'] != '-1') {
+            $filter_data['start'] = ($args['page'] - 1) * $args['size'];
+            $filter_data['limit'] = $args['size'];
+        }
 
 	    if ($filter_data['sort'] == 'id') {
 		    $filter_data['sort'] = 'p.ID';
@@ -200,7 +203,7 @@ class ResolverStoreProduct extends Resolver
 
                     foreach ($result_values as $value) {
                         $option_values[] = array(
-                            'id'   => $value->name,
+                            'id'   => $value->slug,
                             'name' => $value->name
                         );
                     }
