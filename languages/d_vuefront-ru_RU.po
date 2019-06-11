@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: d_vuefront\n"
-"POT-Creation-Date: 2019-06-11 11:30+0300\n"
-"PO-Revision-Date: 2019-06-11 11:31+0300\n"
+"POT-Creation-Date: 2019-06-11 11:42+0300\n"
+"PO-Revision-Date: 2019-06-11 11:42+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -16,15 +16,15 @@ msgstr ""
 "X-Poedit-KeywordsList: __;_e\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: plugin.php:19 plugin.php:57
+#: plugin.php:19 plugin.php:56
 msgid "Settings"
 msgstr "Настройки"
 
-#: plugin.php:37
+#: plugin.php:36
 msgid "CMS Connect URL"
 msgstr "CMS Connect URL"
 
-#: plugin.php:38
+#: plugin.php:37
 msgid ""
 "This is your CMS Connect URL link that shares your Blog data via GraphQL. "
 "When installing VueFront via the command line, you will be prompted to enter "
@@ -41,15 +41,15 @@ msgstr ""
 "     Узнайте больше о <a href=\"https://vuefront.com/cms/wordpress.html\" "
 "target=\"_blank\"> CMS Connect для Wordpress </a>"
 
-#: plugin.php:41
+#: plugin.php:40
 msgid "WooCommerce"
 msgstr "WooCommerce"
 
-#: plugin.php:42
+#: plugin.php:41
 msgid "WooCommerce active"
 msgstr "WooCommerce активен"
 
-#: plugin.php:43
+#: plugin.php:42
 #, php-format
 msgid ""
 "VueFront relies on the free <a href=\"%s\" target=\"_blank\">WooCommerce</a> "
@@ -60,15 +60,15 @@ msgstr ""
 "реализации магазина. Функция магазина является необязательной, и VueFront "
 "будет работать без нее. Вы можете установить его через Wordpress."
 
-#: plugin.php:44
+#: plugin.php:43
 msgid "WooCommerce missing. Click to download"
 msgstr "Плагин WooCommerce отсутствует. Нажмите, чтобы скачать"
 
-#: plugin.php:45
+#: plugin.php:44
 msgid "copy"
 msgstr "копировать"
 
-#: plugin.php:46
+#: plugin.php:45
 msgid "copied!"
 msgstr "скопировано!"
 
