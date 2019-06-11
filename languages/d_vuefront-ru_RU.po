@@ -1,0 +1,81 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: d_vuefront\n"
+"POT-Creation-Date: 2019-06-11 11:30+0300\n"
+"PO-Revision-Date: 2019-06-11 11:31+0300\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: ru\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.2.3\n"
+"X-Poedit-Basepath: ..\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<12 || n%100>14) ? 1 : 2);\n"
+"X-Poedit-KeywordsList: __;_e\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: plugin.php:19 plugin.php:57
+msgid "Settings"
+msgstr "Настройки"
+
+#: plugin.php:37
+msgid "CMS Connect URL"
+msgstr "CMS Connect URL"
+
+#: plugin.php:38
+msgid ""
+"This is your CMS Connect URL link that shares your Blog data via GraphQL. "
+"When installing VueFront via the command line, you will be prompted to enter "
+"this URL. Simply copy and paste it into the command line.\n"
+"    <br><br>\n"
+"    Read more about the <a href=\"https://vuefront.com/cms/wordpress.html\" "
+"target=\"_blank\">CMS Connect for Wordpress</a>"
+msgstr ""
+"Это URL-адрес вашей CMS Connect, который предоставляет доступ к данным "
+"вашего Блога через GraphQL. При установке VueFront через командную строку "
+"вам будет предложено ввести этот URL. Просто скопируйте и вставьте его в "
+"командную строку.\n"
+"     <br> <br>\n"
+"     Узнайте больше о <a href=\"https://vuefront.com/cms/wordpress.html\" "
+"target=\"_blank\"> CMS Connect для Wordpress </a>"
+
+#: plugin.php:41
+msgid "WooCommerce"
+msgstr "WooCommerce"
+
+#: plugin.php:42
+msgid "WooCommerce active"
+msgstr "WooCommerce активен"
+
+#: plugin.php:43
+#, php-format
+msgid ""
+"VueFront relies on the free <a href=\"%s\" target=\"_blank\">WooCommerce</a> "
+"plugin to implement store. The store feature is optional and VueFront will "
+"work fine without it. You can install it via Wordpress."
+msgstr ""
+"VueFront использует бесплатный <a href=\"%s\"> WooCommerce </a> плагин для "
+"реализации магазина. Функция магазина является необязательной, и VueFront "
+"будет работать без нее. Вы можете установить его через Wordpress."
+
+#: plugin.php:44
+msgid "WooCommerce missing. Click to download"
+msgstr "Плагин WooCommerce отсутствует. Нажмите, чтобы скачать"
+
+#: plugin.php:45
+msgid "copy"
+msgstr "копировать"
+
+#: plugin.php:46
+msgid "copied!"
+msgstr "скопировано!"
+
+#~ msgid "Blog support"
+#~ msgstr "Поддержка блога"
+
+#~ msgid "Blog enabled"
+#~ msgstr ""
+#~ "12/5000\n"
+#~ "Блог включен"

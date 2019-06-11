@@ -13,6 +13,7 @@ class ResolverCommonPage extends Resolver
         return array(
             'id' => $page_info->ID,
             'title' => $page_info->title,
+            'name' => $page_info->title,
             'description' => $page_info->description,
             'sort_order' => (int)$page_info->sort_order,
             'keyword' => $keyword

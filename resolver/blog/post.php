@@ -20,6 +20,7 @@ class ResolverBlogPost extends Resolver
 
         return array(
             'id'               => $post->ID,
+            'name'             => $post->title,
             'title'            => $post->title,
             'shortDescription' => $post->shortDescription,
             'description'      => $post->description,

@@ -76,7 +76,8 @@ type CategoryResult {
 }
 
 type Currency {
-  title: String
+  title: String @deprecated(reason: "Changed to name!")
+  name: String
   code: String
   symbol_left: String
   symbol_right: String
@@ -120,7 +121,8 @@ type OptionValue {
 
 type Page {
   id: ID
-  title: String
+  title: String @deprecated(reason: "Changed to name!")
+  name: String
   description: String
   keyword: String
   sort_order: Int
@@ -139,7 +141,8 @@ type PageResult {
 
 type Post {
   id: ID
-  title: String
+  title: String @deprecated(reason: "Changed to name!")
+  name: String
   shortDescription: String
   description: String
   image: String

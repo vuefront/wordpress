@@ -10,6 +10,7 @@ class ResolverStoreCurrency extends Resolver
         $this->load->model('store/product');
         $currencies[] = array(
             'title'        => get_option( 'woocommerce_currency' ),
+            'name'         => get_option( 'woocommerce_currency' ),
             'code'         => get_option( 'woocommerce_currency' ),
             'symbol_left'  => $this->model_store_product->getCurrencySymbol(),
             'symbol_right' => '',
