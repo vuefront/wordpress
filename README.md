@@ -24,7 +24,7 @@ This is a wordpress plugin that connects the wordpress CMS with the VueFront Web
 [Admin](https://wordpress.vuefront.com/admin)
 
 ### Wordpress Store (WooCommerce) 
-Since Wordpress does not have a built-in Store, we use the [Free WooCommerce](https://woocommerce.com/) to add store support. If woocommerce no avalible, VueFront will ignore it.
+Since Wordpress does not have a built-in Store, we use the [Free WooCommerce](https://woocommerce.com/) to add store support. If woocommerce is not avalible, VueFront will ignore it.
 
 ## How to install?
 
