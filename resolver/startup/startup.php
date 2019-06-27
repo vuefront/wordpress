@@ -22,7 +22,7 @@ class ResolverStartupStartup extends Resolver
         
             try {
                 $resolvers = $this->model_startup_startup->getResolvers();
-                $schema = BuildSchema::build(file_get_contents(DIR_PLUGIN.'schema.graphql'));
+                $schema = BuildSchema::build(file_get_contents(VF_DIR_PLUGIN.'schema.graphql'));
                 $rawInput = file_get_contents('php://input');
                 $input = json_decode($rawInput, true);
                 $query = $input['query'];

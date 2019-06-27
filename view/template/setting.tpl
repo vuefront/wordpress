@@ -29,12 +29,12 @@
     </div>
 </div>
 <script lang="text/javascript">
-$(document).ready(function() {
+jQuery(document).ready(function() {
     var clipboard = new ClipboardJS('.clipboard')
 
     clipboard.on('success', function(e) {
-        $(e.trigger).text('<?php echo $text_copied; ?>')
-        $(e.trigger).addClass('btn-success')
+        jQuery(e.trigger).text('<?php echo $text_copied; ?>')
+        jQuery(e.trigger).addClass('btn-success')
 
         e.clearSelection()
     })

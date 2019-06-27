@@ -22,10 +22,10 @@ function add_plugin_page()
 
 function my_plugin_admin_scripts() {
     wp_enqueue_style( 'vuefront-style', plugins_url('d_vuefront/view/stylesheet/admin.css') );
-    wp_enqueue_style( 'bootstrap-style', 'https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css' );
-    wp_enqueue_script( 'bootstrap-script', 'https://code.jquery.com/jquery-3.4.1.min.js' );
-    wp_enqueue_script( 'clipboard-script', 'https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js' );
-    wp_enqueue_script( 'bootstrap-script', 'https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js' );
+    wp_enqueue_style( 'bootstrap-style', plugins_url('d_vuefront/view/stylesheet/bootstrap.min.css') );
+    wp_enqueue_script( 'jquery' );
+    wp_enqueue_script( 'clipboard' );
+    wp_enqueue_script( 'bootstrap-script', plugins_url('d_vuefront/view/javascript/bootstrap.min.js') );
 }
 
 function vuefront_options_page_output()

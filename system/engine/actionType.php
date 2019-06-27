@@ -12,7 +12,7 @@ class ActionType {
 
 		// Break apart the route
 		while ($parts) {
-			$file = DIR_PLUGIN . 'type/' . implode('/', $parts) . '.php';
+			$file = VF_DIR_PLUGIN . 'type/' . implode('/', $parts) . '.php';
 
 			if (is_file($file)) {
 				$this->route = implode('/', $parts);		
@@ -33,7 +33,7 @@ class ActionType {
 			return new \Exception('Error: Calls to magic methods are not allowed!');
 		}
 
-		$file  = DIR_PLUGIN . 'type/' . $this->route . '.php';	
+		$file  = VF_DIR_PLUGIN . 'type/' . $this->route . '.php';	
 		$class = 'Type' . preg_replace('/[^a-zA-Z0-9]/', '', $this->route);
 		
 		if (is_file($file)) {

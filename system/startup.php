@@ -1,15 +1,15 @@
 <?php
-define('DIR_PLUGIN', realpath('./').'/');
+define('VF_DIR_PLUGIN', realpath('./').'/');
 
-require_once(DIR_PLUGIN . 'system/vendor/autoload.php');
-require_once(DIR_PLUGIN . 'system/engine/action.php');
-require_once(DIR_PLUGIN . 'system/engine/actionType.php');
-require_once(DIR_PLUGIN . 'system/engine/resolver.php');
-require_once(DIR_PLUGIN . 'system/engine/type.php');
-require_once(DIR_PLUGIN . 'system/engine/loader.php');
-require_once(DIR_PLUGIN . 'system/engine/model.php');
-require_once(DIR_PLUGIN . 'system/engine/registry.php');
-require_once(DIR_PLUGIN . 'system/engine/proxy.php');
+require_once(VF_DIR_PLUGIN . 'system/vendor/autoload.php');
+require_once(VF_DIR_PLUGIN . 'system/engine/action.php');
+require_once(VF_DIR_PLUGIN . 'system/engine/actionType.php');
+require_once(VF_DIR_PLUGIN . 'system/engine/resolver.php');
+require_once(VF_DIR_PLUGIN . 'system/engine/type.php');
+require_once(VF_DIR_PLUGIN . 'system/engine/loader.php');
+require_once(VF_DIR_PLUGIN . 'system/engine/model.php');
+require_once(VF_DIR_PLUGIN . 'system/engine/registry.php');
+require_once(VF_DIR_PLUGIN . 'system/engine/proxy.php');
 function start() {
     $registry = new Registry();
 
