@@ -48,6 +48,12 @@ class ResolverBlogPost extends Resolver
                     'parent' => $root,
                     'args' => $args
                 ));
+            },
+            'categories' => function ($root, $args) {
+                return $this->load->resolver('blog/post/categories', array(
+                    'parent' => $root,
+                    'args' => $args
+                ));
             }
         );
     }
@@ -88,6 +94,20 @@ class ResolverBlogPost extends Resolver
         );
     }
 
+    public function categories($args)
+    {
+        $post_info = $args['parent'];
+        $this->load->model('blog/post');
+
+        $result = $this->model_blog_post->getCategoriesByPost($post_info['id']);
+        $categories = array();
+
+        foreach ($result as $category) {
+            $categories[] = $this->load->resolver('blog/category/get', array('id'=> $category->term_id));
+        }
+
+        return $categories;
+    }
     public function prev($args)
     {
         $post_info = $args['parent'];
@@ -95,10 +115,10 @@ class ResolverBlogPost extends Resolver
         $post = get_post($post_info['id']);
         $previous_post = get_previous_post(false);
 
-        if(!$previous_post) {
+        if (!$previous_post) {
             return null;
         }
-        
+
         return $this->get(array('id' => $previous_post->ID));
     }
 

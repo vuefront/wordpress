@@ -36,6 +36,9 @@ class ResolverBlogReview extends Resolver
             );
         }
 
-        return $comments;
+        return array(
+            'content' => $comments,
+            'totalElements' => count($comments)
+        );
     }
 }

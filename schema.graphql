@@ -139,6 +139,11 @@ type PageResult {
   totalElements: Int
 }
 
+type postReviewResult {
+  content: [postReview]
+  totalElements: Int
+}
+
 type Post {
   id: ID
   title: String @deprecated(reason: "Changed to name!")
@@ -149,7 +154,8 @@ type Post {
   imageLazy: String
   keyword: String
   rating: Float
-  reviews: [postReview]
+  reviews: postReviewResult
+  categories: [categoryBlog]
   datePublished: String
   next: Post
   prev: Post
