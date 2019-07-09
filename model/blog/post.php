@@ -10,6 +10,7 @@ class ModelBlogPost extends Model {
 		  p.`post_title` AS title,
 		  p.`post_content` AS description,
 		  p.`post_excerpt` AS shortDescription,
+		  p.`post_date` AS dateAdded,
 		  (SELECT `meta_value` FROM `wp_postmeta` WHERE `post_id` = p.`ID` AND `meta_key` = '_thumbnail_id') AS image_id
 		FROM 
 		  `wp_posts` p 

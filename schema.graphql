@@ -148,7 +148,11 @@ type Post {
   image: String
   imageLazy: String
   keyword: String
+  rating: Float
   reviews: [postReview]
+  datePublished: String
+  next: Post
+  prev: Post
 }
 
 type PostResult {

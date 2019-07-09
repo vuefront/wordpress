@@ -2,21 +2,24 @@
 
 class ResolverBlogPost extends Resolver
 {
-    public function get($args) {
-    	$this->load->model('blog/post');
-    	$post = $this->model_blog_post->getPost($args['id']);
+    public function get($args)
+    {
+        $this->load->model('blog/post');
+        $post = $this->model_blog_post->getPost($args['id']);
 
-    	if($post->imageId) {
-		    $thumb     = wp_get_attachment_image_src($post->image_id, 'full');
-		    $thumbLazy = wp_get_attachment_image_src($post->image_id, array( 10, 10 ));
-	    }  else {
-    		$thumb = '';
-    		$thumbLazy = '';
+        if ($post->imageId) {
+            $thumb     = wp_get_attachment_image_src($post->image_id, 'full');
+            $thumbLazy = wp_get_attachment_image_src($post->image_id, array(10, 10));
+        } else {
+            $thumb = '';
+            $thumbLazy = '';
         }
-        
+
         $keyword = str_replace(get_site_url(), '', get_permalink($post->ID));
         $keyword = trim($keyword, '/?');
         $keyword = trim($keyword, '/');
+
+        $date_format = '%A %d %B %Y';
 
         return array(
             'id'               => $post->ID,
@@ -24,10 +27,23 @@ class ResolverBlogPost extends Resolver
             'title'            => $post->title,
             'shortDescription' => $post->shortDescription,
             'description'      => $post->description,
+            'datePublished'    => iconv(mb_detect_encoding(strftime($date_format, strtotime($post->dateAdded))), "utf-8//IGNORE", strftime($date_format, strtotime($post->dateAdded))),
             'keyword'          => $keyword,
             'image'            => $thumb,
             'imageLazy'        => $thumbLazy,
-            'reviews' => function($root, $args) {
+            'prev' => function ($root, $args) {
+                return $this->load->resolver('blog/post/prev', array(
+                    'parent' => $root,
+                    'args' => $args
+                ));
+            },
+            'next' => function ($root, $args) {
+                return $this->load->resolver('blog/post/next', array(
+                    'parent' => $root,
+                    'args' => $args
+                ));
+            },
+            'reviews' => function ($root, $args) {
                 return $this->load->resolver('blog/review/get', array(
                     'parent' => $root,
                     'args' => $args
@@ -36,8 +52,9 @@ class ResolverBlogPost extends Resolver
         );
     }
 
-    public function getList($args) {
-    	$this->load->model('blog/post');
+    public function getList($args)
+    {
+        $this->load->model('blog/post');
         $filter_data = array(
             'limit' => $args['size'],
             'start'         => ($args['page'] - 1) * $args['size'],
@@ -45,10 +62,10 @@ class ResolverBlogPost extends Resolver
             'order'          => $args['order']
         );
 
-        if ($args['category_id'] !== 0) {
+        if ($args['category_id'] != 0 && $args['category_id'] != '') {
             $filter_data['filter_category_id'] = $args['category_id'];
         }
-        
+
         $results = $this->model_blog_post->getPosts($filter_data);
 
         $product_total = $this->model_blog_post->getTotalPosts($filter_data);
@@ -56,7 +73,7 @@ class ResolverBlogPost extends Resolver
         $posts = array();
 
         foreach ($results as $post) {
-            $posts[] = $this->get(array( 'id' => $post->ID ));
+            $posts[] = $this->get(array('id' => $post->ID));
         }
 
         return array(
@@ -69,5 +86,33 @@ class ResolverBlogPost extends Resolver
             'totalPages'       => (int) ceil($product_total / $args['size']),
             'totalElements'    => (int) $product_total,
         );
+    }
+
+    public function prev($args)
+    {
+        $post_info = $args['parent'];
+        global $post;
+        $post = get_post($post_info['id']);
+        $previous_post = get_previous_post(false);
+
+        if(!$previous_post) {
+            return null;
+        }
+        
+        return $this->get(array('id' => $previous_post->ID));
+    }
+
+    public function next($args)
+    {
+        $post_info = $args['parent'];
+        global $post;
+        $post = get_post($post_info['id']);
+        $next_post = get_next_post(false);
+
+        if (!$next_post) {
+            return null;
+        }
+
+        return $this->get(array('id' => $next_post->ID));
     }
 }
