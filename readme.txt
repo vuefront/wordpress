@@ -5,7 +5,7 @@ Tags: vuefront, cms, vuejs, nuxt, webapp, graphql, frontend, framework, blog, ec
 Requires at least: 4.0.0
 Tested up to: 5.2.1
 Requires PHP: 5.5.0
-Stable tag: 1.0.0
+Stable tag: 1.1.0
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -26,6 +26,12 @@ Once the plugin is activated, the CMS Connect URL will function automatically, p
 If you have Woocommerce installed and activated, the plugin will provide that data as well.
 
 == Changelog ==
+= 1.1.0 =
+Added reviews total and categories to post
+Added previous and next posts and datePublished
+Fixed Including (or calling) javascript files included in WP core
+Fixed Calling files remotely 
+Fixed Generic function (and/or define) names 
 
 = 1.0.0 =
 Initial release.
