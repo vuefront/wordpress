@@ -28,6 +28,11 @@ class ResolverStoreCategory extends Resolver {
             'parent_id'   => (string) $category_info->parent,
             'image'       => $thumb,
             'imageLazy'   => $thumbLazy,
+            'meta'           => array(
+                'title' => $category_info->name,
+                'description' => $category_info->description,
+                'keyword' => ''
+            ),
             'url' => function($root, $args) {
                 return $this->url(array(
                     'parent' => $root,

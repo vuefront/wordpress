@@ -11,6 +11,8 @@
     "accountEditAddress": "common/account/editAddress",
     "accountRemoveAddress": "common/account/removeAddress",
 
+    "home": "common/home/get",
+
     "uploadFile": "common/file/upload",
 
     "countriesList": "common/country/getList",

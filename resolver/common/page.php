@@ -16,7 +16,12 @@ class ResolverCommonPage extends Resolver
             'name' => $page_info->title,
             'description' => $page_info->description,
             'sort_order' => (int)$page_info->sort_order,
-            'keyword' => $keyword
+            'keyword' => $keyword,
+            'meta'           => array(
+                'title' => $page_info->title,
+                'description' => $page_info->description,
+                'keyword' => ''
+            ),
         );
     }
 

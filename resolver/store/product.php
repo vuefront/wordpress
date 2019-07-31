@@ -64,6 +64,11 @@ class ResolverStoreProduct extends Resolver
             'stock'            => $product->stock_status === 'instock',
             'rating'           => (float) $product->rating,
             'keyword'          => $keyword,
+            'meta'           => array(
+                'title' => $product->name,
+                'description' => $product->short_description,
+                'keyword' => ''
+            ),
             'images' => function($root, $args) {
                 return $this->getImages(array(
                     'parent' => $root,

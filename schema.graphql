@@ -39,6 +39,7 @@ type Category {
   url(url: String): String
   categories(limit: Int = 3): [Category]
   keyword: String
+  meta: Meta
 }
 
 type categoryBlog {
@@ -51,6 +52,7 @@ type categoryBlog {
   url(url: String): String
   keyword: String
   categories(limit: Int = 3): [categoryBlog]
+  meta: Meta
 }
 
 type categoryBlogResult {
@@ -125,6 +127,7 @@ type Page {
   name: String
   description: String
   keyword: String
+  meta: Meta
   sort_order: Int
 }
 
@@ -159,6 +162,7 @@ type Post {
   datePublished: String
   next: Post
   prev: Post
+  meta: Meta
 }
 
 type PostResult {
@@ -211,6 +215,7 @@ type Product {
   options: [productOption]
   images(limit: Int = 3): [productImage]
   keyword: String
+  meta: Meta
 }
 
 type productAttribute {
@@ -332,6 +337,16 @@ type CheckoutLinkResult {
   link: String
 }
 
+type Meta {
+    title: String
+    description: String
+    keyword: String
+}
+
+type HomeResult {
+    meta: Meta
+}
+
 type RootMutationType {
   uploadFile(file: Upload): FileResult
   accountLogin(email: String, password: String): Customer
@@ -357,6 +372,7 @@ type RootMutationType {
 }
 
 type RootQueryType {
+  home: HomeResult
   zone(id: Int): Zone
   zonesList(page: Int = 1, size: Int = 10, search: String, country_id: String, sort: String = "name", order: String = "ASC"): ZonesResult
   country(id: Int): Country

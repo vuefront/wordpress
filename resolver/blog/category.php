@@ -12,7 +12,6 @@ class ResolverBlogCategory extends Resolver
         $keyword = str_replace(get_site_url(), '', get_term_link((int)$category->ID));
         $keyword = trim($keyword, '/?');
         $keyword = trim($keyword, '/');
-
         return array(
             'id'             => $category->ID,
             'name'           => $category->name,
@@ -21,6 +20,11 @@ class ResolverBlogCategory extends Resolver
             'image'          => $thumb,
             'keyword'        => $keyword,
             'imageLazy'      => $thumbLazy,
+            'meta'           => array(
+                'title' => $category->name,
+                'description' => $category->description,
+                'keyword' => ''
+            ),
             'url'            => function($root, $args) {
                 return $this->url(array(
                     'parent' => $root,

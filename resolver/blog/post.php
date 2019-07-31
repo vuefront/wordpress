@@ -31,6 +31,11 @@ class ResolverBlogPost extends Resolver
             'keyword'          => $keyword,
             'image'            => $thumb,
             'imageLazy'        => $thumbLazy,
+            'meta'           => array(
+                'title' => $post->title,
+                'description' => $post->shortDescription,
+                'keyword' => ''
+            ),
             'prev' => function ($root, $args) {
                 return $this->load->resolver('blog/post/prev', array(
                     'parent' => $root,
