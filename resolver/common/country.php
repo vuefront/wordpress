@@ -17,7 +17,9 @@ class ResolverCommonCountry extends Resolver
     {
         $countries = [];
 
-        $results = WC()->countries->countries;
+        $results = WC()->countries->get_allowed_countries();
+        asort($results);
+
         $country_total = count($results);
 
         foreach ($results as $key => $value) {

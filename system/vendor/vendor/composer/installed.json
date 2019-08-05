@@ -1,0 +1,99 @@
+[
+    {
+        "name": "firebase/php-jwt",
+        "version": "v5.0.0",
+        "version_normalized": "5.0.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/firebase/php-jwt.git",
+            "reference": "9984a4d3a32ae7673d6971ea00bae9d0a1abba0e"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/firebase/php-jwt/zipball/9984a4d3a32ae7673d6971ea00bae9d0a1abba0e",
+            "reference": "9984a4d3a32ae7673d6971ea00bae9d0a1abba0e",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.0"
+        },
+        "require-dev": {
+            "phpunit/phpunit": " 4.8.35"
+        },
+        "time": "2017-06-27T22:17:23+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Firebase\\JWT\\": "src"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "BSD-3-Clause"
+        ],
+        "authors": [
+            {
+                "name": "Neuman Vong",
+                "role": "Developer",
+                "email": "neuman+pear@twilio.com"
+            },
+            {
+                "name": "Anant Narayanan",
+                "role": "Developer",
+                "email": "anant@php.net"
+            }
+        ],
+        "description": "A simple library to encode and decode JSON Web Tokens (JWT) in PHP. Should conform to the current spec.",
+        "homepage": "https://github.com/firebase/php-jwt"
+    },
+    {
+        "name": "webonyx/graphql-php",
+        "version": "v0.11.6",
+        "version_normalized": "0.11.6.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/webonyx/graphql-php.git",
+            "reference": "f438a726cd523bc584e78d866eca270165c42fd5"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/webonyx/graphql-php/zipball/f438a726cd523bc584e78d866eca270165c42fd5",
+            "reference": "f438a726cd523bc584e78d866eca270165c42fd5",
+            "shasum": ""
+        },
+        "require": {
+            "ext-mbstring": "*",
+            "php": ">=5.5,<8.0-DEV"
+        },
+        "require-dev": {
+            "phpunit/phpunit": "^4.8",
+            "psr/http-message": "^1.0"
+        },
+        "suggest": {
+            "psr/http-message": "To use standard GraphQL server",
+            "react/promise": "To leverage async resolving on React PHP platform"
+        },
+        "time": "2018-04-17T10:34:43+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "files": [
+                "src/deprecated.php"
+            ],
+            "psr-4": {
+                "GraphQL\\": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "description": "A PHP port of GraphQL reference implementation",
+        "homepage": "https://github.com/webonyx/graphql-php",
+        "keywords": [
+            "api",
+            "graphql"
+        ]
+    }
+]

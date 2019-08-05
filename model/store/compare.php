@@ -1,38 +1,52 @@
 <?php
-class ModelStoreCompare extends Model
-{
-    public function getCompare()
-    {
-        $result = array();
 
-        if (!empty($_SESSION['compare'])) {
-            $result = $_SESSION['compare'];
-        }
+class ModelStoreCompare extends Model {
+	public function getCompare() {
+		$result = array();
 
-        return $result;
-    }
+		$compare = $_COOKIE['compare'];
 
-    public function addCompare($product_id)
-    {
-        if (!isset($_SESSION['compare'])) {
-            $_SESSION['compare'] = array();
-        }
-        if (!in_array($product_id, $_SESSION['compare'])) {
-            if (count($_SESSION['compare']) >= 4) {
-                array_shift($_SESSION['compare']);
-            }
-            $_SESSION['compare'][] = (int)$product_id;
-        }
-    }
+		if ( ! empty( $compare ) ) {
+			$result = json_decode( $compare );
+		}
 
-    public function deleteCompare($product_id)
-    {
-        if (!empty($_SESSION['compare'])) {
-            $key = array_search($product_id, $_SESSION['compare']);
+		return $result;
+	}
 
-            if ($key !== false) {
-                unset($_SESSION['compare'][$key]);
-            }
-        }
-    }
+	public function addCompare( $product_id ) {
+		$compare = $_COOKIE['compare'];
+
+		if ( ! empty( $compare ) ) {
+			$compare = json_decode( $compare, true );
+		} else {
+			$compare = array();
+		}
+		if ( ! in_array( $product_id, $compare ) ) {
+			if ( count( $compare ) >= 4 ) {
+				array_shift( $compare );
+			}
+			$compare[] = $product_id;
+			setcookie( 'compare', json_encode( $compare ), 0, "/" );
+			$_COOKIE['compare'] = json_encode( $compare );
+		}
+	}
+
+	public function deleteCompare( $product_id ) {
+		$compare = $_COOKIE['compare'];
+
+		$result = array();
+
+		if ( ! empty( $compare ) ) {
+			$result = json_decode( $compare );
+		}
+
+		$key = array_search( $product_id, $result );
+
+		if ( $key !== false ) {
+			unset( $result[ $key ] );
+		}
+
+		setcookie( 'compare', json_encode( $result ), 0, "/" );
+		$_COOKIE['compare'] = json_encode( $result );
+	}
 }

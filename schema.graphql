@@ -347,9 +347,14 @@ type HomeResult {
     meta: Meta
 }
 
+type LoginResult {
+  token: String
+  customer: Customer
+}
+
 type RootMutationType {
   uploadFile(file: Upload): FileResult
-  accountLogin(email: String, password: String): Customer
+  accountLogin(email: String, password: String): LoginResult
   accountLogout: LogoutResult
   accountRegister(customer: CustomerInput): Customer
   accountEdit(customer: CustomerInput): Customer
@@ -381,7 +386,7 @@ type RootQueryType {
   categoriesBlogList(page: Int = 1, size: Int = 10, filter: String, parent: Int = -1, sort: String = "sort_order", order: String = "ASC"): categoryBlogResult
   post(id: String): Post
   postsList(page: Int = 1, size: Int = 10, filter: String, search: String, category_id: String = "", sort: String = "sort_order", order: String = "ASC"): PostResult
-  cart: Cart 
+  cart: Cart
   category(id: String): Category
   categoriesList(page: Int = 1, size: Int = 10, filter: String, parent: Int = -1, sort: String = "sort_order", order: String = "ASC"): CategoryResult
   compare: [Product]

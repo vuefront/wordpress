@@ -1,5 +1,5 @@
 <?php
-define('VF_DIR_PLUGIN', realpath('./').'/');
+define('VF_DIR_PLUGIN', realpath(__DIR__.'/..').'/');
 
 require_once(VF_DIR_PLUGIN . 'system/vendor/autoload.php');
 require_once(VF_DIR_PLUGIN . 'system/engine/action.php');
@@ -10,13 +10,14 @@ require_once(VF_DIR_PLUGIN . 'system/engine/loader.php');
 require_once(VF_DIR_PLUGIN . 'system/engine/model.php');
 require_once(VF_DIR_PLUGIN . 'system/engine/registry.php');
 require_once(VF_DIR_PLUGIN . 'system/engine/proxy.php');
-function start() {
+
+function start(WP_REST_Request $request = null) {
     $registry = new Registry();
 
     $loader = new Loader($registry);
     $registry->set('load', $loader);
 
-    $registry->get('load')->resolver('startup/session');
-    $registry->get('load')->resolver('startup/wordpress');
-    $registry->get('load')->resolver('startup/startup');
+    $registry->set('request', $request);
+
+	return $registry;
 }

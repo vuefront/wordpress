@@ -10,6 +10,8 @@
  * @property ModelStoreOption $model_store_option
  * @property ModelStoreProduct $model_store_product
  * @property ModelStoreWishlist $model_store_wishlist
+ * @property ModelCommonToken $model_common_token
+ * @property WP_REST_Request $request
  */
 abstract class Resolver {
 	protected $registry;

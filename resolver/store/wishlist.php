@@ -12,7 +12,7 @@ class ResolverStoreWishlist extends Resolver {
         $this->load->model('store/wishlist');
         $this->model_store_wishlist->deleteWishlist($args['id']);
 
-        return $this->get();
+        return $this->getList();
     }
     public function getList($args = array()) {
         $this->load->model('store/wishlist');
