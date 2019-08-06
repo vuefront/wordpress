@@ -31,7 +31,9 @@ Added reviews total and categories to post
 Added previous and next posts and datePublished
 Fixed Including (or calling) javascript files included in WP core
 Fixed Calling files remotely 
-Fixed Generic function (and/or define) names 
+Fixed Generic function (and/or define) names
+Fixed Including (or calling) javascript files included in WP core
+Fixed Calling files remotely
 
 = 1.0.0 =
 Initial release.
