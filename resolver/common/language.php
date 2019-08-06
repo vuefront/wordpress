@@ -1,6 +1,6 @@
 <?php
 
-class ResolverCommonLanguage extends Resolver
+class VF_ResolverCommonLanguage extends VF_Resolver
 {
     private $codename = "d_vuefront";
 

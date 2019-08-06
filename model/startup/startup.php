@@ -1,8 +1,8 @@
 <?php
 
-class ModelStartupStartup extends Model
+class VF_ModelStartupStartup extends VF_Model
 {
-    public function getResolvers() {
+    public function getVF_Resolvers() {
         $rawMapping = file_get_contents(VF_DIR_PLUGIN.'mapping.json');
         $mapping = json_decode( $rawMapping, true );
         $result = array();

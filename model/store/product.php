@@ -1,6 +1,6 @@
 <?php
 
-class ModelStoreProduct extends Model
+class VF_ModelStoreProduct extends VF_Model
 {
     public function getProductRelated($product_id)
     {

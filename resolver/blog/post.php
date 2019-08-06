@@ -1,6 +1,6 @@
 <?php
 
-class ResolverBlogPost extends Resolver
+class VF_ResolverBlogPost extends VF_Resolver
 {
     public function get($args)
     {

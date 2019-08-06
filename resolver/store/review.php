@@ -1,6 +1,6 @@
 <?php
 
-class ResolverStoreReview extends Resolver
+class VF_ResolverStoreReview extends VF_Resolver
 {
     public function add($args) {
         $time = current_time('mysql');

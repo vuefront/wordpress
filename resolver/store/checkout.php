@@ -1,6 +1,6 @@
 <?php
 
-class ResolverStoreCheckout extends Resolver
+class VF_ResolverStoreCheckout extends VF_Resolver
 {
     public function link() {
         return array(

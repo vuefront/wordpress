@@ -1,6 +1,6 @@
 <?php
 
-class ModelBlogCategory extends Model {
+class VF_ModelBlogCategory extends VF_Model {
 
 	public function getCategory( $category_id ) {
 		global $wpdb;

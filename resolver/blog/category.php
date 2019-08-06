@@ -1,6 +1,6 @@
 <?php
 
-class ResolverBlogCategory extends Resolver
+class VF_ResolverBlogCategory extends VF_Resolver
 {
     public function get($data) {
 	    $this->load->model('blog/category');

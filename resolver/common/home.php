@@ -1,6 +1,6 @@
 <?php
 
-class ResolverCommonHome extends Resolver
+class VF_ResolverCommonHome extends VF_Resolver
 {
     public function get() {
         return array(

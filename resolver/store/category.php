@@ -1,6 +1,6 @@
 <?php
 
-class ResolverStoreCategory extends Resolver {
+class VF_ResolverStoreCategory extends VF_Resolver {
     public function get($args) {
     	$this->load->model('store/category');
 

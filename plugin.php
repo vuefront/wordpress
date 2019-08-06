@@ -14,11 +14,11 @@ require_once 'system/startup.php';
 add_action( 'admin_menu', 'add_plugin_page' );
 function add_plugin_page() {
 	$codename         = 'd_vuefront';
-	$page_hook_suffix = add_options_page( __( 'Settings', $codename ) . ' Vuefront', 'Vuefront', 'manage_options', 'd_vuefront', 'vuefront_options_page_output' );
-	add_action( 'admin_print_scripts-' . $page_hook_suffix, 'my_plugin_admin_scripts' );
+	$page_hook_suffix = add_options_page( __( 'Settings', $codename ) . ' Vuefront', 'Vuefront', 'manage_options', 'd_vuefront', 'VF_vuefront_options_page_output' );
+	add_action( 'admin_print_scripts-' . $page_hook_suffix, 'VF_my_plugin_admin_scripts' );
 }
 
-function my_plugin_admin_scripts() {
+function VF_my_plugin_admin_scripts() {
 	wp_enqueue_style( 'vuefront-style', plugins_url( 'd_vuefront/view/stylesheet/admin.css' ) );
 	wp_enqueue_style( 'bootstrap-style', plugins_url( 'd_vuefront/view/stylesheet/bootstrap.min.css' ) );
 	wp_enqueue_script( 'jquery' );
@@ -26,7 +26,7 @@ function my_plugin_admin_scripts() {
 	wp_enqueue_script( 'bootstrap-script', plugins_url( 'd_vuefront/view/javascript/bootstrap.min.js' ) );
 }
 
-function vuefront_options_page_output() {
+function VF_vuefront_options_page_output() {
 	$codename = 'd_vuefront';
 
 	$data                                 = array();
@@ -47,7 +47,7 @@ function vuefront_options_page_output() {
 	require_once 'view/template/setting.tpl';
 }
 
-function my_plugin_action_links( $links ) {
+function VF_my_plugin_action_links( $links ) {
 	$links = array_merge( array(
 		'<a href="' . esc_url( admin_url( 'options-general.php?page=d_vuefront' ) ) . '">' . __( 'Settings' ) . '</a>'
 	), $links );
@@ -55,16 +55,16 @@ function my_plugin_action_links( $links ) {
 	return $links;
 }
 
-add_action( 'plugin_action_links_' . plugin_basename( __FILE__ ), 'my_plugin_action_links' );
+add_action( 'plugin_action_links_' . plugin_basename( __FILE__ ), 'VF_my_plugin_action_links' );
 
-add_action( 'plugins_loaded', 'true_load_plugin_textdomain' );
+add_action( 'plugins_loaded', 'VF_true_load_plugin_textdomain' );
 
-function true_load_plugin_textdomain() {
+function VF_true_load_plugin_textdomain() {
 	load_plugin_textdomain( 'd_vuefront', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
 }
 
-function restApi( WP_REST_Request $request ) {
-	$registry = start();
+function VF_RestApi( WP_REST_Request $request ) {
+	$registry = VF_Start();
 
 	$registry->set( 'request', $request );
 
@@ -74,7 +74,7 @@ function restApi( WP_REST_Request $request ) {
 }
 
 add_action( 'determine_current_user', function ( $user ) {
-	$registry = start();
+	$registry = VF_Start();
 
 	return $registry->get( 'load' )->resolver( 'startup/startup/determine_current_user', $user );
 }, 10 );
@@ -82,6 +82,6 @@ add_action( 'determine_current_user', function ( $user ) {
 add_action( 'rest_api_init', function () {
 	register_rest_route( 'vuefront/v1', '/graphql', array(
 		'methods'  => 'POST',
-		'callback' => 'restApi',
+		'callback' => 'VF_RestApi',
 	) );
 } );

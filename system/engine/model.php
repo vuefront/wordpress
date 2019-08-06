@@ -1,5 +1,5 @@
 <?php 
-abstract class Model {
+abstract class VF_Model {
 	protected $registry;
 
 	public function __construct($registry) {

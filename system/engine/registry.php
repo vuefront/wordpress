@@ -1,5 +1,5 @@
 <?php
-final class Registry {
+final class VF_Registry {
 	private $data = array();
 
 	public function get($key) {

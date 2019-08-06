@@ -1,6 +1,6 @@
 <?php
 
-class ModelBlogPost extends Model
+class VF_ModelBlogPost extends VF_Model
 {
 
 	public function getPost($post_id)

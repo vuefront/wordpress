@@ -1,6 +1,6 @@
 <?php
 
-class ModelStoreCompare extends Model {
+class VF_ModelStoreCompare extends VF_Model {
 	public function getCompare() {
 		$result = array();
 

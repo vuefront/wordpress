@@ -1,6 +1,6 @@
 <?php 
 
-class ResolverStoreWishlist extends Resolver {
+class VF_ResolverStoreWishlist extends VF_Resolver {
     public function add($args) {
         $this->load->model('store/wishlist');
 

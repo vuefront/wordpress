@@ -1,6 +1,6 @@
 <?php
 
-class ResolverCommonPage extends Resolver
+class VF_ResolverCommonPage extends VF_Resolver
 {
     public function get($args) {
         $this->load->model('common/page');

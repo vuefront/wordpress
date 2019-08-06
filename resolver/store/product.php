@@ -1,6 +1,6 @@
 <?php
 
-class ResolverStoreProduct extends Resolver
+class VF_ResolverStoreProduct extends VF_Resolver
 {
     public function __construct($registry)
     {

@@ -2,7 +2,7 @@
 
 use \Firebase\JWT\JWT;
 
-class ModelCommonToken extends Model {
+class VF_ModelCommonToken extends VF_Model {
 	public function getToken( $args ) {
 
 		$secret_key = 'bananas';

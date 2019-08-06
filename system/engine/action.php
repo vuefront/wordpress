@@ -1,6 +1,6 @@
 <?php
 
-class Action {
+class VF_Action {
 	private $id;
 	private $route;
 	private $method = 'index';
@@ -34,7 +34,7 @@ class Action {
 		}
 
 		$file  = VF_DIR_PLUGIN . 'resolver/' . $this->route . '.php';	
-		$class = 'Resolver' . preg_replace('/[^a-zA-Z0-9]/', '', $this->route);
+		$class = 'VF_Resolver' . preg_replace('/[^a-zA-Z0-9]/', '', $this->route);
 		
 		if (is_file($file)) {
 			include_once($file);

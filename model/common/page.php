@@ -1,6 +1,6 @@
 <?php
 
-class ModelCommonPage extends Model
+class VF_ModelCommonPage extends VF_Model
 {
     public function getPage($page_id)
     {

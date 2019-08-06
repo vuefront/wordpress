@@ -1,6 +1,6 @@
 <?php
 
-class ModelStoreOption extends Model
+class VF_ModelStoreOption extends VF_Model
 {
     public function getOptionLabel($name) {
         global $wpdb;

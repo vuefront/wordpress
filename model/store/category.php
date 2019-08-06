@@ -1,6 +1,6 @@
 <?php
 
-class ModelStoreCategory extends Model {
+class VF_ModelStoreCategory extends VF_Model {
 
 	public function getCategory( $category_id ) {
 		global $wpdb;

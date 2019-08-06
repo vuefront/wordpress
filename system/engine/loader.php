@@ -1,5 +1,5 @@
 <?php
-final class Loader
+final class VF_Loader
 {
     protected $registry;
 
@@ -12,19 +12,7 @@ final class Loader
     {
         $route = preg_replace('/[^a-zA-Z0-9_\/]/', '', (string)$route);
         
-        $action = new Action($route);
-        $output = $action->execute($this->registry, array(&$data));
-
-        if (!$output instanceof Exception) {
-            return $output;
-        }
-    }
-
-    public function type($route, $data = array())
-    {
-        $route = preg_replace('/[^a-zA-Z0-9_\/]/', '', (string)$route);
-        
-        $action = new ActionType($route);
+        $action = new VF_Action($route);
         $output = $action->execute($this->registry, array(&$data));
 
         if (!$output instanceof Exception) {
@@ -38,12 +26,12 @@ final class Loader
         
         if (!$this->registry->has('model_' . str_replace('/', '_', $route))) {
             $file  = VF_DIR_PLUGIN . 'model/' . $route . '.php';
-            $class = 'Model' . preg_replace('/[^a-zA-Z0-9]/', '', $route);
+            $class = 'VF_Model' . preg_replace('/[^a-zA-Z0-9]/', '', $route);
             
             if (is_file($file)) {
                 include_once($file);
     
-                $proxy = new Proxy();
+                $proxy = new VF_Proxy();
                 
                 foreach (get_class_methods($class) as $method) {
                     $proxy->{$method} = $this->callback($this->registry, $route . '/' . $method);
@@ -64,7 +52,7 @@ final class Loader
             
             $route = preg_replace('/[^a-zA-Z0-9_\/]/', '', (string)$route);
 
-            $class = 'Model' . preg_replace('/[^a-zA-Z0-9]/', '', substr($route, 0, strrpos($route, '/')));
+            $class = 'VF_Model' . preg_replace('/[^a-zA-Z0-9]/', '', substr($route, 0, strrpos($route, '/')));
                 
             $key = substr($route, 0, strrpos($route, '/'));
                 

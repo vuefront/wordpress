@@ -1,6 +1,6 @@
 <?php
 
-class ResolverStoreCart extends Resolver
+class VF_ResolverStoreCart extends VF_Resolver
 {
     public function add($args) {
         $this->load->model('store/product');
