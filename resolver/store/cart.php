@@ -13,7 +13,9 @@ class VFA_ResolverStoreCart extends VFA_Resolver
                 $options[ $option['id'] ] = $option['value'];
             }
             $variation_id = $this->find_matching_product_variation_id($args['id'], $options);
-
+            if(!$variation_id) {
+                throw new \Exception('Please select an option.');
+            }
             WC()->cart->add_to_cart($args['id'], $args['quantity'], $variation_id);
         } else {
             WC()->cart->add_to_cart($args['id'], $args['quantity']);
