@@ -10,9 +10,23 @@
 
 require_once 'system/startup.php';
 
+add_filter('woocommerce_is_rest_api_request', 'VFA_simulate_as_not_rest');
+function VFA_simulate_as_not_rest($is_rest_api_request)
+{
+    if (empty($_SERVER['REQUEST_URI'])) {
+        return $is_rest_api_request;
+    }
 
-add_action( 'admin_menu', 'add_plugin_page' );
-function add_plugin_page() {
+    if (false === strpos($_SERVER['REQUEST_URI'], 'vuefront')) {
+        return $is_rest_api_request;
+    }
+
+    return false;
+}
+
+
+add_action( 'admin_menu', 'VFA_add_plugin_page' );
+function VFA_add_plugin_page() {
 	$codename         = 'd_vuefront';
 	$page_hook_suffix = add_options_page( __( 'Settings', $codename ) . ' Vuefront', 'Vuefront', 'manage_options', 'd_vuefront', 'VFA_vuefront_options_page_output' );
 	add_action( 'admin_print_scripts-' . $page_hook_suffix, 'VFA_my_plugin_admin_scripts' );

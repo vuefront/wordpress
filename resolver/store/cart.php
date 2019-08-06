@@ -2,7 +2,7 @@
 
 class VFA_ResolverStoreCart extends VFA_Resolver
 {
-    public function add($args) {
+	public function add($args) {
         $this->load->model('store/product');
 
         $product = $this->model_store_product->getProduct($args['id']);
