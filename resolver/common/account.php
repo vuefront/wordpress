@@ -10,7 +10,7 @@ class VF_ResolverCommonAccount extends VF_Resolver {
 			return array( 'token' => $token_info['token'], 'customer' => $this->get( $token_info['user_id'] ) );
 
 		} catch ( \Exception $e ) {
-			throw new Exception( $e->getMessage() );
+			throw new \Exception( $e->getMessage() );
 		}
 	}
 

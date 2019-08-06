@@ -13,7 +13,6 @@ class VF_ModelCommonToken extends VF_Model {
 
 		if ( is_wp_error( $user ) ) {
 			$error_code = $user->get_error_code();
-
 			throw new Exception( $user->get_error_message( $error_code ) );
 		}
 

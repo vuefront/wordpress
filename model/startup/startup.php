@@ -12,8 +12,9 @@ class VF_ModelStartupStartup extends VF_Model
             $result[$key] = function ($root, $args, $context) use ($value, $that) {
                 try {
                     return $that->load->resolver($value, $args);
-                } catch (Exception $e) {
-                    throw new MySafeException($e->getMessage());
+                } catch (\Exception $e) {
+                    $message = preg_replace('/(\s+)?\<a .*\>.*\<\/a\>(\s)?/', '',$e->getMessage());
+                    throw new VF_MySafeException($message);
                 }
             };
         }
