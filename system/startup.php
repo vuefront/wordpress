@@ -8,6 +8,7 @@ require_once(VF_DIR_PLUGIN . 'system/engine/loader.php');
 require_once(VF_DIR_PLUGIN . 'system/engine/model.php');
 require_once(VF_DIR_PLUGIN . 'system/engine/registry.php');
 require_once(VF_DIR_PLUGIN . 'system/engine/proxy.php');
+require_once(VF_DIR_PLUGIN . 'system/helpers/MySafeException.php');
 
 function VF_Start(WP_REST_Request $request = null) {
     $registry = new VF_Registry();
