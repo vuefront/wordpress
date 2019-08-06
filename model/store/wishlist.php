@@ -1,6 +1,6 @@
 <?php
 
-class VF_ModelStoreWishlist extends VF_Model {
+class VFA_ModelStoreWishlist extends VFA_Model {
 	public function getWishlist() {
 		$result = array();
 

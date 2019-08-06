@@ -1,10 +1,10 @@
 <?php
 
-class VF_ModelStartupStartup extends VF_Model
+class VFA_ModelStartupStartup extends VFA_Model
 {
-    public function getVF_Resolvers()
+    public function getResolvers()
     {
-        $rawMapping = file_get_contents(VF_DIR_PLUGIN.'mapping.json');
+        $rawMapping = file_get_contents(VFA_DIR_PLUGIN.'mapping.json');
         $mapping = json_decode($rawMapping, true);
         $result = array();
         foreach ($mapping as $key => $value) {
@@ -14,7 +14,7 @@ class VF_ModelStartupStartup extends VF_Model
                     return $that->load->resolver($value, $args);
                 } catch (\Exception $e) {
                     $message = preg_replace('/(\s+)?\<a .*\>.*\<\/a\>(\s)?/', '',$e->getMessage());
-                    throw new VF_MySafeException($message);
+                    throw new VFA_MySafeException($message);
                 }
             };
         }

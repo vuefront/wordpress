@@ -1,6 +1,6 @@
 <?php
 
-class VF_ResolverCommonPage extends VF_Resolver
+class VFA_ResolverCommonPage extends VFA_Resolver
 {
     public function get($args) {
         $this->load->model('common/page');

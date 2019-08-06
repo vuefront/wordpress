@@ -1,6 +1,6 @@
 <?php 
 
-class VF_ResolverStoreCompare extends VF_Resolver {
+class VFA_ResolverStoreCompare extends VFA_Resolver {
     public function add($args) {
         $this->load->model('store/compare');
 

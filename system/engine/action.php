@@ -1,6 +1,6 @@
 <?php
 
-class VF_Action {
+class VFA_Action {
 	private $id;
 	private $route;
 	private $method = 'index';
@@ -12,7 +12,7 @@ class VF_Action {
 
 		// Break apart the route
 		while ($parts) {
-			$file = VF_DIR_PLUGIN . 'resolver/' . implode('/', $parts) . '.php';
+			$file = VFA_DIR_PLUGIN . 'resolver/' . implode('/', $parts) . '.php';
 
 			if (is_file($file)) {
 				$this->route = implode('/', $parts);		
@@ -33,8 +33,8 @@ class VF_Action {
 			return new \Exception('Error: Calls to magic methods are not allowed!');
 		}
 
-		$file  = VF_DIR_PLUGIN . 'resolver/' . $this->route . '.php';	
-		$class = 'VF_Resolver' . preg_replace('/[^a-zA-Z0-9]/', '', $this->route);
+		$file  = VFA_DIR_PLUGIN . 'resolver/' . $this->route . '.php';	
+		$class = 'VFA_Resolver' . preg_replace('/[^a-zA-Z0-9]/', '', $this->route);
 		
 		if (is_file($file)) {
 			include_once($file);

@@ -12,7 +12,7 @@
 
 use GraphQL\Error\ClientAware;
 
-class VF_MySafeException extends \Exception implements ClientAware
+class VFA_MySafeException extends \Exception implements ClientAware
 {
     public function isClientSafe()
     {

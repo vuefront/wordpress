@@ -1,6 +1,6 @@
 <?php
 
-class VF_ResolverCommonZone extends VF_Resolver
+class VFA_ResolverCommonZone extends VFA_Resolver
 {
     private $codename = "d_vuefront";
 

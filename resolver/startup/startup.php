@@ -3,7 +3,7 @@
 use GraphQL\GraphQL;
 use GraphQL\Utils\BuildSchema;
 
-class VF_ResolverStartupStartup extends VF_Resolver {
+class VFA_ResolverStartupStartup extends VFA_Resolver {
 	public function index() {
 
 //		if ( is_plugin_active( 'd_vuefront/plugin.php' ) ) {
@@ -21,8 +21,8 @@ class VF_ResolverStartupStartup extends VF_Resolver {
 		$this->load->model( 'startup/startup' );
 
 		try {
-			$resolvers = $this->model_startup_startup->getVF_Resolvers();
-			$schema    = BuildSchema::build( file_get_contents( VF_DIR_PLUGIN . 'schema.graphql' ) );
+			$resolvers = $this->model_startup_startup->getResolvers();
+			$schema    = BuildSchema::build( file_get_contents( VFA_DIR_PLUGIN . 'schema.graphql' ) );
 			$rawInput  = file_get_contents( 'php://input' );
 			$input     = json_decode( $rawInput, true );
 			$query     = $input['query'];

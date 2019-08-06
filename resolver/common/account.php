@@ -1,6 +1,6 @@
 <?php
 
-class VF_ResolverCommonAccount extends VF_Resolver {
+class VFA_ResolverCommonAccount extends VFA_Resolver {
 	public function login( $args ) {
 
 		try {

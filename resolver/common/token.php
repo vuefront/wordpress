@@ -1,6 +1,6 @@
 <?php
 
-class VF_ResolverCommonToken extends VF_Resolver {
+class VFA_ResolverCommonToken extends VFA_Resolver {
 	public function get() {
 		$this->load->model('common/token');
 		$token_info = $this->model_common_token->getToken();

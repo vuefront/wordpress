@@ -1,6 +1,6 @@
 <?php
 
-class VF_Proxy {
+class VFA_Proxy {
 	public function __get($key) {
 		return $this->{$key};
 	}	
@@ -27,7 +27,7 @@ class VF_Proxy {
 		} else {
 			$trace = debug_backtrace();
 			
-			exit('<b>Notice</b>:  Undefined property: VF_Proxy::' . $key . ' in <b>' . $trace[1]['file'] . '</b> on line <b>' . $trace[1]['line'] . '</b>');
+			exit('<b>Notice</b>:  Undefined property: VFA_Proxy::' . $key . ' in <b>' . $trace[1]['file'] . '</b> on line <b>' . $trace[1]['line'] . '</b>');
 		}
 	}
 }

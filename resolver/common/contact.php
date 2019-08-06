@@ -1,6 +1,6 @@
 <?php
 
-class VF_ResolverCommonContact extends VF_Resolver
+class VFA_ResolverCommonContact extends VFA_Resolver
 {
     private $codename = "d_vuefront";
 

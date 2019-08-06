@@ -1,6 +1,6 @@
 <?php
 
-class VF_ResolverStoreCurrency extends VF_Resolver
+class VFA_ResolverStoreCurrency extends VFA_Resolver
 {
     private $codename = "d_vuefront";
 
