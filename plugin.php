@@ -1,11 +1,11 @@
 <?php
 /**
- * Plugin Name: Vuefront
+ * Plugin Name: VueFront
  * Plugin URI: https://github.com/vuefront/wordpress
  * Description: VueFront CMS Connect App for Wordpress.
- * Version: 1.0
- * Author: Dreamvention
- * Author URI: http://dreamvention.com
+ * Version: 1.1.0
+ * Author: VueFront
+ * Author URI: http://vuefront.com
  */
 
 require_once 'system/startup.php';
