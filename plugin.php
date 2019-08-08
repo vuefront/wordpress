@@ -24,24 +24,23 @@ function VFA_simulate_as_not_rest($is_rest_api_request)
     return false;
 }
 
-
 add_action( 'admin_menu', 'VFA_add_plugin_page' );
 function VFA_add_plugin_page() {
-	$codename         = 'd_vuefront';
-	$page_hook_suffix = add_options_page( __( 'Settings', $codename ) . ' Vuefront', 'Vuefront', 'manage_options', 'd_vuefront', 'VFA_vuefront_options_page_output' );
+	$codename         = 'vuefront';
+	$page_hook_suffix = add_options_page( __( 'Settings', $codename ) . ' Vuefront', 'Vuefront', 'manage_options', 'vuefront', 'VFA_vuefront_options_page_output' );
 	add_action( 'admin_print_scripts-' . $page_hook_suffix, 'VFA_my_plugin_admin_scripts' );
 }
 
 function VFA_my_plugin_admin_scripts() {
-	wp_enqueue_style( 'vuefront-style', plugins_url( 'd_vuefront/view/stylesheet/admin.css' ) );
-	wp_enqueue_style( 'bootstrap-style', plugins_url( 'd_vuefront/view/stylesheet/bootstrap.min.css' ) );
+	wp_enqueue_style( 'vuefront-style', plugins_url( 'vuefront/view/stylesheet/admin.css' ) );
+	wp_enqueue_style( 'bootstrap-style', plugins_url( 'vuefront/view/stylesheet/bootstrap.min.css' ) );
 	wp_enqueue_script( 'jquery' );
 	wp_enqueue_script( 'clipboard' );
-	wp_enqueue_script( 'bootstrap-script', plugins_url( 'd_vuefront/view/javascript/bootstrap.min.js' ) );
+	wp_enqueue_script( 'bootstrap-script', plugins_url( 'vuefront/view/javascript/bootstrap.min.js' ) );
 }
 
 function VFA_vuefront_options_page_output() {
-	$codename = 'd_vuefront';
+	$codename = 'vuefront';
 
 	$data                                 = array();
 	$data['text_title']                   = __( 'CMS Connect URL', $codename );
@@ -56,14 +55,14 @@ function VFA_vuefront_options_page_output() {
 	$data['text_copied']                  = __( 'copied!', $codename );
 	$data['catalog']                      = get_rest_url( null, '/vuefront/v1/graphql' );
 	$data['woocommerce']                  = is_plugin_active( 'woocommerce/woocommerce.php' );
-	$data['logo']                         = plugins_url( 'd_vuefront/view/image/logo.png' );
+	$data['logo']                         = plugins_url( 'vuefront/view/image/logo.png' );
 	extract( $data );
 	require_once 'view/template/setting.tpl';
 }
 
 function VFA_my_plugin_action_links( $links ) {
 	$links = array_merge( array(
-		'<a href="' . esc_url( admin_url( 'options-general.php?page=d_vuefront' ) ) . '">' . __( 'Settings' ) . '</a>'
+		'<a href="' . esc_url( admin_url( 'options-general.php?page=vuefront' ) ) . '">' . __( 'Settings' ) . '</a>'
 	), $links );
 
 	return $links;
@@ -74,7 +73,7 @@ add_action( 'plugin_action_links_' . plugin_basename( __FILE__ ), 'VFA_my_plugin
 add_action( 'plugins_loaded', 'VFA_true_load_plugin_textdomain' );
 
 function VFA_true_load_plugin_textdomain() {
-	load_plugin_textdomain( 'd_vuefront', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
+	load_plugin_textdomain( 'vuefront', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
 }
 
 function VFA_RestApi( WP_REST_Request $request ) {

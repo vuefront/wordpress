@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: d_vuefront\n"
+"Project-Id-Version: vuefront\n"
 "POT-Creation-Date: 2019-06-11 11:42+0300\n"
 "PO-Revision-Date: 2019-06-11 11:42+0300\n"
 "Last-Translator: \n"

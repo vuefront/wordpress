@@ -2,7 +2,7 @@
 
 class VFA_ResolverCommonZone extends VFA_Resolver
 {
-    private $codename = "d_vuefront";
+    private $codename = "vuefront";
 
     public function get($args)
     {
