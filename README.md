@@ -4,7 +4,7 @@
     <img src="https://vuefront.com/logo.png" width="120"/>
   </a>
 </p>
-<h1 align="center">VueFront</h1>
+<h1 align="center">VueFront <a href="https://wordpress.org/plugins/vuefront/"><img src="https://img.shields.io/wordpress/plugin/v/vuefront" /></a></h1>
 <h3 align="center">CMS Connect App for Wordpress
 </h3>
 
@@ -29,7 +29,7 @@ Since Wordpress does not have a built-in Store, we use the [Free WooCommerce](ht
 ## How to install?
 
 ### Quick Install
-1. The quickest way to install is via WordPress Plugin Directory or manually [Download](https://github.com/vuefront/wordpress/releases) the **compiled** plugin and upload it through the 'Plugins > Add New' menu in WordPress
+1. The quickest way to install is via [WordPress Plugin Directory](https://wordpress.org/plugins/vuefront/) or manually [Download](https://github.com/vuefront/wordpress/releases) the **compiled** plugin and upload it through the 'Plugins > Add New' menu in WordPress
 2. Activate the plugin through the 'Plugins' menu in WordPress
 3. Visit plugin's settings to get the CMS Connect URL
 
