@@ -1,7 +1,7 @@
 === VueFront ===
 Contributors: vuefront
-Donate link: http://vuefront.com/
-Tags: pwa, spa, woocommerce, amp, jamstack, vuefront, cms, vuejs, nuxt, webapp, graphql, frontend, framework, blog, ecommerce
+Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=D36ENUWPNA3KG&source=url
+Tags: pwa, spa, woocommerce, amp, jamstack, ajax, vuefront, cms, vuejs, nuxt, webapp, graphql, frontend, framework, blog, ecommerce
 Requires at least: 4.0.0
 Tested up to: 5.2.1
 Requires PHP: 5.5.0
@@ -32,7 +32,7 @@ To upgrade simply click upgrade or upload the new version via "add new" plugin. 
 == How to Use ==
 Once the plugin is activated, the CMS Connect URL will function automatically, providing VueFront Web App access to the website data. 
 
-If you have Woocommerce installed and activated, the plugin will automatically provide that data as well.
+If you have WooCommerce installed and activated, the plugin will automatically provide that data as well.
 
 You do not need to do anything from the admin panel. It should work out-of-the-box.
 
@@ -57,6 +57,7 @@ This is avsolutly fine. It is a normal responce from GraphQL API saying you have
 
 = I have setup the VueFront WebApp via the command line, but the site is not working. What do I do? =
 This is a very young technology and there could be version breaks. The first thing you should do is visit our <a href="https://github.com/vuefront/vuefront/issues" title="Github Issues">Github Issues</a> and search for help. If not found, create a new Issue and a developer will help you.
+
 
 == Changelog ==
 = 1.1.0 =
