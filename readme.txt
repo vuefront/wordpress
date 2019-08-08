@@ -14,6 +14,8 @@ Turn your WordPress & Woocommerce website into a SPA & PWA for free in less then
 == Description ==
 VueFront is a modern Frontend Framework that allows any WordPress and Woocommerce website to become a fast Single Page Application (SPA) and a Progressive Web App (PWA). 
 
+<a href="https://wordpress.vuefront.com/" title="VueFront Web App DEMO">DEMO: VueFront Web App</a>
+
 VueFront Web App is built on JAMstack and comes with AMP, GraphQL, Vuejs, Nuxt inside.
 
 The VueFront WordPress Plugin is required to add a GraphQL API to your website to feed the data into the Web App. 
