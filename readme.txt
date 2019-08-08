@@ -53,7 +53,7 @@ Just enjoy the new SPA.
 The plugin will provide you with a CMS Connect URL. The next step is to install the Web app via the command line. It is actually very simple to do. Just fillow <a href="https://vuefront.com/guide/setup.html" title="VueFront Setup Tutorial">setup tutorial</a>.
 
 = When I visit the CMS Connect URL, I see this error {"errors":[{"message":"Syntax Error GraphQL (1:1) Unexpected nn1: n ^n","category":"graphql","locations":[{"line":1,"column":1}]}]} =
-This is avsolutly fine. It is a normal responce from GraphQL API saying you have not provided any details in you request. Continue with setting up the VueFront WebApp https://vuefront.com/guide/setup.html
+This is absolutly fine. It is a normal responce from GraphQL API saying you have not provided any details in you request. Continue with setting up the VueFront WebApp https://vuefront.com/guide/setup.html
 
 = I have setup the VueFront WebApp via the command line, but the site is not working. What do I do? =
 This is a very young technology and there could be version breaks. The first thing you should do is visit our <a href="https://github.com/vuefront/vuefront/issues" title="Github Issues">Github Issues</a> and search for help. If not found, create a new Issue and a developer will help you.
