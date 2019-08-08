@@ -9,7 +9,7 @@ Stable tag: 1.1.0
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-VuefRont plugin allows you to connect Wordpress+Woocommerce with VueFront WebApp via a GraphQL API. 
+VueFront plugin allows you to connect Wordpress & Woocommerce with VueFront WebApp via a GraphQL API. 
 
 == Description ==
 This plugin is a VuefRont CMS Connect App for Wordpress+Woocommerce and it adds the connection between the Wordpress CMS and VueFront WebApp via a GraphQL API. 
