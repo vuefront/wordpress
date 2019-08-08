@@ -17,7 +17,7 @@ VueFront is a modern Frontend Framework that allows any WordPress and Woocommerc
 VueFront Web App is built on JAMstack and comes with AMP, GraphQL, Vuejs, Nuxt inside.
 
 The VueFront WordPress Plugin is required to add a GraphQL API to your website to feed the data into the Web App. 
-When installed it will provide you with a CMS Connect URL. Use it to setup your VueFront Web App in step 2.
+When installed it will provide you with a CMS Connect URL. Use it to setup your VueFront Web App as discribed in the <a href="https://vuefront.com/guide/setup.html" title="VueFront Quick Setup Guide">VueFront Quick Setup Guide</a>.
 
 == Installation ==
 1. You can either install this plugin from the WordPress Plugin Directory,
