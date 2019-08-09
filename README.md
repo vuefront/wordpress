@@ -49,6 +49,6 @@ You will need the CMS Connect URL to complete the [VueFront Web App installation
 For support please contact us a https://dreamvention.ee/support 
 
 ## Submit an issue
-For submiting an issue, please create one in the [issues tab](https://github.com/vuefront/wordpress/issues). Remember to provide a detailed explanation of your case and a way to reproduce it. 
+For submiting an issue, please create one in the [issues tab](https://github.com/vuefront/vuefront/issues). Remember to provide a detailed explanation of your case and a way to reproduce it. 
 
 Enjoy!
