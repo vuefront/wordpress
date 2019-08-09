@@ -28,7 +28,7 @@ __CMS Connect App__ - adds the connection between the WordPress CMS and VueFront
   
 # Demo
 
-[VueFront on Magento](https://magento.vuefront.com/)
+[VueFront on Wordpress](https://wordpress.vuefront.com/)
 
 ## What does it do?
 This is a wordpress plugin that connects the wordpress CMS with the VueFront WebApp via a GraphQL API. When installed, you will be provided with a CMS Connect URL that you will add to your VueFront WebApp .env file.  
