@@ -1,7 +1,7 @@
 === VueFront ===
 Contributors: vuefront
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=D36ENUWPNA3KG&source=url
-Tags: pwa, spa, woocommerce, amp, jamstack, ajax, vuefront, cms, vuejs, nuxt, webapp, graphql, frontend, framework, blog, ecommerce
+Tags: pwa, spa, woocommerce, amp, jamstack, ajax, vuefront, cms, vuejs, nuxt, webapp, graphql, frontend, framework, blog, ecommerce, single page application
 Requires at least: 4.0.0
 Tested up to: 5.2.1
 Requires PHP: 5.5.0
