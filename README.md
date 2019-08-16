@@ -1,7 +1,7 @@
 <p align="center">
   <br>
   <a href="https://vuefront.com">
-    <img src="https://vuefront.com/logo.png" width="120"/>
+    <img src="https://raw.githubusercontent.com/vuefront/vuefront-docs/master/.vuepress/public/img/github/vuefront-wordpress.jpg" width="379"/>
   </a>
 </p>
 <h1 align="center">VueFront</h1>
