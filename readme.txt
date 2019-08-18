@@ -9,7 +9,7 @@ Stable tag: 1.1.0
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Turn your WordPress & Woocommerce website into a SPA & PWA for free in less then 5 minutes.  
+Free SPA & PWA for WordPress & Woocommerce with AMP & GraphQL.
 
 == Description ==
 VueFront is a modern Frontend Framework that allows any WordPress and Woocommerce website to become a fast Single Page Application (SPA) and a Progressive Web App (PWA). 
