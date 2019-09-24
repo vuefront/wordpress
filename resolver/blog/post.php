@@ -7,9 +7,9 @@ class VFA_ResolverBlogPost extends VFA_Resolver
         $this->load->model('blog/post');
         $post = $this->model_blog_post->getPost($args['id']);
 
-        if ($post->imageId) {
-            $thumb     = wp_get_attachment_image_src($post->image_id, 'full');
-            $thumbLazy = wp_get_attachment_image_src($post->image_id, array(10, 10));
+        if ($post->image_id) {
+            $thumb     = wp_get_attachment_url($post->image_id, 'full');
+            $thumbLazy = wp_get_attachment_url($post->image_id, array(10, 10));
         } else {
             $thumb = '';
             $thumbLazy = '';
