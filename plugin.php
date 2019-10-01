@@ -98,3 +98,81 @@ add_action( 'rest_api_init', function () {
 		'callback' => 'VFA_RestApi',
 	) );
 } );
+
+add_action('wp', function() {
+	$headers = headers_list();
+	$cookies = array();
+
+
+
+	foreach($headers as $header) {
+	    if (strpos($header, 'Set-Cookie: ') === 0) {
+	        if (preg_match('/path=(.*);/i', $header)) {
+	            $cookies[] = preg_replace('/path=(.*);/i', 'path=/;', $header);
+	        } else if (preg_match('/path=(.*)/i', $header)) {
+	            $cookies[] = preg_replace('/path=(.*)/i', 'path=/', $header);
+	        }
+	        
+	    }
+	}
+
+	for ($i=0; $i < count($cookies); $i++) { 
+	    if($i == 0) {
+	        header($cookies[$i]);
+	    } else {
+	        header($cookies[$i], false);
+	    }
+	}
+},99);
+add_action('woocommerce_add_to_cart', function() {
+	$headers = headers_list();
+	$cookies = array();
+
+
+
+	foreach($headers as $header) {
+	    if (strpos($header, 'Set-Cookie: ') === 0) {
+	        if (preg_match('/path=(.*);/i', $header)) {
+	            $cookies[] = preg_replace('/path=(.*);/i', 'path=/;', $header);
+	        } else if (preg_match('/path=(.*)/i', $header)) {
+	            $cookies[] = preg_replace('/path=(.*)/i', 'path=/', $header);
+	        }
+	        
+	    }
+	}
+
+
+	for ($i=0; $i < count($cookies); $i++) { 
+	    if($i == 0) {
+	        header($cookies[$i]);
+	    } else {
+	        header($cookies[$i], false);
+	    }
+	}
+},99);
+
+add_action('shutdown', function() {
+	$headers = headers_list();
+	$cookies = array();
+
+
+
+	foreach($headers as $header) {
+	    if (strpos($header, 'Set-Cookie: ') === 0) {
+	        if (preg_match('/path=(.*);/i', $header)) {
+	            $cookies[] = preg_replace('/path=(.*);/i', 'path=/;', $header);
+	        } else if (preg_match('/path=(.*)/i', $header)) {
+	            $cookies[] = preg_replace('/path=(.*)/i', 'path=/', $header);
+	        }
+	        
+	    }
+	}
+
+	for ($i=0; $i < count($cookies); $i++) { 
+	    if($i == 0) {
+	        header($cookies[$i]);
+	    } else {
+	        header($cookies[$i], false);
+	    }
+	}
+}, 1);

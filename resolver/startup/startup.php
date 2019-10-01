@@ -37,15 +37,6 @@ class VFA_ResolverStartupStartup extends VFA_Resolver
             ];
         }
 
-        $cookie_path = COOKIEPATH ? COOKIEPATH : '/';
-
-        if ($cookie_path != '/') {
-            foreach ($_COOKIE as $key => $value) {
-                if (strpos($key, 'woocommerce') >= 0) {
-                    setcookie($key, $value, 0, "/");
-                }
-            }
-        }
 
         return $result;
     }
