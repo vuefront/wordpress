@@ -6,7 +6,7 @@ class VFA_ModelStoreProduct extends VFA_Model
     {
         global $wpdb;
 
-        $result = $wpdb->get_row("SELECT pm.`meta_value` AS related FROM `wp_postmeta` pm WHERE pm.`post_id` = '".(int)$product_id."' AND pm.`meta_key` = '_upsell_ids'");
+        $result = $wpdb->get_row("SELECT pm.`meta_value` AS related FROM `".$wpdb->prefix."postmeta` pm WHERE pm.`post_id` = '".(int)$product_id."' AND pm.`meta_key` = '_upsell_ids'");
 
         $product_data = unserialize($result->related);
 
@@ -17,7 +17,7 @@ class VFA_ModelStoreProduct extends VFA_Model
     {
         global $wpdb;
 
-        $result = $wpdb->get_row("SELECT pm.`meta_value` AS images FROM `wp_postmeta` pm WHERE pm.`post_id` = '".(int)$product_id."' AND pm.`meta_key` = '_product_image_gallery'");
+        $result = $wpdb->get_row("SELECT pm.`meta_value` AS images FROM `".$wpdb->prefix."postmeta` pm WHERE pm.`post_id` = '".(int)$product_id."' AND pm.`meta_key` = '_product_image_gallery'");
 
         $product_data = !empty($result->images) ? explode(',', $result->images) : array();
 
@@ -28,7 +28,7 @@ class VFA_ModelStoreProduct extends VFA_Model
     {
         global $wpdb;
 
-        $result = $wpdb->get_row("SELECT pm.`meta_value` AS attributes FROM `wp_postmeta` pm WHERE pm.`post_id` = '".(int)$product_id."' AND pm.`meta_key` = '_product_attributes'");
+        $result = $wpdb->get_row("SELECT pm.`meta_value` AS attributes FROM `".$wpdb->prefix."postmeta` pm WHERE pm.`post_id` = '".(int)$product_id."' AND pm.`meta_key` = '_product_attributes'");
 
         $attribute_data = unserialize($result->attributes);
 
@@ -42,8 +42,8 @@ class VFA_ModelStoreProduct extends VFA_Model
             t.`name`,
             t.`slug`
         FROM
-            `wp_term_taxonomy`  tt
-            LEFT JOIN `wp_terms` t ON t.`term_id` = tt.`term_id`
+            `".$wpdb->prefix."term_taxonomy`  tt
+            LEFT JOIN `".$wpdb->prefix."terms` t ON t.`term_id` = tt.`term_id`
         WHERE tt.taxonomy = '".$taxonomy."' ");
 
         return $result;

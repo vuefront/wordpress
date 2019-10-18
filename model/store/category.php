@@ -13,18 +13,18 @@ class VFA_ModelStoreCategory extends VFA_Model {
             (SELECT 
             `meta_value` 
             FROM
-            `wp_termmeta` 
+            `".$wpdb->prefix."termmeta` 
             WHERE `term_id` = t.`term_id` 
             AND meta_key = 'thumbnail_id') AS 'image_id',
             (SELECT 
             `meta_value` 
             FROM
-            `wp_termmeta` 
+            `".$wpdb->prefix."termmeta` 
             WHERE `term_id` = t.`term_id` 
             AND meta_key = 'order') AS 'sort_order' 
         FROM
-            `wp_terms` t 
-            LEFT JOIN `wp_term_taxonomy` tt 
+            `".$wpdb->prefix."terms` t 
+            LEFT JOIN `".$wpdb->prefix."term_taxonomy` tt 
             ON tt.`term_id` = t.`term_id` 
         WHERE tt.`taxonomy` = 'product_cat' and t.`term_id` = '" . (int) $category_id . "'";
 
@@ -46,18 +46,18 @@ class VFA_ModelStoreCategory extends VFA_Model {
             (SELECT 
             `meta_value` 
             FROM
-            `wp_termmeta` 
+            `".$wpdb->prefix."termmeta` 
             WHERE `term_id` = t.`term_id` 
             AND meta_key = 'thumbnail_id') AS 'image_id',
             (SELECT 
             `meta_value` 
             FROM
-            `wp_termmeta` 
+            `".$wpdb->prefix."termmeta` 
             WHERE `term_id` = t.`term_id` 
             AND meta_key = 'order') AS 'sort_order' 
         FROM
-            `wp_terms` t 
-            LEFT JOIN `wp_term_taxonomy` tt 
+            `".$wpdb->prefix."terms` t 
+            LEFT JOIN `".$wpdb->prefix."term_taxonomy` tt 
             ON tt.`term_id` = t.`term_id` 
         WHERE tt.`taxonomy` = 'product_cat'";
 
@@ -112,8 +112,8 @@ class VFA_ModelStoreCategory extends VFA_Model {
 
 		$sql = "SELECT count(*) as total 
         FROM
-            `wp_terms` t 
-            LEFT JOIN `wp_term_taxonomy` tt 
+            `".$wpdb->prefix."terms` t 
+            LEFT JOIN `".$wpdb->prefix."term_taxonomy` tt 
             ON tt.`term_id` = t.`term_id` 
         WHERE tt.`taxonomy` = 'product_cat'";
 

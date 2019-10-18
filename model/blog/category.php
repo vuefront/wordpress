@@ -11,8 +11,8 @@ class VFA_ModelBlogCategory extends VFA_Model {
             tt.`parent`,
             tt.`description`
         FROM
-            `wp_terms` t 
-            LEFT JOIN `wp_term_taxonomy` tt 
+            `".$wpdb->prefix."terms` t 
+            LEFT JOIN `".$wpdb->prefix."term_taxonomy` tt 
             ON tt.`term_id` = t.`term_id` 
         WHERE tt.`taxonomy` = 'category' and t.`term_id` = '" . (int) $category_id . "'";
 
@@ -32,8 +32,8 @@ class VFA_ModelBlogCategory extends VFA_Model {
             tt.`parent`,
             tt.`description`
         FROM
-            `wp_terms` t 
-            LEFT JOIN `wp_term_taxonomy` tt 
+            `".$wpdb->prefix."terms` t 
+            LEFT JOIN `".$wpdb->prefix."term_taxonomy` tt 
             ON tt.`term_id` = t.`term_id` 
         WHERE tt.`taxonomy` = 'category'";
 
@@ -87,8 +87,8 @@ class VFA_ModelBlogCategory extends VFA_Model {
 
 		$sql = "SELECT count(*) as total 
         FROM
-            `wp_terms` t 
-            LEFT JOIN `wp_term_taxonomy` tt 
+            `".$wpdb->prefix."terms` t 
+            LEFT JOIN `".$wpdb->prefix."term_taxonomy` tt 
             ON tt.`term_id` = t.`term_id` 
         WHERE tt.`taxonomy` = 'category'";
 

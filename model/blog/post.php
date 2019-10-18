@@ -13,9 +13,9 @@ class VFA_ModelBlogPost extends VFA_Model
 		  p.`post_content` AS description,
 		  p.`post_excerpt` AS shortDescription,
 		  p.`post_date` AS dateAdded,
-		  (SELECT `meta_value` FROM `wp_postmeta` WHERE `post_id` = p.`ID` AND `meta_key` = '_thumbnail_id') AS image_id
+		  (SELECT `meta_value` FROM `".$wpdb->prefix."postmeta` WHERE `post_id` = p.`ID` AND `meta_key` = '_thumbnail_id') AS image_id
 		FROM 
-		  `wp_posts` p 
+		  `".$wpdb->prefix."posts` p 
 		WHERE p.`post_type` = 'post' 
 		  AND p.`post_status` = 'publish' and p.`ID` = '" . (int) $post_id . "'";
 
@@ -33,7 +33,7 @@ class VFA_ModelBlogPost extends VFA_Model
 		$sql = "SELECT 
 		  p.ID
 		FROM 
-		  `wp_posts` p 
+		  `".$wpdb->prefix."posts` p 
 		WHERE p.`post_type` = 'post' 
 		  AND p.`post_status` = 'publish'";
 
@@ -43,8 +43,8 @@ class VFA_ModelBlogPost extends VFA_Model
 			$implode[] = "'" . (int) $data['filter_category_id'] . "' IN (SELECT 
 			    tt.`term_id` 
 			  FROM
-			    `wp_term_relationships` tr 
-			    LEFT JOIN `wp_term_taxonomy` tt 
+			    `".$wpdb->prefix."term_relationships` tr 
+			    LEFT JOIN `".$wpdb->prefix."term_taxonomy` tt 
 			      ON tr.`term_taxonomy_id` = tt.`term_taxonomy_id` 
 			  WHERE tt.`taxonomy` = 'category' 
 			    AND tr.`object_id` = p.`ID`)";
@@ -95,7 +95,7 @@ class VFA_ModelBlogPost extends VFA_Model
 
 		$sql = "SELECT count(*) as total 
 		FROM 
-		  `wp_posts` p 
+		  `".$wpdb->prefix."posts` p 
 		WHERE p.`post_type` = 'post' 
 		  AND p.`post_status` = 'publish'";
 
@@ -105,8 +105,8 @@ class VFA_ModelBlogPost extends VFA_Model
 			$implode[] = "'" . (int) $data['filter_category_id'] . "' IN (SELECT 
 			    tt.`term_id` 
 			  FROM
-			    `wp_term_relationships` tr 
-			    LEFT JOIN `wp_term_taxonomy` tt 
+			    `".$wpdb->prefix."term_relationships` tr 
+			    LEFT JOIN `".$wpdb->prefix."term_taxonomy` tt 
 			      ON tr.`term_taxonomy_id` = tt.`term_taxonomy_id` 
 			  WHERE tt.`taxonomy` = 'category' 
 			    AND tr.`object_id` = p.`ID`)";
@@ -128,8 +128,8 @@ class VFA_ModelBlogPost extends VFA_Model
 		$sql = "SELECT 
 			    tt.`term_id` 
 			  FROM
-			    `wp_term_relationships` tr 
-			    LEFT JOIN `wp_term_taxonomy` tt 
+			    `".$wpdb->prefix."term_relationships` tr 
+			    LEFT JOIN `".$wpdb->prefix."term_taxonomy` tt 
 			      ON tr.`term_taxonomy_id` = tt.`term_taxonomy_id` 
 			  WHERE tt.`taxonomy` = 'category' 
 				AND tr.`object_id` = '" . $post_id . "'";

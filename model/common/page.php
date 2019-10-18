@@ -6,7 +6,7 @@ class VFA_ModelCommonPage extends VFA_Model
     {
         global $wpdb;
 
-        $sql = "SELECT p.ID, p.post_title AS title, p.`post_content` AS description, p.`menu_order` AS sort_order FROM wp_posts p WHERE p.`post_type` = 'page' AND p.`ID` = '".(int)$page_id."'";
+        $sql = "SELECT p.ID, p.post_title AS title, p.`post_content` AS description, p.`menu_order` AS sort_order FROM ".$wpdb->prefix."posts p WHERE p.`post_type` = 'page' AND p.`ID` = '".(int)$page_id."'";
 
         $result = $wpdb->get_row($sql);
 
@@ -17,7 +17,7 @@ class VFA_ModelCommonPage extends VFA_Model
     {
         global $wpdb;
 
-        $sql = "SELECT p.ID, p.post_title AS title, p.`post_content` AS description, p.`menu_order` AS sort_order FROM wp_posts p WHERE p.`post_type` = 'page' AND p.post_status = 'publish'";
+        $sql = "SELECT p.ID, p.post_title AS title, p.`post_content` AS description, p.`menu_order` AS sort_order FROM ".$wpdb->prefix."posts p WHERE p.`post_type` = 'page' AND p.post_status = 'publish'";
         
         $implode = array();
 
@@ -71,7 +71,7 @@ class VFA_ModelCommonPage extends VFA_Model
     {
         global $wpdb;
 
-        $sql = "SELECT count(*) as total FROM wp_posts p WHERE p.`post_type` = 'page' AND p.post_status = 'publish'";
+        $sql = "SELECT count(*) as total FROM ".$wpdb->prefix."posts p WHERE p.`post_type` = 'page' AND p.post_status = 'publish'";
         
         $implode = array();
 

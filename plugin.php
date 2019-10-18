@@ -103,6 +103,7 @@ add_action('wp', function() {
 	$headers = headers_list();
 	$cookies = array();
 
+    
 
 
 	foreach($headers as $header) {
@@ -114,15 +115,17 @@ add_action('wp', function() {
 	        }
 	        
 	    }
-	}
-
-	for ($i=0; $i < count($cookies); $i++) { 
-	    if($i == 0) {
-	        header($cookies[$i]);
-	    } else {
-	        header($cookies[$i], false);
-	    }
-	}
+    }
+    
+    if (!headers_sent()) {
+        for ($i=0; $i < count($cookies); $i++) {
+            if ($i == 0) {
+                header($cookies[$i]);
+            } else {
+                header($cookies[$i], false);
+            }
+        }
+    }
 },99);
 add_action('woocommerce_add_to_cart', function() {
 	$headers = headers_list();
@@ -142,13 +145,15 @@ add_action('woocommerce_add_to_cart', function() {
 	}
 
 
-	for ($i=0; $i < count($cookies); $i++) { 
-	    if($i == 0) {
-	        header($cookies[$i]);
-	    } else {
-	        header($cookies[$i], false);
-	    }
-	}
+    if (!headers_sent()) {
+        for ($i=0; $i < count($cookies); $i++) {
+            if ($i == 0) {
+                header($cookies[$i]);
+            } else {
+                header($cookies[$i], false);
+            }
+        }
+    }
 },99);
 
 add_action('shutdown', function() {
@@ -168,11 +173,13 @@ add_action('shutdown', function() {
 	    }
 	}
 
-	for ($i=0; $i < count($cookies); $i++) { 
-	    if($i == 0) {
-	        header($cookies[$i]);
-	    } else {
-	        header($cookies[$i], false);
-	    }
-	}
+    if (!headers_sent()) {
+        for ($i=0; $i < count($cookies); $i++) {
+            if ($i == 0) {
+                header($cookies[$i]);
+            } else {
+                header($cookies[$i], false);
+            }
+        }
+    }
 }, 1);
