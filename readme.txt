@@ -1,15 +1,15 @@
-=== VueFront ===
+=== VueFront PWA & SPA ===
 Contributors: vuefront
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=D36ENUWPNA3KG&source=url
 Tags: pwa, spa, woocommerce, amp, jamstack, ajax, vuefront, cms, vuejs, nuxt, webapp, graphql, frontend, framework, blog, ecommerce, single page application
 Requires at least: 4.0.0
 Tested up to: 5.2.1
 Requires PHP: 5.5.0
-Stable tag: 1.1.0
+Stable tag: 1.2.0
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Free SPA & PWA for WordPress & Woocommerce with AMP & GraphQL.
+Free PWA & SPA for WordPress & Woocommerce with AMP & GraphQL.
 
 == Description ==
 VueFront is a modern Frontend Framework that allows any WordPress and Woocommerce website to become a fast Single Page Application (SPA) and a Progressive Web App (PWA). 
@@ -62,6 +62,10 @@ This is a very young technology and there could be version breaks. The first thi
 
 
 == Changelog ==
+= 1.2.0 =
+Edited Blog Post resolver
+Bug fixes
+
 = 1.1.0 =
 Added reviews total and categories to post
 Added previous and next posts and datePublished

@@ -3,7 +3,7 @@
  * Plugin Name: VueFront
  * Plugin URI: https://github.com/vuefront/wordpress
  * Description: VueFront CMS Connect App for Wordpress.
- * Version: 1.1.0
+ * Version: 1.2.0
  * Author: VueFront
  * Author URI: http://vuefront.com
  */
