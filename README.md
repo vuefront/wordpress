@@ -37,6 +37,7 @@ This is a wordpress plugin that connects the wordpress CMS with the VueFront Web
 Since Wordpress does not have a built-in Store, we use the [Free WooCommerce](https://woocommerce.com/) to add store support. If woocommerce is not avalible, VueFront will ignore it.
 
 ## How to install?
+Php version required >= 5.5, <= 7.2 (this limitation will be removed in the future)
 
 ### Quick Install
 1. The quickest way to install is via [WordPress Plugin Directory](https://wordpress.org/plugins/vuefront/) or manually [Download](https://github.com/vuefront/wordpress/releases) the **compiled** plugin and upload it through the 'Plugins > Add New' menu in WordPress
