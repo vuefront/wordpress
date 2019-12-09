@@ -1,0 +1,7 @@
+{
+  "--primary-color": "#308cd6",
+  "--danger-color": "#c75261",
+  "--success-color": "#73b338",
+  "--warning-color": "#f4c000",
+  "--default-color": "#969696"
+}

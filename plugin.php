@@ -10,59 +10,218 @@
 
 require_once 'system/startup.php';
 
-add_filter('woocommerce_is_rest_api_request', 'VFA_simulate_as_not_rest');
-function VFA_simulate_as_not_rest($is_rest_api_request)
-{
-    if (empty($_SERVER['REQUEST_URI'])) {
-        return $is_rest_api_request;
-    }
+add_filter( 'woocommerce_is_rest_api_request', 'VFA_simulate_as_not_rest' );
+function VFA_simulate_as_not_rest( $is_rest_api_request ) {
+	if ( empty( $_SERVER['REQUEST_URI'] ) ) {
+		return $is_rest_api_request;
+	}
 
-    if (false === strpos($_SERVER['REQUEST_URI'], 'vuefront')) {
-        return $is_rest_api_request;
-    }
+	if ( false === strpos( $_SERVER['REQUEST_URI'], 'vuefront' ) ) {
+		return $is_rest_api_request;
+	}
 
-    return false;
+	return false;
 }
 
 add_action( 'admin_menu', 'VFA_add_plugin_page' );
+add_action( 'admin_enqueue_scripts', 'VFA_vuefront_admin_styles' );
+add_action( 'wp_ajax_vf_register', 'VFA_vuefront_admin_action_register' );
+add_action( 'wp_ajax_vf_update', 'VFA_vuefront_admin_action_update' );
+add_action( 'wp_ajax_vf_turn_off', 'VFA_vuefront_admin_action_turn_off' );
+add_action( 'wp_ajax_vf_information', 'VFA_vuefront_admin_action_vf_information' );
+
+function VFA_vuefront_admin_styles() {
+	wp_register_style( 'vuefront_admin_menu_styles', plugin_dir_url(__FILE__) . 'view/stylesheet/menu.css');
+	wp_enqueue_style('vuefront_admin_menu_styles');
+}
+
 function VFA_add_plugin_page() {
-	$codename         = 'vuefront';
-	$page_hook_suffix = add_options_page( __( 'Settings', $codename ) . ' Vuefront', 'Vuefront', 'manage_options', 'vuefront', 'VFA_vuefront_options_page_output' );
+    $codename         = 'vuefront';
+    $page_hook_suffix = add_menu_page(  __( 'Settings', $codename ) . ' Vuefront', 'Vuefront', 'manage_options', 'vuefront', 'VFA_vuefront_admin_general', plugin_dir_url(__FILE__).'view/image/icon_admin.svg',  55.8 );
+
+	// $page_hook_suffix = add_options_page( __( 'Settings', $codename ) . ' Vuefront', 'Vuefront', 'manage_options', 'vuefront', 'VFA_vuefront_admin_general' );
+
 	add_action( 'admin_print_scripts-' . $page_hook_suffix, 'VFA_my_plugin_admin_scripts' );
 }
 
+function VFA_vuefront_rmdir( $dir ) {
+	if ( is_dir( $dir ) ) {
+		$objects = scandir( $dir );
+		foreach ( $objects as $object ) {
+			if ( $object != "." && $object != ".." ) {
+				if ( is_dir( $dir . "/" . $object ) && ! is_link( $dir . "/" . $object ) ) {
+					VFA_vuefront_rmdir( $dir . "/" . $object );
+				} else {
+					unlink( $dir . "/" . $object );
+				}
+			}
+		}
+		rmdir( $dir );
+	}
+}
+
+function VFA_vuefront_admin_action_vf_information() {
+	$plugin_data = get_plugin_data( __FILE__ );
+	$woocommerce_data = get_plugin_data( WP_PLUGIN_DIR . '/woocommerce/woocommerce.php' );
+	$plugin_version = $plugin_data['Version'];
+	$extensions = array();
+	$extensions[] = array(
+		'name' => $woocommerce_data['Name'],
+		'version' => $woocommerce_data['Version'],
+		'status' => is_plugin_active( 'woocommerce/woocommerce.php' )
+	);
+
+	$status = file_exists( __DIR__ . '/.htaccess.txt' ) && is_dir(ABSPATH.'vuefront');
+	echo json_encode(
+		array(
+			'apache' => strpos( $_SERVER["SERVER_SOFTWARE"], "Apache" ) !== false,
+			'status' => $status,
+			'phpversion' => phpversion(),
+			'plugin_version' => $plugin_version,
+			'extensions' =>  $extensions,
+			'cmsConnect' => get_rest_url( null, '/vuefront/v1/graphql' )
+		)
+	);
+	wp_die();
+}
+
+function VFA_vuefront_admin_action_turn_off() {
+    if ( strpos( $_SERVER["SERVER_SOFTWARE"], "Apache" ) !== false ) {
+        if ( file_exists( __DIR__ . '/.htaccess.txt' ) ) {
+            $content = file_get_contents(__DIR__.'/.htaccess.txt');
+            file_put_contents(ABSPATH.'.htaccess', $content);
+            unlink(__DIR__.'/.htaccess.txt');
+        }
+    }
+	VFA_vuefront_rmdir(ABSPATH.'vuefront');
+
+	VFA_vuefront_admin_action_vf_information();
+}
+
+function VFA_vuefront_admin_action_update() {
+	try {
+		$tmpFile = download_url( $_POST['url'] );
+		VFA_vuefront_rmdir( ABSPATH . 'vuefront' );
+		$phar = new PharData( $tmpFile );
+		$phar->extractTo( ABSPATH . 'vuefront' );
+
+		if ( strpos( $_SERVER["SERVER_SOFTWARE"], "Apache" ) !== false ) {
+			if ( file_exists( ABSPATH . '.htaccess' ) ) {
+                $inserting = "# VueFront scripts, styles and images
+RewriteCond %{REQUEST_URI} .*(_nuxt)
+RewriteCond %{REQUEST_URI} !.*vuefront/_nuxt
+RewriteRule ^([^?]*) vuefront/$1
+
+# VueFront pages
+
+# VueFront home page
+RewriteCond %{REQUEST_URI} !.*(images|index.php|.html|admin|.js|.css|.png|.jpeg|.ico|wp-json|wp-admin|checkout)
+RewriteCond %{QUERY_STRING} !.*(rest_route)
+RewriteCond %{DOCUMENT_ROOT}/vuefront/index.html -f
+RewriteRule ^$ vuefront/index.html [L]
+
+RewriteCond %{REQUEST_URI} !.*(images|index.php|.html|admin|.js|.css|.png|.jpeg|.ico|wp-json|wp-admin|checkout)
+RewriteCond %{QUERY_STRING} !.*(rest_route)
+RewriteCond %{DOCUMENT_ROOT}/vuefront/index.html !-f
+RewriteRule ^$ vuefront/200.html [L]
+
+# VueFront page if exists html file
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_URI} !.*(images|index.php|.html|admin|.js|.css|.png|.jpeg|.ico|wp-json|wp-admin|checkout)
+RewriteCond %{QUERY_STRING} !.*(rest_route)
+RewriteCond %{DOCUMENT_ROOT}/vuefront/$1.html -f
+RewriteRule ^([^?]*) vuefront/$1.html [L,QSA]
+
+# VueFront page if not exists html file
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_URI} !.*(images|index.php|.html|admin|.js|.css|.png|.jpeg|.ico|wp-json|wp-admin|checkout)
+RewriteCond %{QUERY_STRING} !.*(rest_route)
+RewriteCond %{DOCUMENT_ROOT}/vuefront/$1.html !-f
+RewriteRule ^([^?]*) vuefront/200.html [L,QSA]";
+
+                $content = file_get_contents(ABSPATH . '.htaccess');
+
+                file_put_contents(__DIR__.'/.htaccess.txt', $content);
+
+                preg_match('/# VueFront pages/m', $content, $matches);
+
+                if(count($matches) == 0) {
+                    $content = preg_replace_callback('/RewriteBase\s.*$/m', function($matches) use ($inserting) {
+                        return $matches[0].PHP_EOL.$inserting.PHP_EOL;
+                    }, $content);
+
+                    file_put_contents(ABSPATH.'.htaccess', $content);
+                }
+			}
+		}
+
+
+	} catch ( \Exception $e ) {
+		echo $e->getMessage();
+	}
+
+	VFA_vuefront_admin_action_vf_information();
+}
+
+function VFA_vuefront_admin_general() {
+    require_once 'view/template/general.tpl';
+}
+
 function VFA_my_plugin_admin_scripts() {
-	wp_enqueue_style( 'vuefront-style', plugins_url( 'vuefront/view/stylesheet/admin.css' ) );
-	wp_enqueue_style( 'bootstrap-style', plugins_url( 'vuefront/view/stylesheet/bootstrap.min.css' ) );
-	wp_enqueue_script( 'jquery' );
-	wp_enqueue_script( 'clipboard' );
-	wp_enqueue_script( 'bootstrap-script', plugins_url( 'vuefront/view/javascript/bootstrap.min.js' ) );
+	$pax_url = plugin_dir_url(__FILE__).'view/javascript/dist/';
+	$pax_dist = plugin_dir_path(__FILE__).'view/javascript/dist/';
+
+    $app = json_decode(file_get_contents($pax_dist . 'manifest.json'), true);
+	$current_chunk = $app['files'];
+	while (!empty($current_chunk)) {
+		foreach ($current_chunk['js'] as $value) {
+			wp_enqueue_script(basename($value), $value);
+		}
+		foreach ($current_chunk['css'] as $value) {
+			wp_enqueue_style(basename($value), $value);
+		}
+		$current_chunk = $current_chunk['next'];
+	}
 }
 
-function VFA_vuefront_options_page_output() {
-	$codename = 'vuefront';
+function VFA_vuefront_api_proxy(WP_REST_Request $request)
+{
+    $url_params = $request->get_params();
+    $body = $request->get_json_params();
+    $headers = $request->get_headers();
 
-	$data                                 = array();
-	$data['text_title']                   = __( 'CMS Connect URL', $codename );
-	$data['text_description']             = __( 'This is your CMS Connect URL link that shares your Blog data via GraphQL. When installing VueFront via the command line, you will be prompted to enter this URL. Simply copy and paste it into the command line.
-    <br><br>
-    Read more about the <a href="https://vuefront.com/cms/wordpress.html" target="_blank">CMS Connect for Wordpress</a>', $codename );
-	$data['text_woocommerce_plugin']      = __( 'WooCommerce', $codename );
-	$data['text_woocommerce_enabled']     = __( 'WooCommerce active', $codename );
-	$data['text_woocommerce_description'] = sprintf( __( 'VueFront relies on the free <a href="%s" target="_blank">WooCommerce</a> plugin to implement store. The store feature is optional and VueFront will work fine without it. You can install it via Wordpress.', $codename ), 'https://ru.wordpress.org/plugins/woocommerce/' );
-	$data['text_woocommerce_disabled']    = __( 'WooCommerce missing. Click to download', $codename );
-	$data['text_copy']                    = __( 'copy', $codename );
-	$data['text_copied']                  = __( 'copied!', $codename );
-	$data['catalog']                      = get_rest_url( null, '/vuefront/v1/graphql' );
-	$data['woocommerce']                  = is_plugin_active( 'woocommerce/woocommerce.php' );
-	$data['logo']                         = plugins_url( 'vuefront/view/image/logo.png' );
-	extract( $data );
-	require_once 'view/template/setting.tpl';
+    $cHeaders = array('Content-Type: application/json');
+
+    if(!empty($headers['token'])) {
+        $cHeaders[] = 'token: '.$headers['token'][0];
+    }
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, 'https://api.vuefront.com/graphql');
+    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($body));
+    curl_setopt($ch, CURLOPT_HTTPHEADER, $cHeaders);
+    $result = curl_exec($ch);
+    curl_close($ch);
+    return json_decode($result, true);
 }
+
+function VFA_vuefront_register_vuefront_api()
+{
+    register_rest_route('vuefront/v1', '/proxy', array(
+    'methods' => 'POST',
+    'callback' => 'VFA_vuefront_api_proxy',
+  ));
+}
+
+add_action('rest_api_init', 'VFA_vuefront_register_vuefront_api');
 
 function VFA_my_plugin_action_links( $links ) {
 	$links = array_merge( array(
-		'<a href="' . esc_url( admin_url( 'options-general.php?page=vuefront' ) ) . '">' . __( 'Settings' ) . '</a>'
+		'<a href="' . esc_url( admin_url( 'admin.php?page=vuefront' ) ) . '">' . __( 'Settings' ) . '</a>'
 	), $links );
 
 	return $links;
@@ -99,87 +258,80 @@ add_action( 'rest_api_init', function () {
 	) );
 } );
 
-add_action('wp', function() {
+add_action( 'wp', function () {
 	$headers = headers_list();
 	$cookies = array();
 
-    
+	foreach ( $headers as $header ) {
+		if ( strpos( $header, 'Set-Cookie: ' ) === 0 ) {
+			if ( preg_match( '/path=(.*);/i', $header ) ) {
+				$cookies[] = preg_replace( '/path=(.*);/i', 'path=/;', $header );
+			} else if ( preg_match( '/path=(.*)/i', $header ) ) {
+				$cookies[] = preg_replace( '/path=(.*)/i', 'path=/', $header );
+			}
 
-
-	foreach($headers as $header) {
-	    if (strpos($header, 'Set-Cookie: ') === 0) {
-	        if (preg_match('/path=(.*);/i', $header)) {
-	            $cookies[] = preg_replace('/path=(.*);/i', 'path=/;', $header);
-	        } else if (preg_match('/path=(.*)/i', $header)) {
-	            $cookies[] = preg_replace('/path=(.*)/i', 'path=/', $header);
-	        }
-	        
-	    }
-    }
-    
-    if (!headers_sent()) {
-        for ($i=0; $i < count($cookies); $i++) {
-            if ($i == 0) {
-                header($cookies[$i]);
-            } else {
-                header($cookies[$i], false);
-            }
-        }
-    }
-},99);
-add_action('woocommerce_add_to_cart', function() {
-	$headers = headers_list();
-	$cookies = array();
-
-
-
-	foreach($headers as $header) {
-	    if (strpos($header, 'Set-Cookie: ') === 0) {
-	        if (preg_match('/path=(.*);/i', $header)) {
-	            $cookies[] = preg_replace('/path=(.*);/i', 'path=/;', $header);
-	        } else if (preg_match('/path=(.*)/i', $header)) {
-	            $cookies[] = preg_replace('/path=(.*)/i', 'path=/', $header);
-	        }
-	        
-	    }
+		}
 	}
 
+	if ( ! headers_sent() ) {
+		for ( $i = 0; $i < count( $cookies ); $i ++ ) {
+			if ( $i == 0 ) {
+				header( $cookies[ $i ] );
+			} else {
+				header( $cookies[ $i ], false );
+			}
+		}
+	}
+}, 99 );
+add_action( 'woocommerce_add_to_cart', function () {
+	$headers = headers_list();
+	$cookies = array();
 
-    if (!headers_sent()) {
-        for ($i=0; $i < count($cookies); $i++) {
-            if ($i == 0) {
-                header($cookies[$i]);
-            } else {
-                header($cookies[$i], false);
-            }
-        }
-    }
-},99);
+	foreach ( $headers as $header ) {
+		if ( strpos( $header, 'Set-Cookie: ' ) === 0 ) {
+			if ( preg_match( '/path=(.*);/i', $header ) ) {
+				$cookies[] = preg_replace( '/path=(.*);/i', 'path=/;', $header );
+			} else if ( preg_match( '/path=(.*)/i', $header ) ) {
+				$cookies[] = preg_replace( '/path=(.*)/i', 'path=/', $header );
+			}
 
-add_action('shutdown', function() {
+		}
+	}
+
+	if ( ! headers_sent() ) {
+		for ( $i = 0; $i < count( $cookies ); $i ++ ) {
+			if ( $i == 0 ) {
+				header( $cookies[ $i ] );
+			} else {
+				header( $cookies[ $i ], false );
+			}
+		}
+	}
+}, 99 );
+
+add_action( 'shutdown', function () {
 	$headers = headers_list();
 	$cookies = array();
 
 
+	foreach ( $headers as $header ) {
+		if ( strpos( $header, 'Set-Cookie: ' ) === 0 ) {
+			if ( preg_match( '/path=(.*);/i', $header ) ) {
+				$cookies[] = preg_replace( '/path=(.*);/i', 'path=/;', $header );
+			} else if ( preg_match( '/path=(.*)/i', $header ) ) {
+				$cookies[] = preg_replace( '/path=(.*)/i', 'path=/', $header );
+			}
 
-	foreach($headers as $header) {
-	    if (strpos($header, 'Set-Cookie: ') === 0) {
-	        if (preg_match('/path=(.*);/i', $header)) {
-	            $cookies[] = preg_replace('/path=(.*);/i', 'path=/;', $header);
-	        } else if (preg_match('/path=(.*)/i', $header)) {
-	            $cookies[] = preg_replace('/path=(.*)/i', 'path=/', $header);
-	        }
-	        
-	    }
+		}
 	}
 
-    if (!headers_sent()) {
-        for ($i=0; $i < count($cookies); $i++) {
-            if ($i == 0) {
-                header($cookies[$i]);
-            } else {
-                header($cookies[$i], false);
-            }
-        }
-    }
-}, 1);
+	if ( ! headers_sent() ) {
+		for ( $i = 0; $i < count( $cookies ); $i ++ ) {
+			if ( $i == 0 ) {
+				header( $cookies[ $i ] );
+			} else {
+				header( $cookies[ $i ], false );
+			}
+		}
+	}
+}, 1 );

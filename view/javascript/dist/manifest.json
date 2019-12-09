@@ -1,0 +1,180 @@
+{
+  "files": {
+    "id": 1,
+    "next": {
+      "id": 11,
+      "next": {
+        "id": 7,
+        "next": {
+          "id": 6,
+          "next": {
+            "id": 20,
+            "next": {
+              "id": 8,
+              "next": {
+                "id": 17,
+                "next": {
+                  "id": 9,
+                  "next": {
+                    "id": 18,
+                    "next": {
+                      "id": 21,
+                      "next": {
+                        "id": 10,
+                        "next": {
+                          "id": 14,
+                          "next": {
+                            "id": 12,
+                            "next": {
+                              "id": 23,
+                              "next": {
+                                "id": 4,
+                                "next": {
+                                  "id": 5,
+                                  "next": {
+                                    "id": 3,
+                                    "next": {
+                                      "id": 13,
+                                      "next": {
+                                        "id": 19,
+                                        "next": {
+                                          "id": 24,
+                                          "next": {
+                                            "id": 15,
+                                            "next": {
+                                              "id": 22,
+                                              "next": {
+                                                "id": 2,
+                                                "next": {
+                                                  "id": 16,
+                                                  "next": {
+                                                    "id": 0,
+                                                    "next": null,
+                                                    "js": [
+                                                      "/wp-content/plugins/vuefront/view/javascript/dist/0.798b67d9521ea31d5803.bundle.js"
+                                                    ],
+                                                    "css": [
+                                                      "/wp-content/plugins/vuefront/view/javascript/dist/0.798b67d9521ea31d5803.css"
+                                                    ]
+                                                  },
+                                                  "js": [
+                                                    "/wp-content/plugins/vuefront/view/javascript/dist/16.798b67d9521ea31d5803.bundle.js"
+                                                  ],
+                                                  "css": []
+                                                },
+                                                "js": [
+                                                  "/wp-content/plugins/vuefront/view/javascript/dist/2.798b67d9521ea31d5803.bundle.js"
+                                                ],
+                                                "css": []
+                                              },
+                                              "js": [
+                                                "/wp-content/plugins/vuefront/view/javascript/dist/22.798b67d9521ea31d5803.bundle.js"
+                                              ],
+                                              "css": []
+                                            },
+                                            "js": [
+                                              "/wp-content/plugins/vuefront/view/javascript/dist/15.798b67d9521ea31d5803.bundle.js"
+                                            ],
+                                            "css": []
+                                          },
+                                          "js": [
+                                            "/wp-content/plugins/vuefront/view/javascript/dist/24.798b67d9521ea31d5803.bundle.js"
+                                          ],
+                                          "css": []
+                                        },
+                                        "js": [
+                                          "/wp-content/plugins/vuefront/view/javascript/dist/19.798b67d9521ea31d5803.bundle.js"
+                                        ],
+                                        "css": []
+                                      },
+                                      "js": [
+                                        "/wp-content/plugins/vuefront/view/javascript/dist/13.798b67d9521ea31d5803.bundle.js"
+                                      ],
+                                      "css": []
+                                    },
+                                    "js": [
+                                      "/wp-content/plugins/vuefront/view/javascript/dist/3.798b67d9521ea31d5803.bundle.js"
+                                    ],
+                                    "css": []
+                                  },
+                                  "js": [
+                                    "/wp-content/plugins/vuefront/view/javascript/dist/5.798b67d9521ea31d5803.bundle.js"
+                                  ],
+                                  "css": []
+                                },
+                                "js": [
+                                  "/wp-content/plugins/vuefront/view/javascript/dist/4.798b67d9521ea31d5803.bundle.js"
+                                ],
+                                "css": []
+                              },
+                              "js": [
+                                "/wp-content/plugins/vuefront/view/javascript/dist/23.798b67d9521ea31d5803.bundle.js"
+                              ],
+                              "css": []
+                            },
+                            "js": [
+                              "/wp-content/plugins/vuefront/view/javascript/dist/12.798b67d9521ea31d5803.bundle.js"
+                            ],
+                            "css": []
+                          },
+                          "js": [
+                            "/wp-content/plugins/vuefront/view/javascript/dist/14.798b67d9521ea31d5803.bundle.js"
+                          ],
+                          "css": []
+                        },
+                        "js": [
+                          "/wp-content/plugins/vuefront/view/javascript/dist/10.798b67d9521ea31d5803.bundle.js"
+                        ],
+                        "css": []
+                      },
+                      "js": [
+                        "/wp-content/plugins/vuefront/view/javascript/dist/21.798b67d9521ea31d5803.bundle.js"
+                      ],
+                      "css": []
+                    },
+                    "js": [
+                      "/wp-content/plugins/vuefront/view/javascript/dist/18.798b67d9521ea31d5803.bundle.js"
+                    ],
+                    "css": []
+                  },
+                  "js": [
+                    "/wp-content/plugins/vuefront/view/javascript/dist/9.798b67d9521ea31d5803.bundle.js"
+                  ],
+                  "css": []
+                },
+                "js": [
+                  "/wp-content/plugins/vuefront/view/javascript/dist/17.798b67d9521ea31d5803.bundle.js"
+                ],
+                "css": []
+              },
+              "js": [
+                "/wp-content/plugins/vuefront/view/javascript/dist/8.798b67d9521ea31d5803.bundle.js"
+              ],
+              "css": []
+            },
+            "js": [
+              "/wp-content/plugins/vuefront/view/javascript/dist/20.798b67d9521ea31d5803.bundle.js"
+            ],
+            "css": []
+          },
+          "js": [
+            "/wp-content/plugins/vuefront/view/javascript/dist/6.798b67d9521ea31d5803.bundle.js"
+          ],
+          "css": []
+        },
+        "js": [
+          "/wp-content/plugins/vuefront/view/javascript/dist/7.798b67d9521ea31d5803.bundle.js"
+        ],
+        "css": []
+      },
+      "js": [
+        "/wp-content/plugins/vuefront/view/javascript/dist/11.798b67d9521ea31d5803.bundle.js"
+      ],
+      "css": []
+    },
+    "js": [
+      "/wp-content/plugins/vuefront/view/javascript/dist/798b67d9521ea31d5803.bundle.js"
+    ],
+    "css": []
+  }
+}

@@ -1,0 +1,115 @@
+$font-size-base: 1rem !default;
+
+//$table-cell-padding: 3rem !default;
+//$table-border-width: 0 !default;
+
+$h1-font-size: 3.333rem !default;
+$h2-font-size: 2.666rem !default;
+$h3-font-size: 2.333rem !default;
+$h4-font-size: 2rem !default;
+$h5-font-size: 1.5rem !default;
+$h6-font-size: 1rem !default;
+
+$display4-size: 4rem !default;
+
+$line-height-base: 1.6 !default;
+
+$border-radius: 3px !default;
+$enable-validation-icons: false !default;
+$border-color: var(--border-color);
+//$table-color: var(--table-color);
+//$table-head-bg: var(--table-head-bg);
+
+$grid-breakpoints: (
+        xs: 0,
+        sm: 576px,
+        md: 768px,
+        lg: 992px,
+        xg: 1280px,
+        xl: 1600px
+) !default;
+
+$container-max-widths: (
+        sm: 540px,
+        md: 720px,
+        lg: 960px,
+        xg: 1200px,
+        xl: 1496px
+) !default;
+
+$breadcrumb-bg: $white;
+$breadcrumb-margin-bottom: 60px;
+
+$green: $dark-mint !default;
+//$green: var(--color-green);
+$navbar-light-color: $black !default;
+$navbar-light-hover-color: $dark-mint !default;
+
+$breadcrumb-padding-y: 0 !default;
+$breadcrumb-padding-x: 0 !default;
+
+$font-weight-semibold: 600 !default;
+$font-weight-normal: 400 !default;
+$font-weight-bold: 800 !default;
+$headings-font-weight: $font-weight-semibold;
+
+$btn-font-weight: $font-weight-semibold;
+
+$btn-padding-y: 12px !default;
+$btn-padding-x: 32px !default;
+$btn-font-size: 1.166rem !default;
+$btn-line-height: 1.583rem;
+$btn-border-radius: 3px;
+
+$btn-padding-y-lg: 13px !default;
+$btn-padding-x-lg: 45px !default;
+$btn-font-size-lg: 1.333rem !default;
+
+$btn-active-box-shadow : none;
+$btn-focus-box-shadow : none;
+$btn-box-shadow:unset;
+$btn-focus-width:0;
+$input-bg: var(--input-bg);
+$input-border-color: var(--input-border-color);
+
+$input-focus-box-shadow: none;
+$input-box-shadow: unset;
+$input-focus-width: 0;
+
+$form-feedback-invalid-color: $tomato-two;
+$form-feedback-valid-color: $dark-seafoam-green;
+$form-feedback-font-size: 1.5rem;
+
+$input-btn-padding-y-lg: 13px !default;
+$input-btn-padding-x-lg: 45px !default;
+$input-btn-font-size-lg: 1.333rem !default;
+$input-btn-line-height-lg: 1.5 !default;
+
+$input-padding-y-lg: 11px !default;
+$input-padding-x-lg: 18px !default;
+$input-font-size-lg: 1.5rem !default;
+$input-line-height-lg: 1.5 !default;
+$input-height-lg: 52px !default;
+$input-color: var(--input-color);
+$input-placeholder-color: var(--input-placeholder-color);
+//$input-color: $black;
+
+$dropdown-padding-y: 15px !default;
+$dropdown-item-padding-y: 10px !default;
+$dropdown-item-padding-x: 30px !default;
+$dropdown-link-color: $black;
+
+$spacers: (
+  6: 3.75rem
+) !default;
+
+
+$enable-caret: false !default;
+
+$pagination-border-width: 0;
+$pagination-active-color: $white !default;
+$pagination-active-bg: $dark-mint !default;
+$pagination-color: $brownish-grey;
+$pagination-bg: $white-two;
+$pagination-hover-color: $brownish-grey;
+$pagination-hover-bg: $white-three;
