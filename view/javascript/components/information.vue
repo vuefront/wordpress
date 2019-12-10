@@ -87,6 +87,7 @@ export default {
         color: $black;
       }
       &_value {
+        padding-left: 10px;
         font-family: 'Open Sans', sans-serif;
         font-size: 16px;
         font-weight: normal;
