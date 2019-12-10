@@ -1,10 +1,10 @@
 import Vue from 'vue'
 import VueApollo from 'vue-apollo'
 import ApolloClient from "apollo-boost";
-export default ({ baseURL, apiURL, store }, inject) => {
+export default ({ baseURL, store }, inject) => {
 
   const apolloClient = new ApolloClient({
-    uri: `${baseURL}?rest_route=/vuefront/v1/proxy&api_url=${apiURL}`,
+    uri: `${baseURL}index.php?rest_route=/vuefront/v1/proxy`,
     request: (operation) => {
       const headers = {}
       if (
