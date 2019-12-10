@@ -76,7 +76,7 @@ export default {
 {
   "textTitle": "All set. Let's build your website.",
   "textDescription": "You are now ready to turn your old-fashioned website into a Progressive Web App and a Single Page Application in less then a minute. Ready, Set, Build!",
-  "buttonRebuild": "ReBuild"
+  "buttonRebuild": "Build"
 }
 </i18n>
 <style lang="scss">

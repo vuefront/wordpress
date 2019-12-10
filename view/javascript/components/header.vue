@@ -108,6 +108,6 @@ export default {
 <i18n locale="en">
 {
   "text_vuefront": "VueFront",
-  "buttonRebuild": "ReBuild"
+  "buttonRebuild": "Rebuild"
 }
 </i18n>
