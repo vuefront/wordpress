@@ -59,7 +59,7 @@ export default {
   "textAccount": "Account",
   "textFree": "Free",
   "textPluginVersion": "Plugin version",
-  "textPHPVersion": "PHP version",
+  "textPHPVersion": "PHP",
   "textActive": "Active",
   "textBuildMin": "Build min."
 }
@@ -96,7 +96,8 @@ export default {
         letter-spacing: 0.16px;
         text-align: right;
         color: $black;
-        word-break: break-all;
+        white-space: nowrap;
+        overflow-y: auto;
       }
     }
   }
