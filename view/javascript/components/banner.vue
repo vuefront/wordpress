@@ -40,10 +40,10 @@
     font-weight: 600;
     font-stretch: normal;
     font-style: normal;
-    line-height: 0.8;
+    line-height: 1.5;
     letter-spacing: 0.4px;
     text-align: left;
-    color: #1a1a1a;
+    color: #1a1a1a!important;
     margin-bottom: 20px;
   }
   &__description {

@@ -4,8 +4,9 @@
       <div class="vf-header__wrapper">
         <header-logo />
         <b-navbar-nav class="align-items-center vf-header__right_nav">
-          <header-activation />
+          <header-activation v-if="cms.builds.length > 0" />
           <b-button
+            v-if="cms.builds.length > 0"
             :disabled="cms.generating || loading"
             variant="success"
             class="vf-header__button_rebuild"

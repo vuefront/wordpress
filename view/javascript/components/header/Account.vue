@@ -101,6 +101,7 @@ export default {
 
     .dropdown {
       margin: 0;
+      list-style: none;
       &:hover {
         > .dropdown-menu {
           display: block;

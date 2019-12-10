@@ -96,6 +96,7 @@ export default {
         letter-spacing: 0.16px;
         text-align: right;
         color: $black;
+        word-break: break-all;
       }
     }
   }

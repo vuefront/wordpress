@@ -7,9 +7,11 @@
       <div class="development__wrapper_title">
         {{ $t('textCmsConnect') }}
       </div>
-      <div class="development__cms_connect">
-        {{ information.cmsConnect }}
-      </div>
+      <input
+        type="text"
+        class="development__cms_connect"
+        :value="information.cmsConnect"
+      >
       <div class="development__wrapper_text">
         {{ $t('descriptionCmsConnect') }}
       </div>
@@ -76,9 +78,9 @@ export default {
   .development {
     &__cms_connect {
       height: 54px;
-      background-color: #efeff1;
-      padding: 12px 24px;
-      line-height: 30px;
+      background-color: #efeff1!important;
+      padding: 12px 24px!important;
+      line-height: 30px!important;
       font-family: 'Open Sans', sans-serif;
       font-size: 24px;
       font-weight: 600;
@@ -88,6 +90,8 @@ export default {
       text-align: left;
       color: $black;
       margin-bottom: 20px;
+      border: none!important;
+      width: 100%;
     }
     &__wrapper_text {
       font-family: 'Open Sans', sans-serif;
