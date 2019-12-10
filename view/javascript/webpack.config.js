@@ -231,7 +231,7 @@ module.exports = (env, argv) => {
             {
               loader: 'url-loader',
               options: {
-                limit: 8192,
+                limit: 17192,
                 esModule: false,
                 fallback: 'file-loader',
                 context: path.resolve(__dirname, './assets'),
