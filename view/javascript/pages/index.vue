@@ -104,7 +104,7 @@ export default {
 {
   "buttonRebuild": "Rebuild",
   "buildText": "Made a change? Just hit Rebuild",
-  "buildDescription": "If you made any change via your admin panel, you will need to rebuild your frontend Web App to see the changes."
+  "buildDescription": "If you made any changes via the admin panel, you will need to rebuild your frontend Web App to see them."
 }
 </i18n>
 <style lang="scss">
