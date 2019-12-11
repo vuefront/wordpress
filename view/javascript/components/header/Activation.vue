@@ -1,13 +1,24 @@
 <template>
   <div class="cms-activation">
-    <div class="cms-activation__title">
+    <div
+      class="cms-activation__title d-none d-md-block"
+    >
       {{ $t('textTitle') }}
     </div>
     <div
       class="cms-activation__checkbox"
       :class="{'cms-activation__checkbox_on': information.status}"
       @click="handleClick"
-    />
+    >
+      <div>
+        <div
+          v-if="loading"
+          class="loader"
+        >
+          <b-spinner />
+        </div>
+      </div>
+    </div>
     <div class="cms-activation__status_text">
       {{ information.status ? $t('textOn'): $t('textOff') }}
     </div>
@@ -16,6 +27,11 @@
 <script>
 import {mapGetters} from 'vuex'
 export default {
+  data() {
+    return {
+      loading: false
+    }
+  },
   computed: {
     ...mapGetters({
       information: 'information/get',
@@ -24,18 +40,20 @@ export default {
   },
   methods: {
     async handleClick() {
+      this.loading = true
       if(!this.information.status) {
         await this.$store.dispatch('information/activateVueFront', {url: this.cms.downloadUrl})
       } else {
         await this.$store.dispatch('information/deActivateVueFront', {url: this.cms.downloadUrl})
       }
+      this.loading = false
     }
   }
 }
 </script>
 <i18n locale="en">
 {
-  "textTitle":"Auto-activation",
+  "textTitle":"Frontend Web App status",
   "textOn":"On",
   "textOff":"Off"
 }
@@ -45,7 +63,13 @@ export default {
     display: flex;
     flex-flow: row;
     align-items: center;
-    margin-right: 40px;
+    margin-right: 20px;
+    @media (--phone-and-tablet) {
+      margin-right: auto;
+    }
+    @media (min-width: 1920px) {
+      margin-right: 40px;
+    }
     &__title {
       font-family: 'Open Sans', sans-serif;
       font-size: 16px;
@@ -72,17 +96,30 @@ export default {
         justify-content: flex-start;
         cursor: pointer;
         user-select: none;
-        &:before {
-          content: '';
+
+        div {
           display: block;
           width: 38px;
           height: 38px;
           background-color: #c5c5c5;
           border-radius: 50%;
+          position: relative;
+          .loader {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            color: #fff;
+          }
         }
+
         &_on {
           justify-content: flex-end;
-          &:before {
+          div {
             background-color: $dark-mint;
           }
         }

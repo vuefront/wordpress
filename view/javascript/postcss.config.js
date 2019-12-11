@@ -8,7 +8,7 @@ module.exports = () => ({
       variables
     }),
     require('postcss-custom-media')({
-      importFrom: './assets/scss/customMediaVariables.scss'
+      importFrom: './assets/scss/customMediaVariables.css'
     }),
     require('postcss-font-magician')({
       protocol: 'https:',

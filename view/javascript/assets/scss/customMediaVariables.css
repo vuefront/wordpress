@@ -5,5 +5,3 @@
 @custom-media --desktop (min-width: 1280px);
 @custom-media --widescreen (min-width: 1920px);
 @custom-media --desktop-and-laptop (min-width: 960px);
-
-/*# sourceMappingURL=customMediaVariables.css.map */

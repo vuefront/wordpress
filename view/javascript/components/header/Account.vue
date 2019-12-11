@@ -14,7 +14,7 @@
           height-amp="24"
           layout="fixed"
         >
-        <span class="header-account__full_name">{{ account.firstName }} {{ account.lastName }}</span>
+        <span class="header-account__full_name d-none d-md-block">{{ account.firstName }} {{ account.lastName }}</span>
         <font-awesome-icon
           :icon="faAngleDown"
           class="header-account__icon"
@@ -25,7 +25,7 @@
         target="_blank"
         class="text-2"
       >
-        Cms
+        CMS
       </a>
       <a
         class="text-2"
@@ -171,7 +171,10 @@ export default {
       line-height: 1.33;
       letter-spacing: 0.18px;
       color: #1a1a1a;
-      padding-right: 100px;
+      padding-right: 10px;
+      @media (min-width: 1920px) {
+        padding-right: 100px;
+      }
     }
 
     &__image {

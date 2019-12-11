@@ -33,7 +33,7 @@
         {{ value.name }}
       </div>
       <div class="vf-information__item_value">
-        {{ value.status ? $t('textActive') : $t('text_no_active') }}
+        {{ value.status ? $t('textActive') : $t('textNoActive') }}
       </div>
     </div>
     <div class="vf-information__item">
@@ -42,6 +42,14 @@
       </div>
       <div class="vf-information__item_value">
         {{ information.phpversion }}
+      </div>
+    </div>
+    <div class="vf-information__item">
+      <div class="vf-information__item_title">
+        {{ $t('textServer') }}
+      </div>
+      <div class="vf-information__item_value">
+        {{ information.server }}
       </div>
     </div>
   </div>
@@ -60,7 +68,9 @@ export default {
   "textFree": "Free",
   "textPluginVersion": "Plugin version",
   "textPHPVersion": "PHP",
+  "textServer": "Server",
   "textActive": "Active",
+  "textNoActive": "Not active",
   "textBuildMin": "Build min."
 }
 </i18n>
@@ -69,7 +79,7 @@ export default {
     border-radius: 3px;
     border: 1px solid $white-five;
     background-color: $white;
-    padding: 45px 35px;
+    padding: 35px;
     &__item {
       display: flex;
       flex-flow: row;

@@ -75,7 +75,8 @@ function VFA_vuefront_admin_action_vf_information() {
 	echo json_encode(
 		array(
 			'apache' => strpos( $_SERVER["SERVER_SOFTWARE"], "Apache" ) !== false,
-			'status' => $status,
+            'status' => $status,
+            'server' => $_SERVER['SERVER_SOFTWARE'],
 			'phpversion' => phpversion(),
 			'plugin_version' => $plugin_version,
 			'extensions' =>  $extensions,

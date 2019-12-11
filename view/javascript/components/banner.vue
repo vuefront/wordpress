@@ -21,6 +21,9 @@
   border-radius: 3px;
   box-shadow: 0 0 30px 0 rgba(0, 0, 0, 0.1);
   background-color: white;
+  @media (--phone-and-tablet) {
+    margin-bottom: 30px;
+  }
   &__top_image {
     max-width: 100%;
     height: auto;
@@ -45,6 +48,9 @@
     text-align: left;
     color: #1a1a1a!important;
     margin-bottom: 20px;
+    @media (--phone-and-tablet) {
+      padding: 0 40px;
+    }
   }
   &__description {
     padding: 0 80px;
@@ -57,6 +63,9 @@
     letter-spacing: 0.18px;
     text-align: left;
     color: #7d7d7d;
+    @media (--phone-and-tablet) {
+      padding: 0 40px;
+    }
   }
 }
 </style>

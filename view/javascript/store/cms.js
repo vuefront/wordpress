@@ -33,7 +33,7 @@ export const actions = {
   async search({commit, getters, dispatch, rootGetters}) {
     let id = false
     for(const key in getters['list'].content) {
-      if(getters['list'].content[key].url === this.$paxOptions.baseURL) {
+      if(getters['list'].content[key].url === this.$paxOptions.siteUrl) {
         id = getters['list'].content[key].id
       }
     }
@@ -66,7 +66,7 @@ export const actions = {
         `,
         variables: {
           cms: {
-            url: this.$paxOptions.baseURL,
+            url: this.$paxOptions.siteUrl,
             type: this.$paxOptions.type
           }
         }

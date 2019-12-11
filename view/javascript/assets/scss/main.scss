@@ -32,8 +32,8 @@
   @import "node_modules/bootstrap/scss/close";
   // @import "node_modules/bootstrap/scss/toasts";
   // @import "node_modules/bootstrap/scss/modal";
-  // @import "node_modules/bootstrap/scss/tooltip";
-  // @import "node_modules/bootstrap/scss/popover";
+   @import "node_modules/bootstrap/scss/tooltip";
+   @import "node_modules/bootstrap/scss/popover";
   // @import "node_modules/bootstrap/scss/carousel";
   @import "node_modules/bootstrap/scss/spinners";
   @import "node_modules/bootstrap/scss/utilities";
@@ -45,7 +45,7 @@
   --border-color: #{$gray-300};
   --table-color: #{$body-color};
   --table-head-bg: #{$gray-200};
-  margin-top: 50px;
+  margin-top: 20px;
   color: #1a1a1a;
   font-family: 'Open-Sans', sans-serif;
   box-sizing: border-box;
@@ -90,6 +90,9 @@
         outline: 0;
         box-shadow: none;
         background-color: transparent;
+        @media (--phone-and-tablet) {
+          margin-left: 15px;
+        }
         &:focus, &:active {
           border: 0;
           outline: 0;

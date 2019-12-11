@@ -7,6 +7,7 @@
       id="my-table"
       class="vf-activity__table"
       outlined
+      responsive
       :fields="fields"
       :items="cms.builds"
       :per-page="perPage"
@@ -79,63 +80,65 @@ export default {
   .vf-activity {
     margin-bottom: 60px;
     text-align: left;
-    &__table.table {
-      thead {
-        th {
-          font-family: 'Open Sans', sans-serif;
-          font-size: 16px;
-          font-weight: 600;
-          font-stretch: normal;
-          font-style: normal;
-          line-height: 1.5;
-          letter-spacing: 0.16px;
-          text-align: left;
-          color: $black;
-          padding: 20px 50px;
-          background-color: #fbfbfc;
+    &__table {
+      .table {
+        thead {
+          th {
+            font-family: 'Open Sans', sans-serif;
+            font-size: 16px;
+            font-weight: 600;
+            font-stretch: normal;
+            font-style: normal;
+            line-height: 1.5;
+            letter-spacing: 0.16px;
+            text-align: left;
+            color: $black;
+            padding: 20px 50px;
+            background-color: #fbfbfc;
+          }
         }
-      }
-      tbody {
-        td {
-          position: relative;
-          > .vf-activity__success_build {
-            &:after {
-              position: absolute;
-              content: '';
-              display: block;
-              width: 10px;
-              height: 10px;
-              border-radius: 50%;
-              background-color: $dark-mint;
-              top: 50%;
-              transform: translateY(-50%);
-              left: 25px;
+        tbody {
+          td {
+            position: relative;
+            > .vf-activity__success_build {
+              &:after {
+                position: absolute;
+                content: '';
+                display: block;
+                width: 10px;
+                height: 10px;
+                border-radius: 50%;
+                background-color: $dark-mint;
+                top: 50%;
+                transform: translateY(-50%);
+                left: 25px;
+              }
             }
-          }
-          > .vf-activity__failed_build {
-            &:after {
-              position: absolute;
-              content: '';
-              display: block;
-              width: 10px;
-              height: 10px;
-              border-radius: 50%;
-              background-color: #e64141;
-              top: 50%;
-              transform: translateY(-50%);
-              left: 25px;
+            > .vf-activity__failed_build {
+              &:after {
+                position: absolute;
+                content: '';
+                display: block;
+                width: 10px;
+                height: 10px;
+                border-radius: 50%;
+                background-color: #e64141;
+                top: 50%;
+                transform: translateY(-50%);
+                left: 25px;
+              }
             }
+            font-family: 'Open Sans', sans-serif;
+            font-size: 16px;
+            font-weight: normal;
+            font-stretch: normal;
+            font-style: normal;
+            line-height: 1.5;
+            letter-spacing: 0.16px;
+            text-align: left;
+            color: $warm-grey-two;
+            padding: 20px 50px;
           }
-          font-family: 'Open Sans', sans-serif;
-          font-size: 16px;
-          font-weight: normal;
-          font-stretch: normal;
-          font-style: normal;
-          line-height: 1.5;
-          letter-spacing: 0.16px;
-          text-align: left;
-          color: $warm-grey-two;
-          padding: 20px 50px;
         }
       }
     }

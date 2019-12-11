@@ -17,11 +17,14 @@ export default {
 <style lang="scss">
   .vf-module-content {
     &__default {
-      padding: 65px 0;
+      padding: 50px 0;
       background-color: #ffffff;
     }
     &__wrapper {
-      padding: 0 80px;
+      padding: 0 60px;
+      @media (--phone-and-tablet) {
+        padding: 0 40px;
+      }
     }
   }
 </style>

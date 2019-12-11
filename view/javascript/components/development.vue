@@ -7,11 +7,25 @@
       <div class="development__wrapper_title">
         {{ $t('textCmsConnect') }}
       </div>
-      <input
-        type="text"
-        class="development__cms_connect"
-        :value="information.cmsConnect"
+      <b-input-group
+        class="development__cms_connect_wrapper"
       >
+        <input
+          type="text"
+          class="development__cms_connect"
+          :value="information.cmsConnect"
+        >
+        <b-input-group-append>
+          <b-button
+            v-clipboard="information.cmsConnect"
+            v-clipboard:success="clipboardSuccessHandler"
+            variant="success"
+          >
+            {{ copied ? $t('buttonCopied'): $t('buttonCopy') }}
+          </b-button>
+        </b-input-group-append>
+      </b-input-group>
+
       <div class="development__wrapper_text">
         {{ $t('descriptionCmsConnect') }}
       </div>
@@ -58,10 +72,23 @@ RewriteRule ^([^?]*) vuefront/200.html [L,QSA]</pre>
 <script>
 import {mapGetters} from 'vuex'
 export default {
+  data() {
+    return {
+      copied:false
+    }
+  },
   computed: {
     ...mapGetters({
       information: 'information/get'
     })
+  },
+  methods: {
+    clipboardSuccessHandler() {
+      this.copied = true
+      setTimeout(() => {
+        this.copied = false
+      }, 2000)
+    }
   }
 }
 </script>
@@ -71,7 +98,9 @@ export default {
   "textCmsConnect": "CMS Connect URL",
   "descriptionCmsConnect": "This is your CMS Connect URL link that shares your site data via GraphQL. When installing VueFront via the command line, you will be prompted to enter this URL. Simply copy and paste it into the command line.",
   "textConfigureApache": "Configure .htaccess",
-  "descriptionConfigureApache": "For VueFront Web App to replace your current frontend, you will need to configure your .htaccess. <br>Although we do this automaticly for you, you can still customize it you yourself.<br> <ul>    <li>Turn off the VueFront app. Switch the toggle on top of the page to OFF</li>    <li>Use your text editor to edit the .htaccess file with the following rules:</li>  </ul>"
+  "descriptionConfigureApache": "For VueFront Web App to replace your current frontend, you will need to configure your .htaccess. <br>Although we do this automaticly for you, you can still customize it you yourself.<br> <ul>    <li>Turn off the VueFront app. Switch the toggle on top of the page to OFF</li>    <li>Use your text editor to edit the .htaccess file with the following rules:</li>  </ul>",
+  "buttonCopied": "copied",
+  "buttonCopy": "copy"
 }
 </i18n>
 <style lang="scss">
@@ -89,9 +118,15 @@ export default {
       letter-spacing: 0.24px;
       text-align: left;
       color: $black;
-      margin-bottom: 20px;
       border: none!important;
-      width: 100%;
+      flex: 1;
+      @media (--phone-and-tablet) {
+        overflow: hidden;
+      }
+      &_wrapper {
+        margin-bottom: 20px;
+        width: 100%;
+      }
     }
     &__wrapper_text {
       font-family: 'Open Sans', sans-serif;
@@ -126,6 +161,9 @@ export default {
       background-color: $white;
       padding: 50px 55px;
       margin-bottom: 60px;
+      @media (--phone-and-tablet) {
+        padding: 20px 25px;
+      }
       pre {
         border-radius: 3px;
         background-color: #efeff1;
@@ -152,6 +190,9 @@ export default {
         text-align: left;
         color: $black;
         margin-bottom: 20px;
+        @media(--phone-and-tablet) {
+          font-size: 24px;
+        }
       }
     }
   }
