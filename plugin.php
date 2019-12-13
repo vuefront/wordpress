@@ -26,6 +26,7 @@ function VFA_simulate_as_not_rest( $is_rest_api_request ) {
 add_action( 'admin_menu', 'VFA_add_plugin_page' );
 add_action( 'admin_enqueue_scripts', 'VFA_vuefront_admin_styles' );
 add_action( 'wp_ajax_vf_register', 'VFA_vuefront_admin_action_register' );
+add_action( 'wp_ajax_vf_turn_on', 'VFA_vuefront_admin_action_turn_on' );
 add_action( 'wp_ajax_vf_update', 'VFA_vuefront_admin_action_update' );
 add_action( 'wp_ajax_vf_turn_off', 'VFA_vuefront_admin_action_turn_off' );
 add_action( 'wp_ajax_vf_information', 'VFA_vuefront_admin_action_vf_information' );
@@ -71,10 +72,12 @@ function VFA_vuefront_admin_action_vf_information() {
 		'status' => is_plugin_active( 'woocommerce/woocommerce.php' )
 	);
 
-	$status = file_exists( __DIR__ . '/.htaccess.txt' ) && is_dir(ABSPATH.'vuefront');
+	$status = file_exists( __DIR__ . '/.htaccess.txt' );
 	echo json_encode(
 		array(
-			'apache' => strpos( $_SERVER["SERVER_SOFTWARE"], "Apache" ) !== false,
+            'apache' => strpos( $_SERVER["SERVER_SOFTWARE"], "Apache" ) !== false,
+            'backup' => 'wp-content/plugins/vuefront/.htaccess.txt',
+            'htaccess' => file_exists( ABSPATH . '.htaccess' ),
             'status' => $status,
             'server' => $_SERVER['SERVER_SOFTWARE'],
 			'phpversion' => phpversion(),
@@ -94,18 +97,11 @@ function VFA_vuefront_admin_action_turn_off() {
             unlink(__DIR__.'/.htaccess.txt');
         }
     }
-	VFA_vuefront_rmdir(ABSPATH.'vuefront');
-
 	VFA_vuefront_admin_action_vf_information();
 }
 
-function VFA_vuefront_admin_action_update() {
+function VFA_vuefront_admin_action_turn_on() {
 	try {
-		$tmpFile = download_url( $_POST['url'] );
-		VFA_vuefront_rmdir( ABSPATH . 'vuefront' );
-		$phar = new PharData( $tmpFile );
-		$phar->extractTo( ABSPATH . 'vuefront' );
-
 		if ( strpos( $_SERVER["SERVER_SOFTWARE"], "Apache" ) !== false ) {
 			if ( file_exists( ABSPATH . '.htaccess' ) ) {
                 $inserting = "# VueFront scripts, styles and images
@@ -166,12 +162,25 @@ RewriteRule ^([^?]*) vuefront/200.html [L,QSA]";
 	VFA_vuefront_admin_action_vf_information();
 }
 
+function VFA_vuefront_admin_action_update() {
+	try {
+		$tmpFile = download_url( $_POST['url'] );
+		VFA_vuefront_rmdir( ABSPATH . 'vuefront' );
+		$phar = new PharData( $tmpFile );
+		$phar->extractTo( ABSPATH . 'vuefront' );
+
+	} catch ( \Exception $e ) {
+		echo $e->getMessage();
+	}
+
+	VFA_vuefront_admin_action_vf_information();
+}
+
 function VFA_vuefront_admin_general() {
     require_once 'view/template/general.tpl';
 }
 
 function VFA_my_plugin_admin_scripts() {
-	$pax_url = plugin_dir_url(__FILE__).'view/javascript/dist/';
   $pax_dist = plugin_dir_path(__FILE__).'view/javascript/dist/';
   
   if(!file_exists(ABSPATH.'wp-includes/js/dist/vendor/wp-polyfill.js')) {

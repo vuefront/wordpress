@@ -15,11 +15,22 @@ export const getters = {
 }
 
 export const actions = {
-  async activateVueFront({commit}, payload) {
+  async updateVueFront({commit}, payload) {
     try {
       commit('setResponseError', false, {root: true})
 
       const {data} = await this.$axios.post('/api/vf_update', payload)
+
+      commit('setInformation', data)
+    } catch (e) {
+      commit('setResponseError', e, {root: true})
+    }
+  },
+  async activateVueFront({commit}, payload) {
+    try {
+      commit('setResponseError', false, {root: true})
+
+      const {data} = await this.$axios.post('/api/vf_turn_on', payload)
 
       commit('setInformation', data)
     } catch (e) {

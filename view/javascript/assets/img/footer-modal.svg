@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" id="Group_625" width="763.728" height="79" data-name="Group 625" viewBox="0 0 763.728 79">
+    <defs>
+        <style>
+            .cls-1{fill:#f4fafe}.cls-2{fill:#70d19a}.cls-3{fill:#a7eac2}.cls-4{fill:#89e0ac}
+        </style>
+    </defs>
+    <path id="Path_877" d="M12264.326 205s-12.725-43.538 35.631-53 171.783 13.882 209.959 22.716 117.066 10.1 192.143-22.716 198.506-33.442 251.951-8.2 72.531 61.2 72.531 61.2z" class="cls-1" data-name="Path 877" transform="translate(-12262.813 -126)"/>
+    <g id="Vector_Smart_Object3_copy_13" data-name="Vector Smart Object3 copy 13" transform="rotate(41.47 39.247 159.888)">
+        <g id="Group_35" data-name="Group 35">
+            <path id="Path_62" d="M3 27.788L.009 11 13.056 0l2.991 16.786z" class="cls-2" data-name="Path 62" transform="translate(.003 .011)"/>
+            <path id="Path_63" d="M0 11.011L16.04 16.8l13.046-11L13.049.011z" class="cls-3" data-name="Path 63" transform="translate(3 16.788)"/>
+            <path id="Path_64" d="M.012.014L16.049 5.8l2.99 16.786L3 16.8z" class="cls-4" data-name="Path 64" transform="translate(13.047)"/>
+        </g>
+    </g>
+    <g id="Vector_Smart_Object3_copy_13-2" data-name="Vector Smart Object3 copy 13" transform="rotate(95.486 247.026 226.543)">
+        <g id="Group_35-2" data-name="Group 35">
+            <path id="Path_62-2" d="M1.935 17.941L0 7.1 8.407 0l1.938 10.842z" class="cls-2" data-name="Path 62" transform="translate(-.001 .001)"/>
+            <path id="Path_63-2" d="M0 7.1l10.348 3.745 8.41-7.1L8.409 0z" class="cls-3" data-name="Path 63" transform="translate(1.935 10.842)"/>
+            <path id="Path_64-2" d="M0 0l10.344 3.746 1.938 10.842-10.348-3.744z" class="cls-4" data-name="Path 64" transform="translate(8.411 .002)"/>
+        </g>
+    </g>
+    <g id="Vector_Smart_Object3_copy_13-3" data-name="Vector Smart Object3 copy 13" transform="rotate(87.486 354.87 385.661)">
+        <g id="Group_35-3" data-name="Group 35">
+            <path id="Path_62-3" d="M3.767 34.925L0 13.82 16.372 0l3.769 21.107z" class="cls-2" data-name="Path 62" transform="translate(-.001 .001)"/>
+            <path id="Path_63-3" d="M0 13.82l20.143 7.287L36.516 7.288 16.373 0z" class="cls-3" data-name="Path 63" transform="translate(3.767 21.107)"/>
+            <path id="Path_64-3" d="M0 0l20.14 7.288 3.769 21.106-20.144-7.286z" class="cls-4" data-name="Path 64" transform="translate(16.375)"/>
+        </g>
+    </g>
+</svg>

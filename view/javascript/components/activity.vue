@@ -9,7 +9,7 @@
       outlined
       responsive
       :fields="fields"
-      :items="cms.builds"
+      :items="options"
       :per-page="perPage"
       :current-page="currentPage"
       small
@@ -20,10 +20,14 @@
           class="vf-activity__success_build"
         />
         <span
+          v-else-if="data.item.generating"
+          class="vf-activity__pending_build"
+        />
+        <span
           v-else
           class="vf-activity__failed_build"
         />
-        {{ $t('textGenerated') }} ({{ Math.floor($moment.duration(data.item.time, 'milliseconds').asMinutes()) }} min)
+        {{ data.item.generating ? $t('textGenerating') : $t('textGenerated') }} <span v-if="!data.item.generating">({{ Math.floor($moment.duration(data.item.time, 'milliseconds').asMinutes()) }} min)</span>
       </template>
       <template #cell(date)="data">
         {{ $moment(data.item.date).format('DD-MM-YYYY') }}
@@ -72,7 +76,17 @@ export default {
   computed: {
     ...mapGetters({
       cms: 'cms/get'
-    })
+    }),
+    options() {
+      let result = []
+
+      if(this.cms.generating) {
+        result = [{status: false, generating: true, data: this.$moment().toISOString()} ,...result]
+      }
+
+      result = [...result,...this.cms.builds]
+      return result
+    }
   }
 }
 </script>
@@ -128,6 +142,20 @@ export default {
                 left: 25px;
               }
             }
+            > .vf-activity__pending_build {
+              &:after {
+                position: absolute;
+                content: '';
+                display: block;
+                width: 10px;
+                height: 10px;
+                border-radius: 50%;
+                background-color: $yellow;
+                top: 50%;
+                transform: translateY(-50%);
+                left: 25px;
+              }
+            }
             font-family: 'Open Sans', sans-serif;
             font-size: 16px;
             font-weight: normal;
@@ -150,6 +178,7 @@ export default {
   "columnActivityLog": "Activity log",
   "columnDate": "Date",
   "columnTime": "Time",
-  "textGenerated": "Web App files generated"
+  "textGenerated": "Web App files generated",
+  "textGenerating": "Web App files generating"
 }
 </i18n>

@@ -11,7 +11,7 @@
           </b-col>
           <b-col>
             <b-navbar-nav class="align-items-center vf-header__right_nav">
-              <header-activation v-if="cms.builds.length > 0" />
+              <header-activation v-if="cms.builds.length > 0 && information.apache" />
               <header-account />
             </b-navbar-nav>
           </b-col>
@@ -34,7 +34,8 @@ export default {
 
   computed: {
     ...mapGetters({
-      cms: 'cms/get'
+      cms: 'cms/get',
+      information: 'information/get'
     })
   },
 

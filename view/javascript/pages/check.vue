@@ -90,7 +90,8 @@ export default {
 <i18n locale="en">
 {
   "text_email": "Email",
-  "button_confirm": "Confirm"
+  "button_confirm": "Confirm",
+  "unauthorized": "Expired session"
 }
 </i18n>
 <style lang="scss">

@@ -32,9 +32,13 @@
     </div>
     <div
       v-if="information.apache"
+      id="vf-apache-configure"
       class="development__wrapper"
     >
-      <div class="development__wrapper_title">
+      <div
+
+        class="development__wrapper_title"
+      >
         {{ $t('textConfigureApache') }}
       </div>
       <!-- eslint-disable vue/no-v-html -->

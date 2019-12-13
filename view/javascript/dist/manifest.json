@@ -2,178 +2,185 @@
   "files": {
     "id": 1,
     "next": {
-      "id": 11,
+      "id": 12,
       "next": {
-        "id": 7,
+        "id": 8,
         "next": {
-          "id": 6,
+          "id": 4,
           "next": {
-            "id": 20,
+            "id": 7,
             "next": {
-              "id": 8,
+              "id": 21,
               "next": {
-                "id": 17,
+                "id": 9,
                 "next": {
-                  "id": 9,
+                  "id": 18,
                   "next": {
-                    "id": 18,
+                    "id": 10,
                     "next": {
-                      "id": 21,
+                      "id": 19,
                       "next": {
-                        "id": 10,
+                        "id": 22,
                         "next": {
-                          "id": 14,
+                          "id": 11,
                           "next": {
-                            "id": 12,
+                            "id": 15,
                             "next": {
-                              "id": 23,
+                              "id": 13,
                               "next": {
-                                "id": 4,
+                                "id": 24,
                                 "next": {
                                   "id": 5,
                                   "next": {
-                                    "id": 3,
+                                    "id": 6,
                                     "next": {
-                                      "id": 13,
+                                      "id": 3,
                                       "next": {
-                                        "id": 19,
+                                        "id": 14,
                                         "next": {
-                                          "id": 24,
+                                          "id": 20,
                                           "next": {
-                                            "id": 15,
+                                            "id": 25,
                                             "next": {
-                                              "id": 22,
+                                              "id": 16,
                                               "next": {
-                                                "id": 2,
+                                                "id": 23,
                                                 "next": {
-                                                  "id": 16,
+                                                  "id": 2,
                                                   "next": {
-                                                    "id": 0,
-                                                    "next": null,
+                                                    "id": 17,
+                                                    "next": {
+                                                      "id": 0,
+                                                      "next": null,
+                                                      "js": [
+                                                        "/wp-content/plugins/vuefront/view/javascript/dist/0.3a4fdf9f76a267291600.bundle.js"
+                                                      ],
+                                                      "css": [
+                                                        "/wp-content/plugins/vuefront/view/javascript/dist/0.3a4fdf9f76a267291600.css"
+                                                      ]
+                                                    },
                                                     "js": [
-                                                      "/wp-content/plugins/vuefront/view/javascript/dist/0.ddc78000032eb1ac15c2.bundle.js"
+                                                      "/wp-content/plugins/vuefront/view/javascript/dist/17.3a4fdf9f76a267291600.bundle.js"
                                                     ],
-                                                    "css": [
-                                                      "/wp-content/plugins/vuefront/view/javascript/dist/0.ddc78000032eb1ac15c2.css"
-                                                    ]
+                                                    "css": []
                                                   },
                                                   "js": [
-                                                    "/wp-content/plugins/vuefront/view/javascript/dist/16.ddc78000032eb1ac15c2.bundle.js"
+                                                    "/wp-content/plugins/vuefront/view/javascript/dist/2.3a4fdf9f76a267291600.bundle.js"
                                                   ],
                                                   "css": []
                                                 },
                                                 "js": [
-                                                  "/wp-content/plugins/vuefront/view/javascript/dist/2.ddc78000032eb1ac15c2.bundle.js"
+                                                  "/wp-content/plugins/vuefront/view/javascript/dist/23.3a4fdf9f76a267291600.bundle.js"
                                                 ],
                                                 "css": []
                                               },
                                               "js": [
-                                                "/wp-content/plugins/vuefront/view/javascript/dist/22.ddc78000032eb1ac15c2.bundle.js"
+                                                "/wp-content/plugins/vuefront/view/javascript/dist/16.3a4fdf9f76a267291600.bundle.js"
                                               ],
                                               "css": []
                                             },
                                             "js": [
-                                              "/wp-content/plugins/vuefront/view/javascript/dist/15.ddc78000032eb1ac15c2.bundle.js"
+                                              "/wp-content/plugins/vuefront/view/javascript/dist/25.3a4fdf9f76a267291600.bundle.js"
                                             ],
                                             "css": []
                                           },
                                           "js": [
-                                            "/wp-content/plugins/vuefront/view/javascript/dist/24.ddc78000032eb1ac15c2.bundle.js"
+                                            "/wp-content/plugins/vuefront/view/javascript/dist/20.3a4fdf9f76a267291600.bundle.js"
                                           ],
                                           "css": []
                                         },
                                         "js": [
-                                          "/wp-content/plugins/vuefront/view/javascript/dist/19.ddc78000032eb1ac15c2.bundle.js"
+                                          "/wp-content/plugins/vuefront/view/javascript/dist/14.3a4fdf9f76a267291600.bundle.js"
                                         ],
                                         "css": []
                                       },
                                       "js": [
-                                        "/wp-content/plugins/vuefront/view/javascript/dist/13.ddc78000032eb1ac15c2.bundle.js"
+                                        "/wp-content/plugins/vuefront/view/javascript/dist/3.3a4fdf9f76a267291600.bundle.js"
                                       ],
                                       "css": []
                                     },
                                     "js": [
-                                      "/wp-content/plugins/vuefront/view/javascript/dist/3.ddc78000032eb1ac15c2.bundle.js"
+                                      "/wp-content/plugins/vuefront/view/javascript/dist/6.3a4fdf9f76a267291600.bundle.js"
                                     ],
                                     "css": []
                                   },
                                   "js": [
-                                    "/wp-content/plugins/vuefront/view/javascript/dist/5.ddc78000032eb1ac15c2.bundle.js"
+                                    "/wp-content/plugins/vuefront/view/javascript/dist/5.3a4fdf9f76a267291600.bundle.js"
                                   ],
                                   "css": []
                                 },
                                 "js": [
-                                  "/wp-content/plugins/vuefront/view/javascript/dist/4.ddc78000032eb1ac15c2.bundle.js"
+                                  "/wp-content/plugins/vuefront/view/javascript/dist/24.3a4fdf9f76a267291600.bundle.js"
                                 ],
                                 "css": []
                               },
                               "js": [
-                                "/wp-content/plugins/vuefront/view/javascript/dist/23.ddc78000032eb1ac15c2.bundle.js"
+                                "/wp-content/plugins/vuefront/view/javascript/dist/13.3a4fdf9f76a267291600.bundle.js"
                               ],
                               "css": []
                             },
                             "js": [
-                              "/wp-content/plugins/vuefront/view/javascript/dist/12.ddc78000032eb1ac15c2.bundle.js"
+                              "/wp-content/plugins/vuefront/view/javascript/dist/15.3a4fdf9f76a267291600.bundle.js"
                             ],
                             "css": []
                           },
                           "js": [
-                            "/wp-content/plugins/vuefront/view/javascript/dist/14.ddc78000032eb1ac15c2.bundle.js"
+                            "/wp-content/plugins/vuefront/view/javascript/dist/11.3a4fdf9f76a267291600.bundle.js"
                           ],
                           "css": []
                         },
                         "js": [
-                          "/wp-content/plugins/vuefront/view/javascript/dist/10.ddc78000032eb1ac15c2.bundle.js"
+                          "/wp-content/plugins/vuefront/view/javascript/dist/22.3a4fdf9f76a267291600.bundle.js"
                         ],
                         "css": []
                       },
                       "js": [
-                        "/wp-content/plugins/vuefront/view/javascript/dist/21.ddc78000032eb1ac15c2.bundle.js"
+                        "/wp-content/plugins/vuefront/view/javascript/dist/19.3a4fdf9f76a267291600.bundle.js"
                       ],
                       "css": []
                     },
                     "js": [
-                      "/wp-content/plugins/vuefront/view/javascript/dist/18.ddc78000032eb1ac15c2.bundle.js"
+                      "/wp-content/plugins/vuefront/view/javascript/dist/10.3a4fdf9f76a267291600.bundle.js"
                     ],
                     "css": []
                   },
                   "js": [
-                    "/wp-content/plugins/vuefront/view/javascript/dist/9.ddc78000032eb1ac15c2.bundle.js"
+                    "/wp-content/plugins/vuefront/view/javascript/dist/18.3a4fdf9f76a267291600.bundle.js"
                   ],
                   "css": []
                 },
                 "js": [
-                  "/wp-content/plugins/vuefront/view/javascript/dist/17.ddc78000032eb1ac15c2.bundle.js"
+                  "/wp-content/plugins/vuefront/view/javascript/dist/9.3a4fdf9f76a267291600.bundle.js"
                 ],
                 "css": []
               },
               "js": [
-                "/wp-content/plugins/vuefront/view/javascript/dist/8.ddc78000032eb1ac15c2.bundle.js"
+                "/wp-content/plugins/vuefront/view/javascript/dist/21.3a4fdf9f76a267291600.bundle.js"
               ],
               "css": []
             },
             "js": [
-              "/wp-content/plugins/vuefront/view/javascript/dist/20.ddc78000032eb1ac15c2.bundle.js"
+              "/wp-content/plugins/vuefront/view/javascript/dist/7.3a4fdf9f76a267291600.bundle.js"
             ],
             "css": []
           },
           "js": [
-            "/wp-content/plugins/vuefront/view/javascript/dist/6.ddc78000032eb1ac15c2.bundle.js"
+            "/wp-content/plugins/vuefront/view/javascript/dist/4.3a4fdf9f76a267291600.bundle.js"
           ],
           "css": []
         },
         "js": [
-          "/wp-content/plugins/vuefront/view/javascript/dist/7.ddc78000032eb1ac15c2.bundle.js"
+          "/wp-content/plugins/vuefront/view/javascript/dist/8.3a4fdf9f76a267291600.bundle.js"
         ],
         "css": []
       },
       "js": [
-        "/wp-content/plugins/vuefront/view/javascript/dist/11.ddc78000032eb1ac15c2.bundle.js"
+        "/wp-content/plugins/vuefront/view/javascript/dist/12.3a4fdf9f76a267291600.bundle.js"
       ],
       "css": []
     },
     "js": [
-      "/wp-content/plugins/vuefront/view/javascript/dist/ddc78000032eb1ac15c2.bundle.js"
+      "/wp-content/plugins/vuefront/view/javascript/dist/3a4fdf9f76a267291600.bundle.js"
     ],
     "css": []
   }

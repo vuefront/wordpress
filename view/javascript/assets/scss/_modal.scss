@@ -1,0 +1,124 @@
+// .vf-modal {
+//   display: block;
+// }
+.vf-modal-open {
+  overflow: hidden;
+  .vf-modal {
+    overflow-x: hidden;
+    overflow-y: auto;
+    // display: none;
+    display: block;
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1050;
+    -webkit-overflow-scrolling: touch;
+    outline: 0;
+    text-align: center;
+    padding: 0 !important;
+    &:before {
+      content: '';
+      display: inline-block;
+      height: 100%;
+      vertical-align: middle;
+      margin-right: -4px; /* Adjusts for spacing */
+    }
+    > .vf-modal-dialog {
+      display: inline-block;
+      text-align: left;
+      vertical-align: middle;
+      position: relative;
+      width: auto;
+      margin: 10px;
+      @media (--tablet) {
+        width: 532px;
+        margin: 30px auto;
+      }
+      @media (--laptop) {
+        width: 920px;
+        margin: 30px auto;
+      }
+      @media (--desktop) {
+        width: 920px;
+        margin: 30px auto;
+      }
+      > .vf-modal-content {
+        position: relative;
+        background-color: #fff;
+        border-radius: 3px;
+        box-shadow: 0 0 30px 0 rgba(0, 0, 0, 0.1);
+        background-clip: padding-box;
+        @media (--tablet) {
+          box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.1);
+        }
+        .vf-modal-close {
+          position: absolute;
+          right: 40px;
+          top: 30px;
+          color: #1a1a1a;
+          cursor: pointer;
+          z-index: 2;
+          font-size: 35px;
+        }
+        > .vf-modal-header {
+          padding: 22px 36px 40px;
+          text-align: center;
+          font-weight: 400;
+          font-family: "Open Sans", sans-serif;
+          font-size: 30px;
+          color: #1a1a1a;
+          .vf-modal-title {
+            margin: 0;
+            line-height: 1.42857143;
+            text-transform: uppercase;
+            letter-spacing: -1.5px;
+            span.yellow {
+              font-weight: bold;
+              color: #f7cf42 !important;
+              background-color: inherit !important;
+            }
+            .sub-title {
+              text-transform: none;
+              font-size: 35px;
+              padding: 3px;
+            }
+          }
+          .vf-modal-sub-title {
+            margin-top: 9px;
+            font-size: 17px;
+            letter-spacing: -1.5px;
+            line-height: 2.26;
+          }
+        }
+        > .vf-modal-body {
+          position: relative;
+          padding: 35px 70px 0;
+          color: #ffffff;
+        }
+        > .vf-modal-footer {
+          padding: 20px 70px 35px;
+          text-align: center;
+        }
+      }
+    }
+  }
+  .vf-modal-backdrop {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1040;
+    background-color: #132026;
+    &.fade {
+      opacity: 0;
+      filter: alpha(opacity=0);
+    }
+    &.in {
+      opacity: 0.8;
+      filter: alpha(opacity=8);
+    }
+  }
+}

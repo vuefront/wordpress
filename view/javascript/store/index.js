@@ -34,10 +34,14 @@ export const actions = {
       if(getters['auth/isLogged']) {
         await dispatch('account/load')
 
-        const id = await dispatch('cms/search')
+        if(!getters['error']) {
+          const id = await dispatch('cms/search')
 
-        if(id) {
-          await dispatch('cms/load', {id})
+          if(id) {
+            await dispatch('cms/load', {id})
+          }
+        } else {
+          await dispatch('auth/logout')
         }
       }
     } else {
