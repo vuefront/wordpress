@@ -12,6 +12,14 @@
           <b-col>
             <b-navbar-nav class="align-items-center vf-header__right_nav">
               <header-activation v-if="cms.builds.length > 0 && information.apache" />
+              <b-button
+                v-if="cms.builds.length > 0 && !information.apache"
+                class="vf-header__button_activate"
+                variant="success"
+                @click="$scrollTo('#vf-nginx-configure')"
+              >
+                {{ $t('button_activate') }}
+              </b-button>
               <header-account />
             </b-navbar-nav>
           </b-col>
@@ -48,6 +56,15 @@ export default {
     padding: 0 30px 25px;
     @media (min-width: 1920px) {
       padding: 0 60px 50px;
+    }
+    &__button_activate {
+      margin-right: 20px;
+      @media (--phone-and-tablet) {
+        margin-right: auto;
+      }
+      @media (min-width: 1920px) {
+        margin-right: 40px;
+      }
     }
     &__wrapper {
       min-height: 63px;
@@ -90,6 +107,7 @@ export default {
 </style>
 <i18n locale="en">
 {
-  "text_vuefront": "VueFront"
+  "text_vuefront": "VueFront",
+  "button_activate": "Activate"
 }
 </i18n>

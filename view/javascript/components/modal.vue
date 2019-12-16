@@ -14,7 +14,6 @@
         <div class="vf-modal-content">
           <a
             v-if="btnClose"
-            type="button"
             class="vf-modal-close"
             @click="cancel"
           ><font-awesome-icon :icon="['far', 'times']" /></a>

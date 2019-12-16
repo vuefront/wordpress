@@ -71,6 +71,100 @@ RewriteCond %{REQUEST_URI} !.*(images|index.php|.html|admin|.js|.css|.png|.jpeg|
 RewriteCond %{DOCUMENT_ROOT}/vuefront/$1.html !-f
 RewriteRule ^([^?]*) vuefront/200.html [L,QSA]</pre>
     </div>
+    <div
+      v-if="!information.apache"
+      id="vf-nginx-configure"
+      class="development__wrapper"
+    >
+      <div
+
+        class="development__wrapper_title"
+      >
+        {{ $t('textConfigureNginx') }}
+      </div>
+      <!-- eslint-disable vue/no-v-html -->
+      <div
+        class="development__wrapper_text"
+        v-html="$t('descriptionConfigureNginx')"
+      />
+      <pre>
+server {
+        listen 443 ssl http2;
+        listen [::]:443 ssl http2;
+        server_name YOUR_DOMAIN;    # setup your domain here
+
+        # supply SSL certificates here
+
+        root /OPENCART_ROOT_FOLDER_PATH/vuefront; #setup your opencart root folder path here following with /vuefront on the end. This will return the VueFront Web App by default.
+        index index.html index.php;
+
+        location / {
+                try_files $uri $uri/ $uri.html /200.html;
+
+# required to return OpenCart index.php
+	location /index.php {
+		root /OPENCART_ROOT_FOLDER_PATH/; #setup your opencart root folder path
+		index index.php;
+
+		location ~ \.php$ {
+			include snippets/fastcgi-php.conf;
+			fastcgi_pass unix:/var/run/php/php7.2-fpm-opencart.vuefront.com.sock;
+		}
+	}
+
+# required to return OpenCart catalog folder
+	location /catalog {
+		root /OPENCART_ROOT_FOLDER_PATH/; #setup your opencart root folder path
+		index index.php;
+
+		location ~* \.(jpg|jpeg|gif|png|ico|pdf|ppt|bmp|rtf|svg|otf|woff|woff2|ttf)$ {
+			expires max;
+			add_header Pragma public;
+			add_header Cache-Control "public, must-revalidate, proxy-revalidate";
+		}
+
+		location ~* \.(js|css|txt)$ {
+			expires 3d;
+			add_header Pragma public;
+			add_header Cache-Control "public, must-revalidate, proxy-revalidate";
+		}
+	}
+
+# required to return the OpenCart admin folder
+	location /admin {
+		root /OPENCART_ROOT_FOLDER_PATH/; #setup your opencart root folder path
+		index index.php;
+
+		location ~ \.php$ {
+			include snippets/fastcgi-php.conf;
+					fastcgi_pass unix:/var/run/php/php7.2-fpm-opencart.vuefront.com.sock;
+		}
+	}
+# required to return images
+	location /image {
+		root /OPENCART_ROOT_FOLDER_PATH/; #setup your opencart root folder path
+		index index.php;
+
+		location ~* \.(jpg|jpeg|gif|png|ico|pdf|ppt|bmp|rtf|svg|otf|woff|woff2|ttf)$ {
+			expires max;
+			add_header Pragma public;
+			add_header Cache-Control "public, must-revalidate, proxy-revalidate";
+		}
+
+		location ~* \.(js|css|txt)$ {
+			expires 3d;
+			add_header Pragma public;
+			add_header Cache-Control "public, must-revalidate, proxy-revalidate";
+		}
+	}
+
+#You should have it already since you are running OpenCart on Nginx. But just in case, we supplied this rule below.
+        location ~ \.php$ {
+                include snippets/fastcgi-php.conf;
+                fastcgi_pass unix:/var/run/php/YOUR_PHP_FPM_SOKET.sock; #setup your php-fpm socket
+        }
+}</pre>
+    </div>
   </div>
 </template>
 <script>
@@ -104,7 +198,9 @@ export default {
   "textConfigureApache": "Configure .htaccess",
   "descriptionConfigureApache": "For VueFront Web App to replace your current frontend, you will need to configure your .htaccess. <br>Although we do this automaticly for you, you can still customize it you yourself.<br> <ul>    <li>Turn off the VueFront app. Switch the toggle on top of the page to OFF</li>    <li>Use your text editor to edit the .htaccess file with the following rules:</li>  </ul>",
   "buttonCopied": "copied",
-  "buttonCopy": "copy"
+  "buttonCopy": "copy",
+  "textConfigureNginx": "Configure Nginx configuration file",
+  "descriptionConfigureNginx": "For VueFront Web App to replace your current frontend, you will need to configure your Nginx configuration file. This can only be done manually via your FTP or File Manager. Use your text editor to add the following rules:"
 }
 </i18n>
 <style lang="scss">
