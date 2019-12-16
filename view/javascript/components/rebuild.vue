@@ -79,13 +79,14 @@ export default {
 {
   "buttonRebuild": "Rebuild",
   "buildText": "Made a change? Just hit Rebuild",
-  "buildDescription": "If you made any changes via the admin panel, you will need to rebuild your frontend Web App to see them."
+  "buildDescription": "For Search engines like Google to update their search results properly, you must rebuild your app on every significant change."
 }
 </i18n>
 <style lang="scss">
   .vf-home__rebuild {
     h2, h4 {
       margin-top: 0;
+      font-size: 20px;
     }
     p {
       margin: 0 0 9px;

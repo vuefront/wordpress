@@ -145,8 +145,8 @@ export default {
   "textOn":"On",
   "textOff":"Off",
   "popupTitle": "Confirm launch!",
-  "subTitlePopup": "You are about to activate your new Frontend Web App. To do this, we will update your .htaccess to add VueFront related apache rules. If you have a custom .htaccess file, we strongly advise your to add the rules manually by following the instructions",
-  "text_bellow": "bellow",
+  "subTitlePopup": "You are about to activate your new Frontend Web App. To do this, we will update your .htaccess to add VueFront related apache rules. If you have a custom .htaccess file, we strongly advise you to add the rules manually by following the instructions",
+  "text_bellow": "here",
   "descriptionPopup": "To ensure your security, we will make a copy of your .htaccess file at <br>[path]. In case of unexpected situations or even site failure, please restore your old .htaccess file via ftp or your Cpanel file manager.",
   "buttonConfirm": "Confirm",
   "buttonAbort": "Abort",
@@ -227,7 +227,7 @@ export default {
         font-style: normal;
         line-height: 1.38;
         letter-spacing: 0.16px;
-        color: $clear-blue;
+        color: $dark-mint;
         margin-top: 20px;
         cursor: pointer;
         display: inline-block;

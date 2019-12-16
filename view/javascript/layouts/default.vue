@@ -21,9 +21,9 @@ export default {
       background-color: #ffffff;
     }
     &__wrapper {
-      padding: 0 60px;
-      @media (--phone-and-tablet) {
-        padding: 0 40px;
+      padding: 0 30px;
+      @media (min-width: 1920px) {
+        padding: 0 60px;
       }
     }
   }

@@ -44,10 +44,10 @@ export default {
 <style lang="scss">
   .vf-header {
     border-bottom: 1px solid #D9D9D9;
-    margin-bottom: 50px;
-    padding: 0 40px 25px;
+    margin-bottom: 25px;
+    padding: 0 30px 25px;
     @media (min-width: 1920px) {
-      padding: 0 80px 50px;
+      padding: 0 60px 50px;
     }
     &__wrapper {
       min-height: 63px;
