@@ -1,7 +1,8 @@
 .editorconfig
 .vscode/
 *.txt
-/view/javascript/node_modules
-/view/javascript/.npmrc
-/view/javascript/.env
-/view/javascript/.idea
+/view/javascript/d_pax/node_modules
+/view/javascript/d_pax/.npmrc
+/view/javascript/d_pax/.env
+/view/javascript/d_pax/.idea
+view/javascript/d_pax/node_modules

@@ -31,8 +31,6 @@ module.exports = (env, argv) => {
 
   const rewriteUrl = url.parse(currentUrl)
   const proxyUrl = 'http://' + host + ':' + port + rewriteUrl.path
-
-
   const publicPath = isDev
     ? 'http://' +
       host +
@@ -71,7 +69,7 @@ module.exports = (env, argv) => {
   return {
     entry: [...entry, path.resolve(__dirname, './core/main.js')],
     output: {
-      path: path.resolve(__dirname, `./dist`),
+      path: path.resolve(__dirname, `../${paxConfig.codename}/`),
       filename: '[hash].bundle.js',
       publicPath: publicPath
     },
@@ -123,7 +121,6 @@ module.exports = (env, argv) => {
                     ? zlib.gunzipSync(buffer)
                     : buffer
                   ).toString('utf8')
-
                   body = _.replace(body, new RegExp(currentUrl, 'g'), proxyUrl)
                   body = body
                     .split(currentUrl.replace(/\//g, '\\/'))
@@ -264,6 +261,7 @@ module.exports = (env, argv) => {
       }),
       new WebpackBar(),
       new CleanWebpackPlugin({
+        root: path.resolve(__dirname, '../'),
         verbose: true,
         dry: false,
         watch: false
@@ -319,7 +317,7 @@ const getCurrentDir = () => {
 }
 const getDistRelativePath = currentDir => {
   const cDir = path.resolve(currentDir, './')
-  const nDir = path.resolve(__dirname, `./dist/`)
+  const nDir = path.resolve(__dirname, `../${paxConfig.codename}/`)
 
   if(isWin) {
     return _.replace(nDir, cDir + '\\', '')

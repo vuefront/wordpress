@@ -4,7 +4,7 @@
       <b-col md="9">
         <re-build />
         <welcome v-if="cms.builds.length === 0" />
-        <activity v-else />
+        <activity v-if="cms.builds.length > 0 || cms.generating" />
         <development />
       </b-col>
       <b-col md="3">

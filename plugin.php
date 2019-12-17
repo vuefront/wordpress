@@ -181,10 +181,10 @@ function VFA_vuefront_admin_general() {
 }
 
 function VFA_my_plugin_admin_scripts() {
-  $pax_dist = plugin_dir_path(__FILE__).'view/javascript/dist/';
+  $pax_dist = plugin_dir_path(__FILE__).'view/javascript/d_vuefront/';
   
   if(!file_exists(ABSPATH.'wp-includes/js/dist/vendor/wp-polyfill.js')) {
-    wp_enqueue_script('vf-polyfill', plugin_dir_url(__FILE__).'view/js/polyfill.js');
+    wp_enqueue_script('vf-polyfill', plugin_dir_url(__FILE__).'view/javascript/polyfill.js');
   }
     $app = json_decode(file_get_contents($pax_dist . 'manifest.json'), true);
 	$current_chunk = $app['files'];
