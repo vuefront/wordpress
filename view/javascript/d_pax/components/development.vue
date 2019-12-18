@@ -204,20 +204,20 @@ export default {
 }
 </i18n>
 <style lang="scss">
-  .development {
+  .development.development.development .development {
     &__cms_connect {
-      height: 54px;
+      height: 54px !important;
       background-color: #efeff1!important;
       padding: 12px 24px!important;
       line-height: 30px!important;
-      font-family: 'Open Sans', sans-serif;
-      font-size: 24px;
+      font-family: 'Open Sans', sans-serif !important;
+      font-size: 24px !important;
       font-weight: 600;
       font-stretch: normal;
       font-style: normal;
       letter-spacing: 0.24px;
       text-align: left;
-      color: $black;
+      color: $black !important;
       border: none!important;
       flex: 1;
       @media (--phone-and-tablet) {

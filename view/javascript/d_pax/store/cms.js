@@ -2,7 +2,8 @@ import gql from 'graphql-tag'
 export const state = () => ({
   cms: {},
   entities: {},
-  alien: false
+  alien: false,
+  firstBuild: false
 })
 
 export const mutations = {
@@ -14,6 +15,9 @@ export const mutations = {
   },
   setAlien(state, payload) {
     state.alien = payload
+  },
+  setFirstBuild(state, payload) {
+    state.firstBuild = payload
   }
 }
 
@@ -26,6 +30,9 @@ export const getters = {
   },
   alien(state) {
     return state.alien
+  },
+  firstBuild(state) {
+    return state.firstBuild
   }
 }
 

@@ -91,7 +91,7 @@ export default {
 }
 </script>
 <style lang="scss">
-  .vf-activity {
+  .vf-activity.vf-activity .vf-activity {
     margin-bottom: 60px;
     text-align: left;
     &__table {

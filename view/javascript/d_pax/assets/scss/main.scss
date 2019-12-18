@@ -1,5 +1,5 @@
 @import './modal';
-.vf-module-content {
+.vf-module-content.vf-module-content.vf-module-content {
 
   @import './colors';
   @import 'node_modules/bootstrap/scss/functions';
@@ -134,7 +134,7 @@
   *::after {
     box-sizing: border-box;
   }
-  &__image {
+  .vf-module-content__image {
     margin-bottom: 10px;
 
     img {
@@ -162,7 +162,7 @@
     }
   }
 
-  &__form {
+  .vf-module-content__form {
     max-width: 500px;
     margin: 0 auto;
   }

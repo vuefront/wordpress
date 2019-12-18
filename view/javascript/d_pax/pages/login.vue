@@ -1,5 +1,8 @@
 <template>
-  <div class="login-page">
+  <div
+    id="vf-login-form"
+    class="login-page"
+  >
     <h3 class="font-weight-normal login-page__email">
       {{ form.email }}
     </h3>
@@ -117,26 +120,36 @@ export default {
 }
 </script>
 <style lang="scss">
-  .login-page {
+  #vf-login-form.login-page.login-page.login-page {
     padding-top: 60px;
-    &__email {
-      margin-bottom: 30px !important;
-    }
-    &__button_submit {
-      margin-top: 30px;
-    }
-    &__button_logout {
-      display: block;
-      cursor: pointer;
-      margin-top: 55px;
-      font-family: 'Open Sans', sans-serif;
-      font-size: 18px;
-      font-weight: 600;
-      font-stretch: normal;
-      font-style: normal;
-      line-height: 1.11;
-      letter-spacing: 0.18px;
-      text-align: center;
+
+    .login-page {
+      &__email {
+        text-transform: none;
+        margin: 0 0 30px !important;
+        font-size: 28px;
+        line-height: 1.2;
+        font-family: 'Open Sans', sans-serif;
+        border: 0;
+        padding: 0;
+        height: auto;
+      }
+      &__button_submit {
+        margin-top: 30px;
+      }
+      &__button_logout {
+        display: block;
+        cursor: pointer;
+        margin-top: 55px;
+        font-family: 'Open Sans', sans-serif;
+        font-size: 18px;
+        font-weight: 600;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.11;
+        letter-spacing: 0.18px;
+        text-align: center;
+      }
     }
   }
 </style>

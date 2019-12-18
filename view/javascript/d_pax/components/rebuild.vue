@@ -84,7 +84,11 @@ export default {
 </i18n>
 <style lang="scss">
   .vf-home__rebuild {
+    &::before {
+      display: none!important;
+    }
     h2, h4 {
+      font-family: 'Open Sans', sans-serif;
       margin-top: 0;
       font-size: 20px;
     }

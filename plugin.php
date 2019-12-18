@@ -3,7 +3,7 @@
  * Plugin Name: VueFront
  * Plugin URI: https://github.com/vuefront/wordpress
  * Description: VueFront CMS Connect App for Wordpress.
- * Version: 1.2.0
+ * Version: 2.0.0
  * Author: VueFront
  * Author URI: http://vuefront.com
  */
@@ -182,7 +182,7 @@ function VFA_vuefront_admin_general() {
 
 function VFA_my_plugin_admin_scripts() {
   $pax_dist = plugin_dir_path(__FILE__).'view/javascript/d_vuefront/';
-  
+
   if(!file_exists(ABSPATH.'wp-includes/js/dist/vendor/wp-polyfill.js')) {
     wp_enqueue_script('vf-polyfill', plugin_dir_url(__FILE__).'view/javascript/polyfill.js');
   }

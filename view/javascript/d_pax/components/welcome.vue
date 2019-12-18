@@ -52,6 +52,7 @@ export default {
         this.$apolloClient.defaultClient.clearStore()
         if(!this.cms.generating) {
           await this.$store.dispatch('information/updateVueFront', {url: this.cms.downloadUrl})
+          this.$store.commit('cms/setFirstBuild', true)
           clearInterval(interval)
         }
       }, 3000)
@@ -66,6 +67,7 @@ export default {
         this.$apolloClient.defaultClient.clearStore()
         if(!this.cms.generating) {
           await this.$store.dispatch('information/updateVueFront', {url: this.cms.downloadUrl})
+          this.$store.commit('cms/setFirstBuild', true)
 
           this.loading = false
           clearInterval(interval)
