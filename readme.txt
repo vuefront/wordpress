@@ -5,7 +5,7 @@ Tags: pwa, spa, woocommerce, amp, jamstack, ajax, vuefront, cms, vuejs, nuxt, we
 Requires at least: 4.0.0
 Tested up to: 5.2.1
 Requires PHP: 5.5.0
-Stable tag: 1.2.0
+Stable tag: 2.0.0
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -34,11 +34,13 @@ To upgrade simply click upgrade or upload the new version via "add new" plugin. 
 == How to Use ==
 Once the plugin is activated, the CMS Connect URL will function automatically, providing VueFront Web App access to the website data. 
 
+You can now build and deploy your PWA and SPA Web App directly from the comfort of your WordPress Admin Panel.
+
 If you have WooCommerce installed and activated, the plugin will automatically provide that data as well.
 
 You do not need to do anything from the admin panel. It should work out-of-the-box.
 
-Just enjoy the new SPA.
+Just enjoy the new PWA & SPA.
  
 == Screenshots ==
 1. VueFront is a Single Page Application for WordPress
@@ -46,7 +48,7 @@ Just enjoy the new SPA.
 3. VueFront works off-line with service workers
 4. VueFront supports WooCommerce
 5. VueFront is built on JAMstak, VueJS, Nuxt, GraphQL
-6. VueFront is super fast, off-line ready, seo ready
+6. VueFront is super fast, off-line ready, SEO ready
 7. VueFront is the #1 PWA solution for WordPress and WooCommerce
 
 
@@ -62,6 +64,11 @@ This is a very young technology and there could be version breaks. The first thi
 
 
 == Changelog ==
+= 2.0.0 =
+Added new admin design with Vuejs
+Implemented Quick Build feature
+Implemented Quick Web App deploy on Apache
+
 = 1.2.0 =
 Edited Blog Post resolver
 Bug fixes
