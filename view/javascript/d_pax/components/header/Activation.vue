@@ -55,6 +55,14 @@
         {{ $t('footerTitlePopup') }}
       </div>
       <div class="text-center">
+        <div
+          v-if="error"
+          class="cms-activation__modal__error"
+        >
+          {{ $t(error) }}
+        </div>
+      </div>
+      <div class="text-center">
         <b-button
           :disabled="loading"
           variant="success"
@@ -103,19 +111,16 @@ export default {
   computed: {
     ...mapGetters({
       information: 'information/get',
-      cms: 'cms/get'
+      cms: 'cms/get',
+      error: 'error'
     })
   },
   methods: {
     async handleClick() {
       if(!this.information.status) {
-        if(this.information.apache) {
           this.popup = true
-        } else {
-          this.loading = true
-          await this.$store.dispatch('information/activateVueFront', {url: this.cms.downloadUrl})
-        }
       } else {
+        this.loading = true
         await this.$store.dispatch('information/deActivateVueFront', {url: this.cms.downloadUrl})
       }
       this.loading = false
@@ -133,8 +138,10 @@ export default {
       } else {
         await this.$store.dispatch('information/deActivateVueFront', {url: this.cms.downloadUrl})
       }
-      this.popup = false
       this.loading = false
+      if(!this.error) {
+        this.popup = false
+      }
     }
   }
 }
@@ -150,7 +157,8 @@ export default {
   "descriptionPopup": "To ensure your security, we will make a copy of your .htaccess file at <br>[path]. In case of unexpected situations or even site failure, please restore your old .htaccess file via ftp or your Cpanel file manager.",
   "buttonConfirm": "Confirm",
   "buttonAbort": "Abort",
-  "footerTitlePopup": "Ready to turn your website into a PWA and SPA?"
+  "footerTitlePopup": "Ready to turn your website into a PWA and SPA?",
+  "not_writable_htaccess": "File permissions. Please add writing permissions to the following files and folder: .htaccess"
 }
 </i18n>
 <style lang="scss">
@@ -183,6 +191,12 @@ export default {
       }
       &__image {
         margin-bottom: 30px;
+      }
+      &__error {
+        color: $tomato;
+        margin-bottom: 20px;
+        font-family: 'Open Sans', sans-serif;
+        font-size: 16px;
       }
       &__title {
         font-family: 'Open Sans', sans-serif;

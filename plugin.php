@@ -103,10 +103,47 @@ function VFA_vuefront_admin_action_turn_off() {
 function VFA_vuefront_admin_action_turn_on() {
 	try {
 		if ( strpos( $_SERVER["SERVER_SOFTWARE"], "Apache" ) !== false ) {
+			$catalog = get_site_url();
+			$catalog_url_info = parse_url($catalog);
+
+			$catalog_path = $catalog_url_info['path'];
+
+			$catalog_path = $catalog_path == '' ? '/' : $catalog_path;
+			if(!file_exists(ABSPATH . '.htaccess')) {
+				file_put_contents(ABSPATH.'.htaccess', "# BEGIN WordPress
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteBase ".$catalog_path."
+RewriteRule ^index\.php$ - [L]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule . /index.php [L]
+</IfModule>
+
+# END WordPress
+");
+			}
+
+			if(!is_writable(ABSPATH . '.htaccess')) {
+//				http_response_code(500);
+//				header("HTTP/1.1 401 Unauthorized");
+//				status_header(500);
+//				echo json_encode(array(
+//					'error'=> 'not_writable_htaccess'
+//				));
+				$error = new WP_Error( '500', 'not_writable_htaccess' );
+
+				wp_send_json_error( $error, 500 );
+				return;
+//				new WP_Error( json_encode(array(
+//					'error'=> 'not_writable_htaccess'
+//				)));
+			}
+
 			if ( file_exists( ABSPATH . '.htaccess' ) ) {
                 $inserting = "# VueFront scripts, styles and images
 RewriteCond %{REQUEST_URI} .*(_nuxt)
-RewriteCond %{REQUEST_URI} !.*vuefront/_nuxt
+RewriteCond %{REQUEST_URI} !.*/vuefront/_nuxt
 RewriteRule ^([^?]*) vuefront/$1
 
 # VueFront pages
@@ -114,12 +151,12 @@ RewriteRule ^([^?]*) vuefront/$1
 # VueFront home page
 RewriteCond %{REQUEST_URI} !.*(images|index.php|.html|admin|.js|.css|.png|.jpeg|.ico|wp-json|wp-admin|checkout)
 RewriteCond %{QUERY_STRING} !.*(rest_route)
-RewriteCond %{DOCUMENT_ROOT}/vuefront/index.html -f
+RewriteCond %{DOCUMENT_ROOT}".$catalog_path."vuefront/index.html -f
 RewriteRule ^$ vuefront/index.html [L]
 
 RewriteCond %{REQUEST_URI} !.*(images|index.php|.html|admin|.js|.css|.png|.jpeg|.ico|wp-json|wp-admin|checkout)
 RewriteCond %{QUERY_STRING} !.*(rest_route)
-RewriteCond %{DOCUMENT_ROOT}/vuefront/index.html !-f
+RewriteCond %{DOCUMENT_ROOT}".$catalog_path."vuefront/index.html !-f
 RewriteRule ^$ vuefront/200.html [L]
 
 # VueFront page if exists html file
@@ -127,7 +164,7 @@ RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_URI} !.*(images|index.php|.html|admin|.js|.css|.png|.jpeg|.ico|wp-json|wp-admin|checkout)
 RewriteCond %{QUERY_STRING} !.*(rest_route)
-RewriteCond %{DOCUMENT_ROOT}/vuefront/$1.html -f
+RewriteCond %{DOCUMENT_ROOT}".$catalog_path."vuefront/$1.html -f
 RewriteRule ^([^?]*) vuefront/$1.html [L,QSA]
 
 # VueFront page if not exists html file
@@ -135,7 +172,7 @@ RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_URI} !.*(images|index.php|.html|admin|.js|.css|.png|.jpeg|.ico|wp-json|wp-admin|checkout)
 RewriteCond %{QUERY_STRING} !.*(rest_route)
-RewriteCond %{DOCUMENT_ROOT}/vuefront/$1.html !-f
+RewriteCond %{DOCUMENT_ROOT}".$catalog_path."vuefront/$1.html !-f
 RewriteRule ^([^?]*) vuefront/200.html [L,QSA]";
 
                 $content = file_get_contents(ABSPATH . '.htaccess');
