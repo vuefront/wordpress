@@ -67,7 +67,7 @@ function VFA_vuefront_admin_action_vf_information() {
 	$plugin_version = $plugin_data['Version'];
 	$extensions = array();
 	$extensions[] = array(
-		'name' => $woocommerce_data['Name'],
+		'name' => 'WooCommerce',
 		'version' => $woocommerce_data['Version'],
 		'status' => is_plugin_active( 'woocommerce/woocommerce.php' )
 	);
