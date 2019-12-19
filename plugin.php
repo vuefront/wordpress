@@ -115,7 +115,7 @@ function VFA_vuefront_admin_action_turn_on() {
 
 			$catalog_path = $catalog_url_info['path'];
 
-			$catalog_path = $catalog_path == '' ? '/' : $catalog_path;
+			$catalog_path = $catalog_path . '/';
 			if(!file_exists(ABSPATH . '.htaccess')) {
 				file_put_contents(ABSPATH.'.htaccess', "# BEGIN WordPress
 <IfModule mod_rewrite.c>
