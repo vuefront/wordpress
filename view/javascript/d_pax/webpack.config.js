@@ -233,7 +233,7 @@ module.exports = (env, argv) => {
                 fallback: 'file-loader',
                 context: path.resolve(__dirname, './assets'),
                 outputPath: './',
-                publicPath: '/'+publicRelativePath,
+                publicPath: '../'+publicRelativePath,
                 name: '[path][name].[ext]'
               }
             }

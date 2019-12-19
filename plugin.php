@@ -92,6 +92,13 @@ function VFA_vuefront_admin_action_vf_information() {
 function VFA_vuefront_admin_action_turn_off() {
     if ( strpos( $_SERVER["SERVER_SOFTWARE"], "Apache" ) !== false ) {
         if ( file_exists( __DIR__ . '/.htaccess.txt' ) ) {
+	        if(!is_writable(ABSPATH . '.htaccess') || !is_writable(__DIR__.'/.htaccess.txt')) {
+
+		        $error = new WP_Error( '500', 'not_writable_htaccess' );
+
+		        wp_send_json_error( $error, 500 );
+		        return;
+	        }
             $content = file_get_contents(__DIR__.'/.htaccess.txt');
             file_put_contents(ABSPATH.'.htaccess', $content);
             unlink(__DIR__.'/.htaccess.txt');
@@ -125,19 +132,11 @@ RewriteRule . /index.php [L]
 			}
 
 			if(!is_writable(ABSPATH . '.htaccess')) {
-//				http_response_code(500);
-//				header("HTTP/1.1 401 Unauthorized");
-//				status_header(500);
-//				echo json_encode(array(
-//					'error'=> 'not_writable_htaccess'
-//				));
+
 				$error = new WP_Error( '500', 'not_writable_htaccess' );
 
 				wp_send_json_error( $error, 500 );
 				return;
-//				new WP_Error( json_encode(array(
-//					'error'=> 'not_writable_htaccess'
-//				)));
 			}
 
 			if ( file_exists( ABSPATH . '.htaccess' ) ) {
