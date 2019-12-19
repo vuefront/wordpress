@@ -278,6 +278,7 @@ export default {
         letter-spacing: 0.18px;
         text-align: left;
         color: $black;
+        overflow-y: auto;
       }
       &_title {
         font-family: 'Open Sans', sans-serif;

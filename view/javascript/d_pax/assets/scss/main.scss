@@ -75,6 +75,10 @@
   .pagination.b-pagination {
     display: inline-flex;
     flex-flow: row;
+    list-style: none;
+    border: 0;
+    width: auto;
+    padding: 0;
     .page-item {
       a, span {
         font-size: 25px;

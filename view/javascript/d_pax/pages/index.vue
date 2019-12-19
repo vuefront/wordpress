@@ -2,10 +2,10 @@
   <div class="vf-home">
     <b-row>
       <b-col md="9">
-        <re-build />
+        <re-build v-show="!cms.generating" />
         <welcome
           v-if="cms.builds.length === 0"
-          v-hide="cms.generating"
+          v-show="!cms.generating"
         />
         <activity v-if="cms.builds.length > 0 || cms.generating" />
         <first-build v-if="firstBuild" />
