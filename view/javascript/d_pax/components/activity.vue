@@ -1,6 +1,5 @@
 <template>
   <div
-    v-if="cms.builds.length > 0"
     class="vf-activity"
   >
     <b-table
