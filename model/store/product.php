@@ -6,7 +6,13 @@ class VFA_ModelStoreProduct extends VFA_Model
     {
         global $wpdb;
 
-        $result = $wpdb->get_row("SELECT pm.`meta_value` AS related FROM `".$wpdb->prefix."postmeta` pm WHERE pm.`post_id` = '".(int)$product_id."' AND pm.`meta_key` = '_upsell_ids'");
+        $sql = "SELECT pm.`meta_value` AS related FROM `".$wpdb->prefix."postmeta` pm WHERE pm.`post_id` = '".(int)$product_id."' AND pm.`meta_key` = '_upsell_ids'";
+
+        $result = get_transient(md5($sql));
+        if($result === false) {
+            $result = $wpdb->get_row( $sql );
+            set_transient(md5($sql), $result, 300);
+        }
 
         $product_data = unserialize($result->related);
 
@@ -17,7 +23,13 @@ class VFA_ModelStoreProduct extends VFA_Model
     {
         global $wpdb;
 
-        $result = $wpdb->get_row("SELECT pm.`meta_value` AS images FROM `".$wpdb->prefix."postmeta` pm WHERE pm.`post_id` = '".(int)$product_id."' AND pm.`meta_key` = '_product_image_gallery'");
+        $sql = "SELECT pm.`meta_value` AS images FROM `".$wpdb->prefix."postmeta` pm WHERE pm.`post_id` = '".(int)$product_id."' AND pm.`meta_key` = '_product_image_gallery'";
+
+        $result = get_transient(md5($sql));
+        if($result === false) {
+            $result = $wpdb->get_row( $sql );
+            set_transient(md5($sql), $result, 300);
+        }
 
         $product_data = !empty($result->images) ? explode(',', $result->images) : array();
 
@@ -28,7 +40,13 @@ class VFA_ModelStoreProduct extends VFA_Model
     {
         global $wpdb;
 
-        $result = $wpdb->get_row("SELECT pm.`meta_value` AS attributes FROM `".$wpdb->prefix."postmeta` pm WHERE pm.`post_id` = '".(int)$product_id."' AND pm.`meta_key` = '_product_attributes'");
+        $sql = "SELECT pm.`meta_value` AS attributes FROM `".$wpdb->prefix."postmeta` pm WHERE pm.`post_id` = '".(int)$product_id."' AND pm.`meta_key` = '_product_attributes'";
+
+        $result = get_transient(md5($sql));
+        if($result === false) {
+            $result = $wpdb->get_row( $sql );
+            set_transient(md5($sql), $result, 300);
+        }
 
         $attribute_data = unserialize($result->attributes);
 
@@ -38,13 +56,19 @@ class VFA_ModelStoreProduct extends VFA_Model
     public function getOptionValues($taxonomy) {
         global $wpdb;
         
-        $result = $wpdb->get_results("SELECT 
-            t.`name`,
-            t.`slug`
-        FROM
-            `".$wpdb->prefix."term_taxonomy`  tt
-            LEFT JOIN `".$wpdb->prefix."terms` t ON t.`term_id` = tt.`term_id`
-        WHERE tt.taxonomy = '".$taxonomy."' ");
+        $sql = "SELECT 
+        t.`name`,
+        t.`slug`
+    FROM
+        `".$wpdb->prefix."term_taxonomy`  tt
+        LEFT JOIN `".$wpdb->prefix."terms` t ON t.`term_id` = tt.`term_id`
+    WHERE tt.taxonomy = '".$taxonomy."' ";
+
+        $result = get_transient(md5($sql));
+        if($result === false) {
+            $result = $wpdb->get_results( $sql );
+            set_transient(md5($sql), $result, 300);
+        }
 
         return $result;
     }
@@ -78,7 +102,11 @@ class VFA_ModelStoreProduct extends VFA_Model
             LEFT JOIN wp_postmeta pss ON (pss.post_id = p.ID AND pss.meta_key = '_stock_status')
             WHERE p.ID = '".(int)$product_id."'";
 
-        $result = $wpdb->get_row($sql);
+        $result = get_transient(md5($sql));
+        if($result === false) {
+            $result = $wpdb->get_row( $sql );
+            set_transient(md5($sql), $result, 300);
+        }
         
         return $result;
     }
@@ -101,7 +129,11 @@ class VFA_ModelStoreProduct extends VFA_Model
        ORDER BY price ASC
        LIMIT 0, 1";
 
-        $result = $wpdb->get_row($sql);
+        $result = get_transient (md5($sql), 'vuefront');
+        if($result === false) {
+            $result = $wpdb->get_row( $sql );
+            wp_cache_add(md5($sql), $result, 'vuefront');
+        }
 
         return $result->ID;
     }
@@ -188,7 +220,12 @@ class VFA_ModelStoreProduct extends VFA_Model
             $sql .= " LIMIT " . (int) $data['start'] . "," . (int) $data['limit'];
         }
 
-        $results = $wpdb->get_results($sql);
+
+        $results = get_transient(md5($sql));
+        if($results === false) {
+            $results = $wpdb->get_results( $sql );
+            set_transient(md5($sql), $results, 300);
+        }
 
         return $results;
     }
@@ -230,7 +267,11 @@ class VFA_ModelStoreProduct extends VFA_Model
             $sql .= ' AND ' . implode(' AND ', $implode);
         }
 
-        $result = $wpdb->get_row($sql);
+        $result = get_transient(md5($sql));
+        if($result === false) {
+            $result = $wpdb->get_row( $sql );
+            set_transient(md5($sql), $result, 300);
+        }
 
         return $result->total;
     }

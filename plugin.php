@@ -145,6 +145,16 @@ RewriteCond %{REQUEST_URI} .*(_nuxt)
 RewriteCond %{REQUEST_URI} !.*/vuefront/_nuxt
 RewriteRule ^([^?]*) vuefront/$1
 
+# VueFront sw.js
+RewriteCond %{REQUEST_URI} .*(sw.js)
+RewriteCond %{REQUEST_URI} !.*/vuefront/sw.js
+RewriteRule ^([^?]*) vuefront/$1
+
+# VueFront favicon.ico
+RewriteCond %{REQUEST_URI} .*(favicon.ico)
+RewriteCond %{REQUEST_URI} !.*/vuefront/favicon.ico
+RewriteRule ^([^?]*) vuefront/$1
+
 # VueFront pages
 
 # VueFront home page

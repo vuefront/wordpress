@@ -16,10 +16,14 @@ class VFA_ModelBlogCategory extends VFA_Model {
             ON tt.`term_id` = t.`term_id` 
         WHERE tt.`taxonomy` = 'category' and t.`term_id` = '" . (int) $category_id . "'";
 
-		$sql .= " GROUP BY t.term_id";
-
-		$result = $wpdb->get_row( $sql );
-
+        $sql .= " GROUP BY t.term_id";
+        
+        $result = get_transient(md5($sql));
+        if($result === false) {
+            $result = $wpdb->get_row( $sql );
+            set_transient(md5($sql), $result, 300);
+        }
+        
 		return $result;
 	}
 
@@ -77,7 +81,13 @@ class VFA_ModelBlogCategory extends VFA_Model {
 			$sql .= " LIMIT " . (int) $data['start'] . "," . (int) $data['limit'];
 		}
 
-		$results = $wpdb->get_results( $sql );
+        $results = get_transient(md5($sql));
+
+        if($results === false) {
+            $results = $wpdb->get_results( $sql );
+
+            set_transient(md5($sql), $results, 300);
+        }
 
 		return $results;
 	}
@@ -102,7 +112,11 @@ class VFA_ModelBlogCategory extends VFA_Model {
 			$sql .= ' AND ' . implode( ' AND ', $implode );
 		}
 
-		$result = $wpdb->get_row( $sql );
+        $result = get_transient(md5($sql));
+        if($result === false) {
+            $result = $wpdb->get_row( $sql );
+            set_transient(md5($sql), $result, 300);
+        }
 
 		return $result->total;
 	}
