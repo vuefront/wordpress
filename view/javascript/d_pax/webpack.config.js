@@ -132,7 +132,9 @@ module.exports = (env, argv) => {
                   let newBuffer = new Buffer.from(body)
 
                   const gzipRes =  isZipped ? zlib.gzipSync(newBuffer) : newBuffer
-                  res.setHeader('content-length', gzipRes.length);
+                  if(isZipped) {
+                    res.setHeader('content-length', gzipRes.length);
+                  }
                   _write.call(res, gzipRes)
                 } catch (e) {
                   _write.call(res, buffer)

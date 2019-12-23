@@ -1,5 +1,8 @@
 <template>
-  <div class="header-account">
+  <div
+    id="vf-header-account"
+    class="header-account"
+  >
     <b-nav-item-dropdown
       toggle-class="text-decoration-none text-1 m-0 font-weight-semibold"
       no-caret
@@ -84,7 +87,7 @@ export default {
 }
 </script>
 <style lang="scss">
-  .header-account {
+  #vf-header-account.header-account {
     display: flex;
     align-items: center;
     height: 52px;
@@ -93,7 +96,7 @@ export default {
     background-color: $white;
     padding: 13px 17px;
 
-    &__separator {
+    .header-account__separator {
       border-top: 1px solid $white-eight;
       margin-top: 0;
       margin: 15px 0;
@@ -159,12 +162,12 @@ export default {
       box-shadow: none;
     }
 
-    &__icon {
+    .header-account__icon {
       font-size: 24px;
       color: #1a1a1a;
     }
 
-    &__full_name {
+    .header-account__full_name {
       margin-right: 5px;
       font-size: 18px;
       font-weight: 600;
@@ -177,7 +180,7 @@ export default {
       }
     }
 
-    &__image {
+    .header-account__image {
       border-radius: 50%;
       margin-right: 10px;
       width: 24px;
