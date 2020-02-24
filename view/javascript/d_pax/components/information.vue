@@ -13,7 +13,7 @@
         {{ $t('textBuildMin') }}
       </div>
       <div class="vf-information__item_value">
-        {{ Math.floor($moment.duration(cms.usagedTime, 'milliseconds').asMinutes()) }} / 100
+        {{ totalUsaged }} / {{ timeCount }}
       </div>
     </div>
     <div class="vf-information__item">
@@ -58,7 +58,13 @@
 import {mapGetters} from 'vuex'
 export default {
   computed: {
-    ...mapGetters({information: 'information/get', cms: 'cms/get'})
+    ...mapGetters({information: 'information/get', cms: 'cms/get', account: 'account/get'}),
+    totalUsaged () {
+      return Math.floor(this.$moment.duration(this.account.times, 'milliseconds').asMinutes())
+    },
+    timeCount () {
+      return this.account.subscribe ? 1000 : 100
+    }
   }
 }
 </script>

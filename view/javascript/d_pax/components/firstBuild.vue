@@ -22,6 +22,7 @@
       >{{ $t('text_bellow') }}</a>.
     </div>
     <div
+      v-if="information.apache"
       class="first-build__footer_title"
     >
       {{ $t('footerTitlePopup') }}

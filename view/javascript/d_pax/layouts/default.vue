@@ -26,7 +26,10 @@ export default {
 </script>
 <i18n locale="en">
 {
-  "not_writable_htaccess": "File permissions. Please add writing permissions to the following files and folder: .htaccess"
+  "not_writable_htaccess": "File permissions. Please add writing permissions to the following files and folder: .htaccess",
+  "validate_payment": "Not verified account",
+  "not_exists_url": "The CMS Connect URL you have provided is not working. Please check if you have properly specified the url and try again.",
+  "not_working_graphql_api": "The CMS Connect URL you have provided is not working. Please check if you have properly specified the url and try again."
 }
 </i18n>
 <style lang="scss">

@@ -12,7 +12,7 @@
         <development />
       </b-col>
       <b-col md="3">
-        <subscription v-if="false" />
+        <subscription v-if="!account.subscribe" />
         <information />
       </b-col>
     </b-row>
@@ -42,7 +42,7 @@ export default {
   },
   middleware: ['authenticated', 'confirmed', 'noBanned', 'noAlien'],
   computed: {
-    ...mapGetters({information: 'information/get', cms: 'cms/get', firstBuild: 'cms/firstBuild'})
+    ...mapGetters({account: 'account/get' ,information: 'information/get', cms: 'cms/get', firstBuild: 'cms/firstBuild'})
   }
 }
 </script>

@@ -186,6 +186,7 @@ export default {
       letter-spacing: 0.18px;
       text-align: left;
       color: $warm-grey-two;
+      margin-bottom: 10px;
       ul {
         list-style-type: decimal;
         padding-left: 20px;

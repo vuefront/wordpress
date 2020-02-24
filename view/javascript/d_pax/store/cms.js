@@ -37,6 +37,48 @@ export const getters = {
 }
 
 export const actions = {
+
+  async subscribe({commit}) {
+    try {
+      const { data } = await this.$apolloClient.defaultClient.mutate({
+        mutation: gql`
+          mutation {
+            subscribeCms {
+              id
+              firstName
+              lastName
+              email
+              npmToken
+              banned
+              confirmed
+              balance
+              times
+              subscribe
+              subscribeCancel
+              subscribeDateEnd
+              paymentMethodChecked
+              image(width: 101, height: 101) {
+                  url
+                  path
+              }
+              developer {
+                linkSupport
+                status
+                username
+              }
+              role {
+                name
+              }
+            }
+          }
+        `,
+        variables: {}
+      })
+      commit('account/setAccount', data.subscribeCms, { root: true })
+    } catch (e) {
+      commit('setResponseError', e, { root: true })
+    }
+  },
   async search({commit, getters, dispatch, rootGetters}) {
     let id = false
     for(const key in getters['list'].content) {

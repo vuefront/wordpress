@@ -79,6 +79,11 @@ export const actions = {
               email
               banned
               confirmed
+              times
+              subscribe
+              subscribeCancel
+              subscribeDateEnd
+              paymentMethodChecked
               image(width: 101, height: 101) {
                   url
                   path
@@ -111,6 +116,11 @@ export const actions = {
                 email
                 banned
                 confirmed
+                times
+                subscribe
+                subscribeCancel
+                subscribeDateEnd
+                paymentMethodChecked
                 image(width: 101, height: 101) {
                     url
                     path
@@ -148,6 +158,11 @@ export const actions = {
                 email
                 banned
                 confirmed
+                times
+                subscribe
+                subscribeCancel
+                subscribeDateEnd
+                paymentMethodChecked
                 image(width: 101, height: 101) {
                     url
                     path

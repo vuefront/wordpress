@@ -42,7 +42,8 @@ export default {
   },
   computed: {
     ...mapGetters({
-      cms: 'cms/get'
+      cms: 'cms/get',
+      error: 'error'
     })
   },
   mounted() {
@@ -62,17 +63,21 @@ export default {
     async handleGenerate() {
       this.loading = true
       await this.$store.dispatch('cms/generate', {id: this.cms.id})
-      const interval = setInterval(async () => {
-        await this.$store.dispatch('cms/load', {id: this.cms.id})
-        this.$apolloClient.defaultClient.clearStore()
-        if(!this.cms.generating) {
-          await this.$store.dispatch('information/updateVueFront', {url: this.cms.downloadUrl})
-          this.$store.commit('cms/setFirstBuild', true)
+      if(!this.error) {
+        const interval = setInterval(async () => {
+          await this.$store.dispatch('cms/load', {id: this.cms.id})
+          this.$apolloClient.defaultClient.clearStore()
+          if(!this.cms.generating) {
+            await this.$store.dispatch('information/updateVueFront', {url: this.cms.downloadUrl})
+            this.$store.commit('cms/setFirstBuild', true)
 
-          this.loading = false
-          clearInterval(interval)
-        }
-      }, 3000)
+            this.loading = false
+            clearInterval(interval)
+          }
+        }, 3000)
+      } else {
+        this.loading = false
+      }
     }
   }
 }

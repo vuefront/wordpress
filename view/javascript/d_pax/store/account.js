@@ -38,6 +38,10 @@ export const actions = {
             confirmed
             email
             banned
+            subscribe
+            subscribeCancel
+            subscribeDateEnd
+            paymentMethodChecked
             image(width: 101, height: 101) {
                 url
                 path

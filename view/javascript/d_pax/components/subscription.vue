@@ -10,11 +10,21 @@
       class="account-subscription__button"
       variant="warning"
       size="lg"
+      @click="handleSubscribe"
     >
       {{ $t("button_subscribe") }}
     </b-button>
   </div>
 </template>
+<script>
+export default {
+  methods: {
+    async handleSubscribe () {
+      await this.$store.dispatch('cms/subscribe')
+    }
+  }
+}
+</script>
 <i18n locale="en">
 {
   "text_title": "Go Production!",
