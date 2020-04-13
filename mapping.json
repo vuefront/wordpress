@@ -29,6 +29,11 @@
     "addBlogPostReview": "blog/review/add",
 
     "checkoutLink": "store/checkout/link",
+    "paymentAddress": "store/checkout/paymentAddress",
+    "shippingAddress": "store/checkout/shippingAddress",
+    "paymentMethods": "store/checkout/paymentMethods",
+    "shippingMethods": "store/checkout/shippingMethods",
+    "createOrder": "store/checkout/createOrder",
 
     "cart": "store/cart/get",
     "addToCart": "store/cart/add",
@@ -54,7 +59,7 @@
     "productsList": "store/product/getList",
     "product": "store/product/get",
     "addReview": "store/review/add",
-    
+
     "wishlist": "store/wishlist/getList",
     "addToWishlist": "store/wishlist/add",
     "removeWishlist": "store/wishlist/remove",

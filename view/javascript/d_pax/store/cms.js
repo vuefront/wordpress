@@ -1,6 +1,8 @@
 import gql from 'graphql-tag'
 export const state = () => ({
-  cms: {},
+  cms: {
+    builds: []
+  },
   entities: {},
   alien: false,
   firstBuild: false

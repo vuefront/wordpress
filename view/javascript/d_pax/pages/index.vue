@@ -9,6 +9,7 @@
         />
         <activity v-if="cms.builds.length > 0 || cms.generating" />
         <first-build v-if="firstBuild" />
+        <apps />
         <development />
       </b-col>
       <b-col md="3">
@@ -27,6 +28,7 @@ import Activity from '~/components/activity'
 import Welcome from '~/components/welcome'
 import ReBuild from '~/components/rebuild'
 import FirstBuild from '~/components/firstBuild'
+import Apps from '~/components/apps'
 export default {
   components: {
     Subscription,
@@ -35,10 +37,12 @@ export default {
     Activity,
     Welcome,
     ReBuild,
-    FirstBuild
+    FirstBuild,
+    Apps
   },
   async fetch(ctx) {
     await ctx.store.dispatch('information/load')
+    await ctx.store.dispatch('apps/list')
   },
   middleware: ['authenticated', 'confirmed', 'noBanned', 'noAlien'],
   computed: {

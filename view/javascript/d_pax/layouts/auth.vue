@@ -2,7 +2,9 @@
   <div class="vf-module-content">
     <b-container fluid>
       <b-row>
-        <b-col md="6">
+        <b-col
+          md="6"
+        >
           <banner />
         </b-col>
         <b-col

@@ -25,6 +25,9 @@ function VFA_simulate_as_not_rest( $is_rest_api_request ) {
 
 add_action( 'admin_menu', 'VFA_add_plugin_page' );
 add_action( 'admin_enqueue_scripts', 'VFA_vuefront_admin_styles' );
+add_action( 'wp_ajax_vf_apps', 'VFA_vuefront_admin_action_apps' );
+add_action( 'wp_ajax_vf_apps_create', 'VFA_vuefront_admin_action_apps_create' );
+add_action( 'wp_ajax_vf_apps_remove', 'VFA_vuefront_admin_action_apps_remove' );
 add_action( 'wp_ajax_vf_register', 'VFA_vuefront_admin_action_register' );
 add_action( 'wp_ajax_vf_turn_on', 'VFA_vuefront_admin_action_turn_on' );
 add_action( 'wp_ajax_vf_update', 'VFA_vuefront_admin_action_update' );
@@ -88,6 +91,49 @@ function VFA_vuefront_admin_action_vf_information() {
 	);
 	wp_die();
 }
+
+function VFA_vuefront_admin_action_apps_create() {
+	$setting = get_option('vuefront-apps');
+
+	$d = new DateTime();
+        
+	$setting[] = array(
+		'codename' => $_POST['codename'],
+		'jwt' => $_POST['jwt'],
+		'dateAdded' => $d->format('Y-m-d\TH:i:s.u')
+	);
+
+
+	update_option('vuefront-apps', $setting);
+
+	echo json_encode(
+		array('success' => 'success')
+	);
+
+	wp_die();
+}
+
+function VFA_vuefront_admin_action_apps() {
+
+	echo json_encode(
+		get_option('vuefront-apps')
+	);
+
+	wp_die();
+}
+
+function VFA_vuefront_admin_action_apps_remove() {
+	$setting = get_option('vuefront-apps');
+	unset($setting[$_POST['key']]);
+	update_option('vuefront-apps', $setting);
+
+	echo json_encode(
+		array('success' => 'success')
+	);
+
+	wp_die();
+}
+
 
 function VFA_vuefront_admin_action_turn_off() {
     if ( strpos( $_SERVER["SERVER_SOFTWARE"], "Apache" ) !== false ) {
@@ -308,6 +354,16 @@ function VFA_RestApi( WP_REST_Request $request ) {
 	return $output;
 }
 
+function VFA_Callback(WP_REST_Request $request) {
+	$registry = VFA_Start();
+
+	$registry->set( 'request', $request );
+
+	$output = $registry->get( 'load' )->resolver( 'store/checkout/callback' );
+
+	return $output;
+}
+
 add_action( 'determine_current_user', function ( $user ) {
 	$registry = VFA_Start();
 
@@ -318,6 +374,11 @@ add_action( 'rest_api_init', function () {
 	register_rest_route( 'vuefront/v1', '/graphql', array(
 		'methods'  => 'POST',
 		'callback' => 'VFA_RestApi',
+	) );
+
+	register_rest_route( 'vuefront/v1', '/callback', array(
+		'methods'  => 'POST',
+		'callback' => 'VFA_Callback',
 	) );
 } );
 
