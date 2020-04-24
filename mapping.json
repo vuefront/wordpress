@@ -34,6 +34,9 @@
     "paymentMethods": "store/checkout/paymentMethods",
     "shippingMethods": "store/checkout/shippingMethods",
     "createOrder": "store/checkout/createOrder",
+    "updateOrder": "store/checkout/updateOrder",
+    "confirmOrder": "store/checkout/confirmOrder",
+    "totals": "store/checkout/totals",
 
     "cart": "store/cart/get",
     "addToCart": "store/cart/add",

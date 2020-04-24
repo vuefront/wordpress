@@ -41,6 +41,11 @@ class VFA_ResolverStartupStartup extends VFA_Resolver
         return $result;
     }
 
+    public function playground() {
+        header("Content-Type: text/html");
+        return '<html><body>123123</body></html>';
+    }
+
     public function determine_current_user($user)
     {
         $this->load->model('common/token');

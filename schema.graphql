@@ -382,6 +382,35 @@ input InputField {
   value: String
 }
 
+type CreateOrderResult {
+  success: String
+}
+
+type UpdateOrderResult {
+  paymentMethods: [PaymentMethod]
+  shippingMethods: [ShippingMethod]
+  totals: [Total]
+}
+
+type ConfirmOrderResult {
+  order: Order
+  url: String
+}
+
+type Order {
+  id: String
+}
+
+type PaymentAddressResult {
+  fields: [AddressField]
+  agree: String
+}
+
+type Total {
+  title: String
+  text: String
+}
+
 type RootMutationType {
   uploadFile(file: Upload): FileResult
   accountLogin(email: String, password: String): LoginResult
@@ -404,21 +433,10 @@ type RootMutationType {
   addToWishlist(id: Int): [Product]
   removeWishlist(id: String): [Product]
   contactSend(name: String, email: String, message: String): ContactResult
-  createOrder(paymentAddress: [InputField], shippingAddress: [InputField], paymentMethod: String, shippingMethod: String): CreateOrderResult
-}
+  createOrder: CreateOrderResult
+  updateOrder(paymentAddress: [InputField], shippingAddress: [InputField], paymentMethod: String, shippingMethod: String): UpdateOrderResult
+  confirmOrder: ConfirmOrderResult
 
-type CreateOrderResult {
-  order:Order,
-  url: String
-}
-
-type Order {
-  id: String
-}
-
-type PaymentAddressResult {
-  fields: [AddressField]
-  agree: String
 }
 
 type RootQueryType {
@@ -426,6 +444,7 @@ type RootQueryType {
   paymentMethods: [PaymentMethod]
   paymentAddress: PaymentAddressResult
   shippingAddress: [AddressField]
+  totals: [Total]
   home: HomeResult
   zone(id: Int): Zone
   zonesList(page: Int = 1, size: Int = 10, search: String, country_id: String, sort: String = "name", order: String = "ASC"): ZonesResult
@@ -452,3 +471,4 @@ type RootQueryType {
   accountAddress(id: String): AccountAddress
   checkoutLink: CheckoutLinkResult
 }
+
