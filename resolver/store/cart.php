@@ -48,13 +48,13 @@ class VFA_ResolverStoreCart extends VFA_Resolver
                 'product'  => $this->load->resolver('store/product/get', array( 'id' => $product_id )),
                 'quantity' => $product['quantity'],
                 'option'   => array(),
-                'total'    => $product['line_total'] . ' ' . $this->model_store_product->getCurrencySymbol()
+                'total'    => $this->currency->format($product['line_total'])
             );
         }
 
         $total = !empty($cart['products']) ? WC()->cart->total : 0;
         
-        $cart['total'] = $total . ' ' . $this->model_store_product->getCurrencySymbol();
+        $cart['total'] = $this->currency->format($total);
 
         return $cart;
     }

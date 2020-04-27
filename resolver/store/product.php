@@ -27,21 +27,21 @@ class VFA_ResolverStoreProduct extends VFA_Resolver
 
             $variation_product = $this->model_store_product->getProduct($variation_id);
             if(!empty($variation_product->price)) {
-                $price = $variation_product->price . ' ' . $this->model_store_product->getCurrencySymbol();
+                $price = $this->currency->format($variation_product->price);
             } else {
-                $price = $product->price_variation . ' ' . $this->model_store_product->getCurrencySymbol();
+                $price = $this->currency->format($product->price_variation);
             }
 
             if ($variation_product->special > 0) {
-                $special = $variation_product->special . ' ' . $this->model_store_product->getCurrencySymbol();
+                $special = $this->currency->format($variation_product->special);
             } else {
                 $special = '';
             }
         } else {
-            $price = $product->price . ' ' . $this->model_store_product->getCurrencySymbol();
+            $price = $this->currency->format($product->price);
 
             if ($product->special > 0) {
-                $special = $product->special . ' ' . $this->model_store_product->getCurrencySymbol();
+                $special = $this->currency->format($product->special);
             } else {
                 $special = '';
             }
