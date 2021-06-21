@@ -91,7 +91,10 @@ class VFA_ModelStoreProduct extends VFA_Model
             pt.meta_value as image_id,
             (SELECT t.slug FROM wp_term_relationships rel
             LEFT JOIN wp_term_taxonomy tax ON tax.term_taxonomy_id = rel.term_taxonomy_id
-            LEFT JOIN wp_terms t ON t.term_id = tax.term_id WHERE rel.`object_id` = p.ID AND tax.`taxonomy` = 'product_type') AS type
+            LEFT JOIN wp_terms t ON t.term_id = tax.term_id WHERE rel.`object_id` = p.ID AND tax.`taxonomy` = 'product_type') AS type,
+            (SELECT t.slug FROM wp_term_relationships rel
+            LEFT JOIN wp_term_taxonomy tax ON tax.term_taxonomy_id = rel.term_taxonomy_id
+            LEFT JOIN wp_terms t ON t.term_id = tax.term_id WHERE rel.`object_id` = p.ID AND tax.`taxonomy` = 'pwb-brand') AS manufacturer_id
             FROM wp_posts p
             LEFT JOIN wp_postmeta pm ON (pm.post_id = p.ID AND pm.meta_key = '_regular_price')
             LEFT JOIN wp_postmeta pvm ON (pvm.post_id = p.ID AND pvm.meta_key = '_price')
@@ -163,6 +166,13 @@ class VFA_ModelStoreProduct extends VFA_Model
             $implode[] = "p.ID in ('".implode("' , '", $data['filter_ids'])."')";
         }
 
+        if (!empty($data['filter_manufacturer_id'])) {
+            $implode[] = "'".$data['filter_manufacturer_id']."' IN (SELECT t.`slug` FROM wp_term_relationships rel
+            LEFT JOIN wp_term_taxonomy tax ON tax.term_taxonomy_id = rel.term_taxonomy_id
+            LEFT JOIN wp_terms t ON t.term_id = tax.term_id
+            WHERE rel.`object_id` = p.ID AND tax.`taxonomy` = 'pwb-brand')";
+        }
+
         if (!empty($data['filter_category_id'])) {
             $implode[] = "'".(int)$data['filter_category_id']."' IN (SELECT t.`term_id` FROM wp_term_relationships rel
             LEFT JOIN wp_term_taxonomy tax ON tax.term_taxonomy_id = rel.term_taxonomy_id
@@ -221,6 +231,7 @@ class VFA_ModelStoreProduct extends VFA_Model
         }
 
 
+        
         $results = get_transient(md5($sql));
         if($results === false) {
             $results = $wpdb->get_results( $sql );
@@ -244,6 +255,13 @@ class VFA_ModelStoreProduct extends VFA_Model
 
         if (!empty($data['filter_ids'])) {
             $implode[] = "p.ID in ('".implode("' , '", $data['filter_ids'])."')";
+        }
+
+        if (!empty($data['filter_manufacturer_id'])) {
+            $implode[] = "'".$data['filter_manufacturer_id']."' IN (SELECT t.`slug` FROM wp_term_relationships rel
+            LEFT JOIN wp_term_taxonomy tax ON tax.term_taxonomy_id = rel.term_taxonomy_id
+            LEFT JOIN wp_terms t ON t.term_id = tax.term_id
+            WHERE rel.`object_id` = p.ID AND tax.`taxonomy` = 'pwb-brand')";
         }
 
         if (!empty($data['filter_category_id'])) {

@@ -11,7 +11,20 @@
     "accountEditAddress": "common/account/editAddress",
     "accountRemoveAddress": "common/account/removeAddress",
 
+    "manufacturerList": "store/manufacturer/getList",
+    "manufacturer": "store/manufacturer/get",
+
+    "customersList": "common/account/customerList",
+    "customer": "common/account/getCustomer",
+
+    "optionsList": "store/option/getList",
+    "option": "store/option/get",
+
     "home": "common/home/get",
+
+    "updateApp": "common/home/updateApp",
+
+    "searchUrl": "common/home/searchUrl",
 
     "uploadFile": "common/file/upload",
 
@@ -37,6 +50,8 @@
     "updateOrder": "store/checkout/updateOrder",
     "confirmOrder": "store/checkout/confirmOrder",
     "totals": "store/checkout/totals",
+
+    "authProxy": "common/home/authProxy",
 
     "cart": "store/cart/get",
     "addToCart": "store/cart/add",

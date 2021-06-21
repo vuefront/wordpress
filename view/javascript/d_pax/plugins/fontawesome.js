@@ -1,4 +1,6 @@
 import Vue from 'vue'
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import SvgIcon from '@jamescoyle/vue-icon'
+// import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
-Vue.component('font-awesome-icon', FontAwesomeIcon)
+Vue.component('SvgIcon', SvgIcon)
+// Vue.component('FontAwesomeIcon', FontAwesomeIcon)

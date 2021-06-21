@@ -16,7 +16,10 @@
             v-if="btnClose"
             class="vf-modal-close"
             @click="cancel"
-          ><font-awesome-icon :icon="['far', 'times']" /></a>
+          ><svg-icon
+            type="mdi"
+            :path="mdiClose"
+          /></a>
           <div
             v-if="$slots.header"
             class="vf-modal-header"
@@ -39,10 +42,8 @@
   </div>
 </template>
 <script>
-import { library } from '@fortawesome/fontawesome-svg-core'
-import { faTimes } from '@fortawesome/pro-regular-svg-icons'
+import { mdiClose } from '@mdi/js';
 
-library.add(faTimes)
 export default {
   props: {
     value: {
@@ -50,10 +51,6 @@ export default {
       default: false
     },
     btnClose: {
-      type: Boolean,
-      default: false
-    },
-    show: {
       type: Boolean,
       default: false
     },
@@ -104,7 +101,9 @@ export default {
   },
   data() {
     return {
-      duration: null
+      duration: null,
+      show: false,
+      mdiClose
     }
   },
   computed: {
@@ -173,7 +172,7 @@ export default {
       /\s?vf-modal-open/,
       ''
     )
-    document.querySelector('html').className += document
+    document.querySelector('html').className = document
       .querySelector('html')
       .className.replace(/\s?vf-modal-open/, '')
   },

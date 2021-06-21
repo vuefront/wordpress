@@ -72,6 +72,10 @@ class VFA_ModelStoreCategory extends VFA_Model {
 			$implode[] = "tt.parent = '" . (int) $data['filter_parent_id'] . "'";
 		}
 
+        if (isset($data['filter_search'])) {
+            $implode[] = "t.`name`  LIKE '%".$data['filter_search']."%'";
+        }
+
 		if ( count( $implode ) > 0 ) {
 			$sql .= ' AND ' . implode( ' AND ', $implode );
 		}
@@ -106,7 +110,7 @@ class VFA_ModelStoreCategory extends VFA_Model {
 
 			$sql .= " LIMIT " . (int) $data['start'] . "," . (int) $data['limit'];
         }
-        
+
         $results = get_transient(md5($sql));
         if($results === false) {
             $results = $wpdb->get_results( $sql );
@@ -131,6 +135,11 @@ class VFA_ModelStoreCategory extends VFA_Model {
 		if ( isset( $data['filter_parent_id'] ) ) {
 			$implode[] = "tt.parent = '" . (int) $data['filter_parent_id'] . "'";
 		}
+
+        if (isset($data['filter_search'])) {
+            $implode[] = "t.`name`  LIKE '%".$data['filter_search']."%'";
+        }
+
 
 		if ( count( $implode ) > 0 ) {
 			$sql .= ' AND ' . implode( ' AND ', $implode );

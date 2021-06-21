@@ -72,6 +72,7 @@ export default {
       letter-spacing: 0.16px;
       text-align: center;
       color: #261805;
+      white-space: normal;
     }
   }
 </style>

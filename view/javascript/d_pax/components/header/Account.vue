@@ -8,7 +8,7 @@
       no-caret
       text
     >
-      <template v-slot:button-content>
+      <template #button-content>
         <img
           :src="accountImage"
           width="24px"
@@ -18,8 +18,9 @@
           layout="fixed"
         >
         <span class="header-account__full_name d-none d-md-block">{{ account.firstName }} {{ account.lastName }}</span>
-        <font-awesome-icon
-          :icon="faAngleDown"
+        <svg-icon
+          type="mdi"
+          :path="mdiChevronDown"
           class="header-account__icon"
         />
       </template>
@@ -58,10 +59,13 @@
 import { mapGetters } from 'vuex'
 import { isNull } from 'lodash'
 import { BNavItemDropdown } from 'bootstrap-vue'
-import { faAngleDown } from '@fortawesome/pro-light-svg-icons'
+import { mdiChevronDown } from '@mdi/js';
 export default {
   components: {
-    BNavItemDropdown
+    BNavItemDropdown,
+  },
+  data() {
+    return {mdiChevronDown}
   },
   computed: {
     ...mapGetters({

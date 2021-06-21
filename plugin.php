@@ -26,8 +26,11 @@ function VFA_simulate_as_not_rest($is_rest_api_request)
 
 add_action('admin_menu', 'VFA_add_plugin_page');
 add_action('admin_enqueue_scripts', 'VFA_vuefront_admin_styles');
+add_action('wp_ajax_vf_settings', 'VFA_vuefront_admin_action_settings');
+add_action('wp_ajax_vf_settings_edit', 'VFA_vuefront_admin_action_settings_edit');
 add_action('wp_ajax_vf_apps', 'VFA_vuefront_admin_action_apps');
 add_action('wp_ajax_vf_apps_create', 'VFA_vuefront_admin_action_apps_create');
+add_action('wp_ajax_vf_apps_edit', 'VFA_vuefront_admin_action_apps_edit');
 add_action('wp_ajax_vf_apps_remove', 'VFA_vuefront_admin_action_apps_remove');
 add_action('wp_ajax_vf_register', 'VFA_vuefront_admin_action_register');
 add_action('wp_ajax_vf_turn_on', 'VFA_vuefront_admin_action_turn_on');
@@ -68,6 +71,26 @@ function VFA_vuefront_rmdir($dir)
     }
 }
 
+function VFA_vuefront_admin_action_settings() {
+    $vfSetting = get_option('vuefront-settings') ? get_option('vuefront-settings') : array();
+    echo json_encode(
+        $vfSetting
+    , JSON_FORCE_OBJECT);
+
+    wp_die();
+}
+
+function VFA_vuefront_admin_action_settings_edit() {
+        $vfSetting = json_decode(stripslashes(html_entity_decode($_POST['setting'], ENT_QUOTES, 'UTF-8')), true);
+        update_option('vuefront-settings', $vfSetting);
+
+        echo json_encode(
+            array('success' => 'success')
+        );
+    
+        wp_die();
+}
+
 function VFA_vuefront_admin_action_vf_information()
 {
     $plugin_data = get_plugin_data(__FILE__);
@@ -81,6 +104,7 @@ function VFA_vuefront_admin_action_vf_information()
     );
 
     $status = file_exists(__DIR__ . '/.htaccess.txt');
+    
     echo json_encode(
         array(
             'apache' => strpos($_SERVER["SERVER_SOFTWARE"], "Apache") !== false,
@@ -109,6 +133,24 @@ function VFA_vuefront_admin_action_apps_create()
         'dateAdded' => $d->format('Y-m-d\TH:i:s.u')
     );
 
+
+    update_option('vuefront-apps', $setting);
+
+    echo json_encode(
+        array('success' => 'success')
+    );
+
+    wp_die();
+}
+
+function VFA_vuefront_admin_action_apps_edit() {
+    $setting = get_option('vuefront-apps');
+
+    $app = json_decode(stripslashes(html_entity_decode($_POST['app'], ENT_QUOTES, 'UTF-8')), true);
+
+    foreach ($app as $key => $value) {
+        $setting[$_POST['key']][$key] = $value;
+    }
 
     update_option('vuefront-apps', $setting);
 
@@ -364,16 +406,6 @@ function VFA_RestApi(WP_REST_Request $request)
     return $output;
 }
 
-function VFA_PayloadApi(WP_REST_Request $request)
-{
-    $registry = VFA_Start();
-
-    $output = $registry->get('load')->resolver('startup/startup/playground');
-
-    echo $output;
-    exit();
-}
-
 function VFA_Callback(WP_REST_Request $request)
 {
     $registry = VFA_Start();
@@ -395,11 +427,6 @@ add_action('rest_api_init', function () {
     register_rest_route('vuefront/v1', '/graphql', array(
         'methods'  => 'POST',
         'callback' => 'VFA_RestApi',
-    ));
-
-    register_rest_route('vuefront/v1', '/graphql', array(
-        'methods'  => 'GET',
-        'callback' => 'VFA_PayloadApi',
     ));
 
     register_rest_route('vuefront/v1', '/callback', array(

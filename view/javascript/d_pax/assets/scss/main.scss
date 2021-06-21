@@ -52,6 +52,12 @@
   font-family: 'Open-Sans', sans-serif;
   box-sizing: border-box;
 
+  .row {
+    &::before, &::after {
+      display: inherit;
+    }
+  }
+
   table {
     border-collapse: collapse; // Prevent double borders
   }
@@ -79,8 +85,9 @@
     border: 0;
     width: auto;
     padding: 0;
+    margin: 5px 0 15px;
     .page-item {
-      a, span {
+      a, span, button {
         font-size: 25px;
         font-weight: 300;
         font-stretch: normal;
@@ -89,6 +96,7 @@
         letter-spacing: normal;
         text-align: left;
         color: $brownish-grey;
+        padding: 6px 12px;
         text-decoration: none;
         margin-left: 25px;
         user-select: none;
@@ -106,12 +114,12 @@
         }
       }
       &:first-child {
-        a, span {
+        a, span, button {
           margin-left: 0;
         }
       }
       &.active {
-       a, span {
+       a, span, button {
          color: #54ba82;
        }
       }

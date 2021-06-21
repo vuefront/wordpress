@@ -17,6 +17,12 @@ class VFA_ResolverCommonPage extends VFA_Resolver
             'description' => $page_info->description,
             'sort_order' => (int)$page_info->sort_order,
             'keyword' => $keyword,
+            'url' => function ($root, $args) {
+                return $this->load->resolver('common/page/url', array(
+                    'parent' => $root,
+                    'args' => $args
+                ));
+            },
             'meta'           => array(
                 'title' => $page_info->title,
                 'description' => $page_info->description,
@@ -62,5 +68,18 @@ class VFA_ResolverCommonPage extends VFA_Resolver
             'totalPages'       => (int) ceil( $page_total / $args['size'] ),
             'totalElements'    => (int) $page_total,
         );
+    }
+    public function url($data) {
+        $post_info = $data['parent'];
+        $result = $data['args']['url'];
+
+        $result = str_replace('_id', $post_info['id'], $result);
+        $result = str_replace('_name', $post_info['name'], $result);
+
+        if ($post_info['keyword']) {
+            $result = '/'.$post_info['keyword'];
+        }
+
+        return $result;
     }
 }

@@ -34,6 +34,7 @@ export const getters = {
 
 export const actions = {
   async clientInit({ dispatch, commit, getters }) {
+    await dispatch('settings/load')
     if(!isNull(this.$cookie.get('auth'))) {
       commit('auth/setAuth', this.$cookie.get('auth'))
 

@@ -126,6 +126,7 @@ type Page {
   title: String @deprecated(reason: "Changed to name!")
   name: String
   description: String
+  url(url: String): String
   keyword: String
   meta: Meta
   sort_order: Int
@@ -163,6 +164,7 @@ type Post {
   next: Post
   prev: Post
   meta: Meta
+  url(url: String): String
 }
 
 type PostResult {
@@ -194,7 +196,13 @@ type Zone {
     countryId: String
 }
 
+type ExtraField {
+  name: String
+  value: String
+}
+
 type Product {
+  extra: [ExtraField]
   products(limit: Int = 3): [Product]
   id: ID
   image: String
@@ -205,6 +213,8 @@ type Product {
   description: String
   model: String
   price: String
+  manufacturerId: String
+  manufacturer: Manufacturer
   special: String
   tax: String
   minimum: Int
@@ -216,6 +226,7 @@ type Product {
   images(limit: Int = 3): [productImage]
   keyword: String
   meta: Meta
+  url(url: String): String
 }
 
 type productAttribute {
@@ -258,6 +269,25 @@ type CountriesResult {
 }
 type ZonesResult {
   content: [Zone]
+  first: Boolean
+  last: Boolean
+  number: Int
+  numberOfElements: Int
+  size: Int
+  totalPages: Int
+  totalElements: Int
+}
+type Manufacturer {
+    id: String
+    name: String
+    image: String
+    imageLazy: String
+    imageBig: String
+    sort_order: Int
+    url(url: String): String
+}
+type ManufacturerResult {
+  content: [Manufacturer]
   first: Boolean
   last: Boolean
   number: Int
@@ -361,6 +391,7 @@ type AddressField {
   type: String
   name: String
   label: String
+  defaultValue: String
   required: Boolean
   values: [FieldValue]
 }
@@ -395,6 +426,7 @@ type UpdateOrderResult {
 type ConfirmOrderResult {
   order: Order
   url: String
+  callback: String
 }
 
 type Order {
@@ -409,6 +441,49 @@ type PaymentAddressResult {
 type Total {
   title: String
   text: String
+}
+
+type SearchUrlResult {
+  url: String
+  type: String
+  id: String
+}
+
+type RootQueryType {
+  shippingMethods: [ShippingMethod]
+  paymentMethods: [PaymentMethod]
+  paymentAddress: PaymentAddressResult
+  shippingAddress: [AddressField]
+  totals: [Total]
+  home: HomeResult
+  zone(id: Int): Zone
+  zonesList(page: Int = 1, size: Int = 10, search: String, country_id: String, sort: String = "name", order: String = "ASC"): ZonesResult
+  country(id: Int): Country
+  countriesList(page: Int = 1, size: Int = 10, search: String, sort: String = "name", order: String = "ASC"): CountriesResult
+  categoryBlog(id: String): categoryBlog
+  categoriesBlogList(page: Int = 1, size: Int = 10, filter: String, parent: Int = -1, sort: String = "sort_order", order: String = "ASC"): categoryBlogResult
+  post(id: String): Post
+  postsList(page: Int = 1, size: Int = 10, filter: String, search: String, category_id: String = "", sort: String = "sort_order", order: String = "ASC"): PostResult
+  cart: Cart
+  category(id: String): Category
+  categoriesList(page: Int = 1, size: Int = 10, filter: String, search: String, parent: Int = -1, sort: String = "sort_order", top: Boolean = false, order: String = "ASC"): CategoryResult
+  compare: [Product]
+  currency: [Currency]
+  language: [Language]
+  page(id: String): Page
+  pagesList(page: Int = 1, size: Int = 10, search: String = "", sort: String = "sort_order", order: String = "ASC"): PageResult
+  productsList(page: Int = 1, size: Int = 15, filter: String = "", special: Boolean = false, search: String = "", ids: [Int] = [], category_id: String = "", manufacturer_id: String= "" sort: String = "sort_order", order: String = "ASC"): ProductResult
+  product(id: String): Product
+  wishlist: [Product]
+  contact: Contact
+  accountCheckLogged: LoggedResult
+  accountAddressList: [AccountAddress]
+  accountAddress(id: String): AccountAddress
+  checkoutLink: CheckoutLinkResult
+  searchUrl(url: String): SearchUrlResult
+  manufacturerList(page: Int = 1, size: Int = 10, search: String = "", sort: String = "name", order: String = "ASC"): ManufacturerResult
+  manufacturer(id: String): Manufacturer
+  authProxy(app: String): String
 }
 
 type RootMutationType {
@@ -434,41 +509,7 @@ type RootMutationType {
   removeWishlist(id: String): [Product]
   contactSend(name: String, email: String, message: String): ContactResult
   createOrder: CreateOrderResult
-  updateOrder(paymentAddress: [InputField], shippingAddress: [InputField], paymentMethod: String, shippingMethod: String): UpdateOrderResult
-  confirmOrder: ConfirmOrderResult
+  updateOrder(paymentAddress: [InputField], paymentAddressId: String, shippingAddress: [InputField], shippingAddressId: String, paymentMethod: String, shippingMethod: String): UpdateOrderResult
+  confirmOrder(withPayment: Boolean = true): ConfirmOrderResult
 
 }
-
-type RootQueryType {
-  shippingMethods: [ShippingMethod]
-  paymentMethods: [PaymentMethod]
-  paymentAddress: PaymentAddressResult
-  shippingAddress: [AddressField]
-  totals: [Total]
-  home: HomeResult
-  zone(id: Int): Zone
-  zonesList(page: Int = 1, size: Int = 10, search: String, country_id: String, sort: String = "name", order: String = "ASC"): ZonesResult
-  country(id: Int): Country
-  countriesList(page: Int = 1, size: Int = 10, search: String, sort: String = "name", order: String = "ASC"): CountriesResult
-  categoryBlog(id: String): categoryBlog
-  categoriesBlogList(page: Int = 1, size: Int = 10, filter: String, parent: Int = -1, sort: String = "sort_order", order: String = "ASC"): categoryBlogResult
-  post(id: String): Post
-  postsList(page: Int = 1, size: Int = 10, filter: String, search: String, category_id: String = "", sort: String = "sort_order", order: String = "ASC"): PostResult
-  cart: Cart
-  category(id: String): Category
-  categoriesList(page: Int = 1, size: Int = 10, filter: String, parent: Int = -1, sort: String = "sort_order", order: String = "ASC"): CategoryResult
-  compare: [Product]
-  currency: [Currency]
-  language: [Language]
-  page(id: String): Page
-  pagesList(page: Int = 1, size: Int = 10, search: String = "", sort: String = "sort_order", order: String = "ASC"): PageResult
-  productsList(page: Int = 1, size: Int = 15, filter: String = "", special: Boolean = false, search: String = "", ids: [Int] = [], category_id: String = "", sort: String = "sort_order", order: String = "ASC"): ProductResult
-  product(id: String): Product
-  wishlist: [Product]
-  contact: Contact
-  accountCheckLogged: LoggedResult
-  accountAddressList: [AccountAddress]
-  accountAddress(id: String): AccountAddress
-  checkoutLink: CheckoutLinkResult
-}
-

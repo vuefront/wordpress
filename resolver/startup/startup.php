@@ -15,14 +15,24 @@ class VFA_ResolverStartupStartup extends VFA_Resolver
             }
             header('Access-Control-Allow-Methods: POST, OPTIONS');
             header('Access-Control-Allow-Credentials: true');
-            header('Access-Control-Allow-Headers: DNT,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,cache-control,Content-Type,Range,Token,token,Cookie,cookie,content-type');
+            header('Access-Control-Allow-Headers: accept,Referer,content-type,x-forwaded-for,DNT,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,cache-control,Content-Type,Range,Token,token,Cookie,cookie,content-type');
         }
 
         $this->load->model('startup/startup');
+        $this->load->model('common/vuefront');
 
         try {
             $resolvers = $this->model_startup_startup->getResolvers();
-            $schema    = BuildSchema::build(file_get_contents(VFA_DIR_PLUGIN . 'schema.graphql'));
+            $files = array(VFA_DIR_PLUGIN . 'schema.graphql');
+
+            if ($this->model_common_vuefront->checkAccess()) {
+                $files[] = VFA_DIR_PLUGIN . 'schemaAdmin.graphql';
+            }
+
+            $sources = array_map('file_get_contents', $files);
+
+            $source = $this->model_common_vuefront->mergeSchemas(($sources));
+            $schema    = BuildSchema::build($source);
             $rawInput  = file_get_contents('php://input');
             $input     = json_decode($rawInput, true);
             $query     = $input['query'];
@@ -39,11 +49,6 @@ class VFA_ResolverStartupStartup extends VFA_Resolver
 
 
         return $result;
-    }
-
-    public function playground() {
-        header("Content-Type: text/html");
-        return '<html><body>123123</body></html>';
     }
 
     public function determine_current_user($user)

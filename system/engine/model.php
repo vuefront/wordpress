@@ -1,4 +1,8 @@
 <?php 
+/**
+ * @property VFA_Loader $load
+ * @property WP_REST_Request $request
+ */
 abstract class VFA_Model {
 	protected $registry;
 

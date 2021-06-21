@@ -372,6 +372,15 @@ class VFA_ResolverStoreCheckout extends VFA_Resolver
             );
         }
 
+        $customerId = 0;
+        $customerEmail = '';
+
+        if (is_user_logged_in()) {
+            $user = wp_get_current_user();
+            $customerId = $user->ID;
+            $customerEmail = $user->user_email;
+        }
+
         $order->set_address(array(
             'first_name' => $paymentAddress['firstName'],
             'last_name'  => $paymentAddress['lastName'],
@@ -384,6 +393,8 @@ class VFA_ResolverStoreCheckout extends VFA_Resolver
             'postcode'   => $paymentAddress['postcode'],
             'country'    => $paymentAddress['country'],
         ), 'billing');
+
+        $customerEmail=$paymentAddress['email'];
 
         $order->set_address(array(
             'first_name' => $shippingAddress['firstName'],
@@ -401,27 +412,42 @@ class VFA_ResolverStoreCheckout extends VFA_Resolver
         $order->set_payment_method($paymentMethod['name']);
         
         $orderId = $order->get_order_number();
-
-        $response = $this->model_store_checkout->requestCheckout(
-            'mutation($paymentMethod: String, $total: Float, $callback: String) {
-                createOrder(paymentMethod: $paymentMethod, total: $total, callback: $callback) {
-                    url
-                }
-            }',
-            array(
-                'paymentMethod' => $paymentMethod['codename'],
-                'total' => floatval($order->get_total()),
-                'callback' => urldecode(add_query_arg(
-                    array(
-                        'order_id' => $orderId
-                    ),
-                    get_rest_url(null, '/vuefront/v1/callback')
-                ))
-            )
-        );
+        if ($args['withPayment']) {
+            $response = $this->model_store_checkout->requestCheckout(
+                'mutation($paymentMethod: String, $total: Float, $callback: String, $customerId: String, $customerEmail: String) {
+                    createOrder(paymentMethod: $paymentMethod, total: $total, callback: $callback, customerId: $customerId, customerEmail: $customerEmail) {
+                        url
+                    }
+                }',
+                array(
+                    'paymentMethod' => $paymentMethod['codename'],
+                    'total' => floatval($order->get_total()),
+                    'customerEmail' => $customerEmail,
+                    'customerId' => $customerId,
+                    'callback' => urldecode(add_query_arg(
+                        array(
+                            'order_id' => $orderId
+                        ),
+                        get_rest_url(null, '/vuefront/v1/callback')
+                    ))
+                )
+            );
+        } else {
+            $response = array(
+                'createOrder' => array(
+                    'url' => ''
+                )
+            );
+        }
 
         return array(
             'url' => $response['createOrder']['url'],
+            'callback' => urldecode(add_query_arg(
+                array(
+                    'order_id' => $orderId
+                ),
+                get_rest_url(null, '/vuefront/v1/callback')
+            )),
             'order' => array(
                 'id' => $orderId
             )

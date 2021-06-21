@@ -4,6 +4,7 @@ class VFA_ResolverStoreCart extends VFA_Resolver
 {
 	public function add($args) {
         $this->load->model('store/product');
+        $this->load->model('store/cart');
 
         $product = $this->model_store_product->getProduct($args['id']);
 
@@ -21,15 +22,36 @@ class VFA_ResolverStoreCart extends VFA_Resolver
             WC()->cart->add_to_cart($args['id'], $args['quantity']);
         }
 
+        $this->load->model('common/vuefront');
+        $this->model_common_vuefront->pushEvent('update_cart', array(
+            'cart' => $this->model_store_cart->prepareCart(),
+            'customer_id' => '',
+            'guest' => false
+        ));
+
         return $this->get($args);
     }
     public function update($args) {
         WC()->cart->set_quantity($args['key'], $args['quantity']);
 
+        $this->load->model('common/vuefront');
+        $this->model_common_vuefront->pushEvent('update_cart', array(
+            'cart' => $this->model_store_cart->prepareCart(),
+            'customer_id' => '',
+            'guest' => false
+        ));
+
         return $this->get($args);
     }
     public function remove($args) {
         WC()->cart->remove_cart_item($args['key']);
+
+        $this->load->model('common/vuefront');
+        $this->model_common_vuefront->pushEvent('update_cart', array(
+            'cart' => $this->model_store_cart->prepareCart(),
+            'customer_id' => '',
+            'guest' => false
+        ));
 
         return $this->get($args);
     }

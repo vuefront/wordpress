@@ -1,11 +1,77 @@
 <?php
 
 class VFA_ResolverCommonAccount extends VFA_Resolver {
+	public function customerList($args)
+    {
+        $this->load->model('common/customer');
+
+        $filter_data = array(
+            'offset' => ($args['page'] - 1) * $args['size'],
+            'number' => $args['size'],
+            'sort' => $args['sort'],
+            'order' => $args['order'],
+			'count_total' => true
+        );
+
+        if (!empty($args['search'])) {
+            $filter_data['search'] = $args['search'];
+        }
+
+
+		$filter_data['role'] = get_option('default_role');
+
+		$args                = wp_parse_args( $filter_data );
+	
+		$user_search = new WP_User_Query( $args );
+	
+		$customer_total = $user_search->get_total();
+		$results = $user_search->get_results();
+
+        $customers = array();
+
+        foreach ($results as $result) {
+			$customers[] = $this->get($result->ID);
+        }
+
+        return array(
+            'content' => $customers,
+            'first' => $args['page'] === 1,
+            'last' => $args['page'] === ceil($customer_total / $args['size']),
+            'number' => (int) $args['page'],
+            'numberOfElements' => count($customers),
+            'size' => (int) $args['size'],
+            'totalPages' => (int) ceil($customer_total / $args['size']),
+            'totalElements' => (int) $customer_total,
+        );
+    }
+
+    public function getCustomer($args) {
+        $this->load->model('common/customer');
+
+        $customer_info = $this->model_common_customer->getCustomer($args['id']);
+
+        return array(
+            'id'        => $customer_info['customer_id'],
+            'firstName' => $customer_info['firstname'],
+            'lastName'  => $customer_info['lastname'],
+            'email'     => $customer_info['email'],
+        );
+    }
 	public function login( $args ) {
 
 		try {
 			$this->load->model( 'common/token' );
 			$token_info = $this->model_common_token->getToken( $args );
+
+			$customer = $this->get($token_info['user_id']);
+
+			$this->load->model('common/vuefront');
+			$this->model_common_vuefront->pushEvent('login_customer', array(
+				'customer_id' => $token_info['user_id'],
+				'firstname' => $customer['firstName'],
+				'lastname' => $customer['lastName'],
+				'email' => $customer['email']
+			));
 
 			return array( 'token' => $token_info['token'], 'customer' => $this->get( $token_info['user_id'] ) );
 
@@ -15,6 +81,24 @@ class VFA_ResolverCommonAccount extends VFA_Resolver {
 	}
 
 	public function logout( $args ) {
+		global $current_user;
+
+		$user = wp_get_current_user();
+
+		$customer = array(
+			'id'        => $user->ID,
+			'email'     => $user->user_email,
+			'firstName' => $user->user_firstname,
+			'lastName'  => $user->user_lastname
+		);
+
+		$this->load->model('common/vuefront');
+		$this->model_common_vuefront->pushEvent('login_customer', array(
+			'customer_id' => $customer['id'],
+			'firstname' => $customer['firstName'],
+			'lastname' => $customer['lastName'],
+			'email' => $customer['email']
+		));
 		wp_logout();
 
 		return array(
@@ -35,6 +119,13 @@ class VFA_ResolverCommonAccount extends VFA_Resolver {
 
 		$user_id = wp_insert_user( $userdata );
 		if ( ! is_wp_error( $user_id ) ) {
+			$this->load->model('common/vuefront');
+			$this->model_common_vuefront->pushEvent('create_customer', array(
+				'customer_id' => $user_id,
+				'firstname' => $customer['firstName'],
+				'lastname' => $customer['lastName'],
+				'email' => $customer['email']
+			));
 			return $this->get( $user_id );
 		} else {
 			$error = reset( $user_id->errors );

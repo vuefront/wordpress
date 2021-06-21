@@ -36,6 +36,12 @@ class VFA_ResolverBlogPost extends VFA_Resolver
                 'description' => $post->shortDescription,
                 'keyword' => ''
             ),
+            'url' => function ($root, $args) {
+                return $this->load->resolver('blog/post/url', array(
+                    'parent' => $root,
+                    'args' => $args
+                ));
+            },
             'prev' => function ($root, $args) {
                 return $this->load->resolver('blog/post/prev', array(
                     'parent' => $root,
@@ -140,4 +146,19 @@ class VFA_ResolverBlogPost extends VFA_Resolver
 
         return $this->get(array('id' => $next_post->ID));
     }
+
+    public function url($data) {
+        $post_info = $data['parent'];
+        $result = $data['args']['url'];
+
+        $result = str_replace('_id', $post_info['id'], $result);
+        $result = str_replace('_name', $post_info['name'], $result);
+
+        if ($post_info['keyword']) {
+            $result = '/'.$post_info['keyword'];
+        }
+
+        return $result;
+    }
+
 }

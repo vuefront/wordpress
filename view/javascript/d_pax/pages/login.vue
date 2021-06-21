@@ -67,6 +67,8 @@
 <script>
 import {mapGetters} from 'vuex'
 export default {
+  layout: 'auth',
+  middleware: ['notAuthenticated', 'withEmail'],
   data() {
     return {
       form: {
@@ -76,8 +78,6 @@ export default {
       loading: false
     }
   },
-  layout: 'auth',
-  middleware: ['notAuthenticated', 'withEmail'],
   computed: {
     ...mapGetters({
       error: "error",

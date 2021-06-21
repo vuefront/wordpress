@@ -6,6 +6,10 @@ class VFA_ResolverStoreCategory extends VFA_Resolver {
 
     	$category_info = $this->model_store_category->getCategory($args['id']);
 
+        if (empty($category_info)) {
+            return array();
+        }
+
         if (!empty($category_info->image_id)) {
             $category_image      = wp_get_attachment_image_src($category_info->image_id, 'full');
             $category_lazy_image = wp_get_attachment_image_src($category_info->image_id, array( 10, 10 ));
@@ -57,6 +61,14 @@ class VFA_ResolverStoreCategory extends VFA_Resolver {
         );
         if ($args['parent'] != -1) {
             $filter_data['filter_parent_id'] = $args['parent'];
+        }
+
+        if (!empty($args['search'])) {
+            $filter_data['filter_search'] = $args['search'];
+        }
+
+        if ($args['top']) {
+            $filter_data['filter_parent_id'] = $args['top']? 0 : 1;
         }
 
         if ($args['size'] != - 1) {

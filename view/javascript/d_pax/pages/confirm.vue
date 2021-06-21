@@ -56,13 +56,13 @@
 <script>
 import {mapGetters} from 'vuex'
 export default {
+  layout: 'auth',
+  middleware: ['authenticated', 'notConfirmed'],
   data() {
     return {
       refreshLoading: false
     }
   },
-  layout: 'auth',
-  middleware: ['authenticated', 'notConfirmed'],
   computed: {
     ...mapGetters({
       account: 'account/get'

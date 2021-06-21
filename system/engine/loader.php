@@ -10,14 +10,15 @@ final class VFA_Loader
     
     public function resolver($route, $data = array())
     {
-        $route = preg_replace('/[^a-zA-Z0-9_\/]/', '', (string)$route);
+            $route = preg_replace('/[^a-zA-Z0-9_\/]/', '', (string)$route);
         
-        $action = new VFA_Action($route);
-        $output = $action->execute($this->registry, array(&$data));
-
-        if (!$output instanceof Exception) {
-            return $output;
-        }
+            $action = new VFA_Action($route);
+            $output = $action->execute($this->registry, array(&$data));
+    
+            if (!$output instanceof Exception) {
+                return $output;
+            }
+        
     }
 
     public function model($route)
@@ -43,6 +44,36 @@ final class VFA_Loader
             }
         }
     }
+
+    	/**
+	 * 
+	 *
+	 * @param	string	$route
+	 * @param	array	$data
+	 *
+	 * @return	string
+ 	*/
+	public function view($route, $data = array()) {
+		// Sanitize the call
+		$route = preg_replace('/[^a-zA-Z0-9_\/]/', '', (string)$route);
+		
+		// Keep the original trigger
+		$trigger = $route;
+		
+		// Template contents. Not the output!
+		$code = '';
+		
+		// Trigger the pre events
+        $template = new VFA_Template();
+            
+        foreach ($data as $key => $value) {
+            $template->set($key, $value);
+        }
+
+        $output = $template->render(VFA_DIR_PLUGIN . 'view/template/'   . $route, $code);
+    
+		return $output;
+	}
 
     
     protected function callback($registry, $route)

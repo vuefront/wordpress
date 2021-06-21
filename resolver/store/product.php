@@ -11,6 +11,7 @@ class VFA_ResolverStoreProduct extends VFA_Resolver
 
     public function get($args) {
         $product = $this->model_store_product->getProduct($args['id']);
+
 	    if (!empty($product->image_id)) {
 		    $product_image      = wp_get_attachment_image_src($product->image_id, 'full');
 		    $product_lazy_image = wp_get_attachment_image_src($product->image_id, array( 10, 10 ));
@@ -46,6 +47,12 @@ class VFA_ResolverStoreProduct extends VFA_Resolver
                 $special = '';
             }
         }
+
+        $resultEvent = array();
+
+        $this->load->model('common/vuefront');
+        $resultEvent = $this->model_common_vuefront->pushEvent("fetch_product",  array( "extra" => array(), "product_id" => $product->ID));
+        
         $keyword = str_replace(get_site_url(), '', get_post_permalink((int)$product->ID));
         $keyword = trim($keyword, '/?');
         $keyword = trim($keyword, '/');
@@ -57,12 +64,20 @@ class VFA_ResolverStoreProduct extends VFA_Resolver
             'shortDescription' => $product->short_description,
             'price'            => $price,
             'special'          => $special,
+            'extra'            => $resultEvent['extra'],
             'model'            => $product->model,
             'image'            => $thumb,
             'imageBig'            => $thumb,
             'imageLazy'        => $thumbLazy,
             'stock'            => $product->stock_status === 'instock',
             'rating'           => (float) $product->rating,
+            'manufacturerId' => $product->manufacturer_id,
+            'manufacturer' => function($root, $args) {
+                return $this->manufacturer(array(
+                    'parent' => $root,
+                    'args' => $args
+                ));
+            },
             'keyword'          => $keyword,
             'meta'           => array(
                 'title' => $product->name,
@@ -98,6 +113,12 @@ class VFA_ResolverStoreProduct extends VFA_Resolver
                     'parent' => $root,
                     'args' => $args
                 ));
+            },
+            'url' => function($root, $args) {
+                return $this->url(array(
+                    'parent' => $root,
+                    'args' => $args
+                ));
             }
         );
 
@@ -106,6 +127,7 @@ class VFA_ResolverStoreProduct extends VFA_Resolver
     public function getList($args) {
         $this->load->model('store/product');
 	    $filter_data = array(
+            'filter_manufacturer_id' => $args['manufacturer_id'],
             'sort'  => $args['sort'],
             'order' => $args['order'],
         );
@@ -173,6 +195,16 @@ class VFA_ResolverStoreProduct extends VFA_Resolver
 
         return $products;
     }
+
+    public function manufacturer($data)
+    {
+        $product_info = $data['parent'];
+        
+        return $this->load->resolver('store/manufacturer/get', array(
+            'id' => $product_info['manufacturerId']
+        ));
+    }
+
     public function getAttributes($data) {
         $product = $data['parent'];
         $results = $this->model_store_product->getProductAttributes($product['id']);
@@ -257,5 +289,21 @@ class VFA_ResolverStoreProduct extends VFA_Resolver
         }
 
         return $images;
+    }
+
+    public function url($data)
+    {
+        $product_info = $data['parent'];
+        $result = $data['args']['url'];
+
+        $result = str_replace("_id", $product_info['id'], $result);
+        $result = str_replace("_name", $product_info['name'], $result);
+
+
+        if ($product_info['keyword']) {
+            $result = '/'.$product_info['keyword'];
+        }
+
+        return $result;
     }
 }

@@ -34,18 +34,18 @@
 <script>
 import {mapGetters} from 'vuex'
 export default {
+  layout: 'auth',
+  middleware: ['alien'],
   data() {
     return {
       refreshLoading: false
     }
   },
-  layout: 'auth',
   computed: {
     ...mapGetters({
       account: 'account/get'
     })
   },
-  middleware: ['alien'],
   methods: {
     handleLogout() {
       this.$store.dispatch('auth/logout')

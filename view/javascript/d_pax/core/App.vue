@@ -1,9 +1,13 @@
 <template>
-  <div :is="layoutTag" />
+  <div
+    :is="layoutTag"
+    id="app"
+  />
 </template>
 <script>
 import { isUndefined, isEmpty } from "lodash";
 import "~/assets/scss/main.scss";
+
 /**
  * The main component of the application
  * @author Dreamvention <info@dreamvention.com>

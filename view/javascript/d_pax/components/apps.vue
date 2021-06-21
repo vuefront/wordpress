@@ -62,6 +62,13 @@
             </b-td>
             <b-td>
               <b-button
+                variant="primary"
+                size="sm"
+                @click="handleEdit(index)"
+              >
+                Edit
+              </b-button>
+              <b-button
                 variant="danger"
                 size="sm"
                 @click="handleRemove(index)"
@@ -73,14 +80,25 @@
         </b-tbody>
       </b-table-simple>
     </div>
+    <edit-app
+      v-if="showEdit"
+      :id="edit"
+      :app="editApp"
+    />
   </div>
 </template>
 <script>
 import {isEmpty} from 'lodash'
 import {mapGetters} from 'vuex'
+import EditApp from './editApp'
 export default {
+  components: {
+    EditApp
+  },
   data() {
     return {
+      edit: 0,
+      editApp: {},
       form: {
         codename: '',
         jwt: ''
@@ -89,7 +107,8 @@ export default {
   },
   computed: {
     ...mapGetters({
-      apps: 'apps/list'
+      apps: 'apps/list',
+      showEdit: 'apps/edit'
     }),
     isEmptyApps() {
       return isEmpty(this.apps)
@@ -103,6 +122,11 @@ export default {
     async handleRemove(index) {
       await this.$store.dispatch('apps/remove', {key: index})
       await this.$store.dispatch('apps/list')
+    },
+    handleEdit(index) {
+      this.$store.commit('apps/setEdit', true)
+      this.editApp = this.apps[index]
+      this.edit = index
     }
   }
 }

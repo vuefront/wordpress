@@ -1,0 +1,51 @@
+type CustomerResult {
+  content: [Customer]
+  first: Boolean
+  last: Boolean
+  number: Int
+  numberOfElements: Int
+  size: Int
+  totalPages: Int
+  totalElements: Int
+}
+type OptionResult {
+  content: [Option]
+  first: Boolean
+  last: Boolean
+  number: Int
+  numberOfElements: Int
+  size: Int
+  totalPages: Int
+  totalElements: Int
+}
+
+type Option {
+  id: String
+  name: String
+  type: String
+  sort_order: Int
+  values: [OptionValue]
+}
+
+input InputAppSetting {
+    eventUrl: String
+    jwt: String
+    authUrl: String
+}
+
+type AppSetting {
+    codename: String
+    authUrl: String
+    eventUrl: String
+    jwt: String
+}
+
+type RootQueryType {
+   customersList(page: Int = 1, size: Int = 10, search: String, sort: String = "email", order: String = "ASC"): CustomerResult
+   customer(id: String): Customer
+   option(id: String): Option
+   optionsList(page: Int = 1, size: Int = 10, search: String, sort: String = "sort_order", order: String = "ASC"): OptionResult
+}
+type RootMutationType {
+   updateApp(name: String, settings: InputAppSetting): AppSetting
+}
