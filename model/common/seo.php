@@ -10,7 +10,7 @@ class VFA_ModelCommonSeo extends VFA_Model {
 
             if ( '/' . $keyword == $url )
                 
-                return array('id' => $category->term_id, 'type' => $category->taxonomy);
+                return array('id' => $category->term_id, 'slug' => $category->slug, 'type' => $category->taxonomy);
         }
         return false;
     }
@@ -31,12 +31,14 @@ class VFA_ModelCommonSeo extends VFA_Model {
             if ($search) {
                 if ($search['type'] == 'category') {
                     $type = 'blog-category';
+                    $search = $search['id'];
                 } else if($search['type'] == 'pwb-brand') {
                     $type = 'manufacturer';
+                    $search = $search['slug'];
                 } else {
                     $type='category';
+                    $search = $search['id'];
                 }
-                $search = $search['id'];
             } else {
                 $search = '';
             }
