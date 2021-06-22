@@ -87,14 +87,14 @@ class VFA_ModelCommonVuefront extends VFA_Model
         $ch = curl_init();
         $headr = array();
 
-        $headr[] = 'Content-type: application/json';
+        $headers[] = 'Content-type: application/json';
 
         if ($token) {
             $headers[] = 'Authorization: Bearer '.$token;
         }
 
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, $headr);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
         curl_setopt($ch, CURLOPT_POST, true);
         curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
         curl_setopt($ch, CURLOPT_URL, $url);

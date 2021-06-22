@@ -32,7 +32,7 @@ class VFA_ResolverCommonHome extends VFA_Resolver
     {
         $this->load->model('common/vuefront');
 
-        if (!$this->customer->isLogged()) {
+        if (!is_user_logged_in() ) {
             return;
         }
         $app_info = $this->model_common_vuefront->getApp($args['app']);
