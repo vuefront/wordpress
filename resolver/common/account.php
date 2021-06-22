@@ -47,13 +47,11 @@ class VFA_ResolverCommonAccount extends VFA_Resolver {
 
     public function getCustomer($args) {
         $this->load->model('common/customer');
-
-        $customer_info = $this->model_common_customer->getCustomer($args['id']);
-
+        $customer_info =  $this->get($args['id']);
         return array(
-            'id'        => $customer_info['customer_id'],
-            'firstName' => $customer_info['firstname'],
-            'lastName'  => $customer_info['lastname'],
+            'id'        => $customer_info['id'],
+            'firstName' => $customer_info['firstName'],
+            'lastName'  => $customer_info['lastName'],
             'email'     => $customer_info['email'],
         );
     }
