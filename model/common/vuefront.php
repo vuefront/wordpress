@@ -85,7 +85,7 @@ class VFA_ModelCommonVuefront extends VFA_Model
 
     public function request($url, $data, $token = false) {
         $ch = curl_init();
-        $headr = array();
+        $headers = array();
 
         $headers[] = 'Content-type: application/json';
 
