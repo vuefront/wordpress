@@ -91,7 +91,7 @@ class VFA_ResolverCommonAccount extends VFA_Resolver {
 		);
 
 		$this->load->model('common/vuefront');
-		$this->model_common_vuefront->pushEvent('login_customer', array(
+		$this->model_common_vuefront->pushEvent('logout_customer', array(
 			'customer_id' => $customer['id'],
 			'firstname' => $customer['firstName'],
 			'lastname' => $customer['lastName'],
