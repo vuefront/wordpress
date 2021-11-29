@@ -53,7 +53,7 @@ class VFA_ResolverStoreProduct extends VFA_Resolver
         $this->load->model('common/vuefront');
         $resultEvent = $this->model_common_vuefront->pushEvent("fetch_product",  array( "extra" => array(), "product_id" => $product->ID));
         
-        $keyword = str_replace(get_site_url(), '', get_post_permalink((int)$product->ID));
+        $keyword = str_replace(get_site_url(), '', get_permalink((int)$product->ID));
         $keyword = trim($keyword, '/?');
         $keyword = trim($keyword, '/');
 
@@ -302,6 +302,8 @@ class VFA_ResolverStoreProduct extends VFA_Resolver
 
         if ($product_info['keyword']) {
             $result = '/'.$product_info['keyword'];
+            $this->load->model('common/seo');
+            $this->model_common_seo->addUrl($result, 'product', $product_info['id']);
         }
 
         return $result;

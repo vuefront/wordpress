@@ -156,6 +156,8 @@ class VFA_ResolverBlogPost extends VFA_Resolver
 
         if ($post_info['keyword']) {
             $result = '/'.$post_info['keyword'];
+            $this->load->model('common/seo');
+            $this->model_common_seo->addUrl($result, 'blog-post', $post_info['id']);
         }
 
         return $result;

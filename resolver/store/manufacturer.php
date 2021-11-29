@@ -97,6 +97,8 @@ class VFA_ResolverStoreManufacturer extends VFA_Resolver
 
         if ($category_info['keyword']) {
             $result = '/'.$category_info['keyword'];
+            $this->load->model('common/seo');
+            $this->model_common_seo->addUrl($result, 'manufacturer', $category_info['id']);
         }
 
 

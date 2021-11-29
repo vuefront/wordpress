@@ -3,7 +3,7 @@
  * Plugin Name: VueFront
  * Plugin URI: https://github.com/vuefront/wordpress
  * Description: VueFront CMS Connect App for Wordpress.
- * Version: 2.0.0
+ * Version: 2.1.0
  * Author: VueFront
  * Author URI: http://vuefront.com
  */
@@ -37,6 +37,8 @@ add_action('wp_ajax_vf_turn_on', 'VFA_vuefront_admin_action_turn_on');
 add_action('wp_ajax_vf_update', 'VFA_vuefront_admin_action_update');
 add_action('wp_ajax_vf_turn_off', 'VFA_vuefront_admin_action_turn_off');
 add_action('wp_ajax_vf_information', 'VFA_vuefront_admin_action_vf_information');
+register_activation_hook (__FILE__, 'VFA_install');
+add_action( 'plugins_loaded', 'VFA_update_db_check' );
 
 function VFA_vuefront_admin_styles()
 {
@@ -141,6 +143,32 @@ function VFA_vuefront_admin_action_apps_create()
     );
 
     wp_die();
+}
+
+function VFA_install () {
+   global $wpdb;
+
+   $table_name = $wpdb->prefix . "vuefront_url"; 
+
+   $charset_collate = $wpdb->get_charset_collate();
+
+   $sql = 'CREATE TABLE IF NOT EXISTS `' . $table_name . '` (
+            `id_url` int(11) unsigned NOT NULL AUTO_INCREMENT,
+            `id` varchar( 255 ) NOT NULL,
+            `type` varchar(64) NOT NULL,
+            `url` varchar(255) NOT NULL,
+            PRIMARY KEY (`id_url`)
+        ) '.$charset_collate;
+
+   require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+    dbDelta( $sql );
+}
+
+function VFA_update_db_check() {
+    global $vfa_db_version;
+    if ( get_site_option( 'vfa_db_version' ) != $vfa_db_version ) {
+        VFA_install();
+    }
 }
 
 function VFA_vuefront_admin_action_apps_edit() {

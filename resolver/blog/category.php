@@ -106,6 +106,8 @@ class VFA_ResolverBlogCategory extends VFA_Resolver
 
         if($keyword != '') {
             $result = '/'.$keyword;
+            $this->load->model('common/seo');
+            $this->model_common_seo->addUrl($result, 'blog-category', $category_info['id']);
         }
 
         return $result;

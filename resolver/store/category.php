@@ -128,6 +128,8 @@ class VFA_ResolverStoreCategory extends VFA_Resolver {
 
         if($keyword != '') {
             $result = '/'.$keyword;
+            $this->load->model('common/seo');
+            $this->model_common_seo->addUrl($result, 'category', $category_info['id']);
         }
 
         return $result;
