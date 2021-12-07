@@ -83,17 +83,18 @@ export const actions = {
   },
   async search({commit, getters, dispatch, rootGetters}) {
     let id = false
+    commit('setAlien', false)
     for(const key in getters['list'].content) {
       if(getters['list'].content[key].url === this.$paxOptions.siteUrl) {
         id = getters['list'].content[key].id
       }
     }
-
     if(!id) {
       id = await dispatch('create')
       if(rootGetters['error'] && rootGetters['error'] === 'alien_cms') {
         commit('setAlien', true)
-        this.$router.push('/alien')
+        commit('setResponseError', false, {root: true})
+        // this.$router.push('/alien')
       }
     }
 

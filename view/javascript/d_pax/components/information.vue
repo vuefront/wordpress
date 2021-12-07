@@ -1,14 +1,20 @@
 <template>
   <div class="vf-information">
-    <div class="vf-information__item">
+    <div
+      v-if="isLogged"
+      class="vf-information__item"
+    >
       <div class="vf-information__item_title">
         {{ $t('textAccount') }}
       </div>
       <div class="vf-information__item_value">
-        {{ $t('textFree') }}
+        {{ !account.subscribe ? $t('textFree') : $t('textSubscribe') }}
       </div>
     </div>
-    <div class="vf-information__item">
+    <div
+      v-if="isLogged"
+      class="vf-information__item"
+    >
       <div class="vf-information__item_title">
         {{ $t('textBuildMin') }}
       </div>
@@ -58,7 +64,7 @@
 import {mapGetters} from 'vuex'
 export default {
   computed: {
-    ...mapGetters({information: 'information/get', cms: 'cms/get', account: 'account/get'}),
+    ...mapGetters({isLogged: "auth/isLogged", information: 'information/get', cms: 'cms/get', account: 'account/get'}),
     totalUsaged () {
       return Math.floor(this.$moment.duration(this.account.times, 'milliseconds').asMinutes())
     },
@@ -72,6 +78,7 @@ export default {
 {
   "textAccount": "Account",
   "textFree": "Free",
+  "textSubscribe": "Subscription",
   "textPluginVersion": "Plugin version",
   "textPHPVersion": "PHP",
   "textServer": "Server",

@@ -1,9 +1,11 @@
 <template>
   <div
+    v-if="isLogged"
     id="vf-header-account"
     class="header-account"
   >
     <b-nav-item-dropdown
+
       toggle-class="text-decoration-none text-1 m-0 font-weight-semibold"
       no-caret
       text
@@ -69,7 +71,8 @@ export default {
   },
   computed: {
     ...mapGetters({
-      account: 'account/get'
+      account: 'account/get',
+      isLogged: "auth/isLogged"
     }),
     faAngleDown () {
       return faAngleDown
@@ -85,7 +88,6 @@ export default {
   methods: {
     async logout () {
       await this.$store.dispatch('auth/logout')
-      this.$router.push('/check')
     }
   }
 }
@@ -99,7 +101,13 @@ export default {
     border: solid 1px $white-five;
     background-color: $white;
     padding: 13px 17px;
-
+    .header-account__sign-in {
+      list-style: none;
+      a {
+        font-weight: 600;
+        color: black;
+      }
+    }
     .header-account__separator {
       border-top: 1px solid $white-eight;
       margin-top: 0;

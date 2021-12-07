@@ -11,9 +11,9 @@
           </b-col>
           <b-col>
             <b-navbar-nav class="align-items-center vf-header__right_nav">
-              <header-activation v-if="cms.builds.length > 0 && information.apache" />
+              <header-activation v-if="isLogged && cms.builds.length > 0 && information.apache" />
               <b-button
-                v-if="cms.builds.length > 0 && !information.apache"
+                v-if="isLogged && cms.builds.length > 0 && !information.apache"
                 class="vf-header__button_activate"
                 variant="success"
                 @click="$scrollTo('#vf-nginx-configure')"
@@ -42,6 +42,7 @@ export default {
 
   computed: {
     ...mapGetters({
+      isLogged: "auth/isLogged",
       cms: 'cms/get',
       information: 'information/get'
     })

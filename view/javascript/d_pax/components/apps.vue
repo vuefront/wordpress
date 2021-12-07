@@ -210,6 +210,7 @@ export default {
       padding: 10px;
       background: #efeff1 !important;
       border: none;
+      margin: 0;
       height: 54px !important;
       background-color: #efeff1 !important;
       padding: 12px 24px !important;

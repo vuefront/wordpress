@@ -8,19 +8,22 @@
       >
         {{ $t(error) }}
       </div>
+      <sign-in v-if="showLogin" />
       <router-view />
     </div>
   </div>
 </template>
 <script>
 import vfHeader from '~/components/header'
+import signIn from '~/components/signIn'
 import {mapGetters} from 'vuex'
 export default {
   components: {
-    vfHeader
+    vfHeader,
+    signIn
   },
   computed: {
-    ...mapGetters({error: 'error'})
+    ...mapGetters({error: 'error', showLogin: "auth/showLogin"})
   }
 }
 </script>

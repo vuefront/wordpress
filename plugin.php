@@ -97,12 +97,19 @@ function VFA_vuefront_admin_action_vf_information()
 {
     $plugin_data = get_plugin_data(__FILE__);
     $woocommerce_data = get_plugin_data(WP_PLUGIN_DIR . '/woocommerce/woocommerce.php');
+    $brand_data = get_plugin_data(WP_PLUGIN_DIR . '/perfect-woocommerce-brands/perfect-woocommerce-brands.php');
     $plugin_version = $plugin_data['Version'];
     $extensions = array();
     $extensions[] = array(
         'name' => 'WooCommerce',
         'version' => $woocommerce_data['Version'],
         'status' => is_plugin_active('woocommerce/woocommerce.php')
+    );
+
+    $extensions[] = array(
+        'name' => "Perfect Brands for WooCommerce",
+        'version' => $brand_data['Version'],
+        'status' => is_plugin_active('perfect-woocommerce-brands/perfect-woocommerce-brands.php')
     );
 
     $status = file_exists(__DIR__ . '/.htaccess.txt');

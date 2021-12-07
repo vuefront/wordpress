@@ -53,7 +53,6 @@ export default {
       this.$store.commit('apps/setEdit', false)
     },
     async onSubmit(valid) {
-      console.log(valid)
       if (valid) {
         await this.$store.dispatch('apps/edit', {key: this.id, app: {
           eventUrl: this.form.eventUrl,

@@ -2,6 +2,7 @@ import gql from 'graphql-tag'
 
 export const state = () => ({
   isLogged: null,
+  showLogin: false,
   email: '',
   existingEmail: null
 })
@@ -10,6 +11,9 @@ export const mutations = {
   setAuth(state, auth) {
     state.isLogged = auth
     this.$cookie.set('auth', auth)
+  },
+  toggleShowLogin(state) {
+    state.showLogin = !state.showLogin
   },
   logout(state, payload) {
     state.isLogged = false
@@ -29,6 +33,9 @@ export const mutations = {
 }
 
 export const getters = {
+  showLogin(state) {
+    return state.showLogin
+  },
   isLogged(state) {
     return state.isLogged
   },
