@@ -2,7 +2,8 @@
 
 class VFA_ResolverStoreCart extends VFA_Resolver
 {
-	public function add($args) {
+    public function add($args)
+    {
         $this->load->model('store/product');
         $this->load->model('store/cart');
 
@@ -14,7 +15,7 @@ class VFA_ResolverStoreCart extends VFA_Resolver
                 $options[ $option['id'] ] = $option['value'];
             }
             $variation_id = $this->find_matching_product_variation_id($args['id'], $options);
-            if(!$variation_id) {
+            if (!$variation_id) {
                 throw new \Exception('Please select an option.');
             }
             WC()->cart->add_to_cart($args['id'], $args['quantity'], $variation_id);
@@ -31,9 +32,11 @@ class VFA_ResolverStoreCart extends VFA_Resolver
 
         return $this->get($args);
     }
-    public function update($args) {
+    public function update($args)
+    {
         WC()->cart->set_quantity($args['key'], $args['quantity']);
 
+        $this->load->model('store/cart');
         $this->load->model('common/vuefront');
         $this->model_common_vuefront->pushEvent('update_cart', array(
             'cart' => $this->model_store_cart->prepareCart(),
@@ -43,9 +46,11 @@ class VFA_ResolverStoreCart extends VFA_Resolver
 
         return $this->get($args);
     }
-    public function remove($args) {
+    public function remove($args)
+    {
         WC()->cart->remove_cart_item($args['key']);
 
+        $this->load->model('store/cart');
         $this->load->model('common/vuefront');
         $this->model_common_vuefront->pushEvent('update_cart', array(
             'cart' => $this->model_store_cart->prepareCart(),
@@ -55,7 +60,8 @@ class VFA_ResolverStoreCart extends VFA_Resolver
 
         return $this->get($args);
     }
-    public function get($args) {
+    public function get($args)
+    {
         $cart = array();
         $this->load->model('store/product');
         $cart['products'] = array();
@@ -79,6 +85,19 @@ class VFA_ResolverStoreCart extends VFA_Resolver
         $cart['total'] = $this->currency->format($total);
 
         return $cart;
+    }
+
+    public function clear($args)
+    {
+        WC()->cart->empty_cart();
+
+        $this->load->model('common/vuefront');
+        $this->model_common_vuefront->pushEvent('update_cart', array(
+          'cart' => $this->model_store_cart->prepareCart(),
+          'customer_id' => '',
+          'guest' => false
+      ));
+        return $this->get($args);
     }
 
     public function find_matching_product_variation_id($product_id, $attributes)

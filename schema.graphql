@@ -91,12 +91,14 @@ type Customer {
   firstName: String
   lastName: String
   email: String
+  phone: String
 }
 
 input CustomerInput {
   firstName: String
   lastName: String
   email: String
+  phone: String
   password: String
 }
 
@@ -484,6 +486,7 @@ type RootQueryType {
   manufacturerList(page: Int = 1, size: Int = 10, search: String = "", sort: String = "name", order: String = "ASC"): ManufacturerResult
   manufacturer(id: String): Manufacturer
   authProxy(app: String): String
+  version: String
 }
 
 type RootMutationType {
@@ -500,6 +503,7 @@ type RootMutationType {
   addToCart(id: String, quantity: Int = 1, options: [CartOption] = []): Cart
   updateCart(key: String, quantity: Int = 1): Cart
   removeCart(key: String): Cart
+  clearCart: Cart
   addToCompare(id: Int): [Product]
   removeCompare(id: String): [Product]
   editCurrency(code: String): [Currency]

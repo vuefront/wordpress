@@ -23,6 +23,7 @@
     "home": "common/home/get",
 
     "updateApp": "common/home/updateApp",
+    "updateSite": "common/home/updateSite",
 
     "searchUrl": "common/home/searchUrl",
 
@@ -57,6 +58,7 @@
     "addToCart": "store/cart/add",
     "updateCart": "store/cart/update",
     "removeCart": "store/cart/remove",
+    "clearCart": "store/cart/clear",
 
     "category": "store/category/get",
     "categoriesList": "store/category/getList",
@@ -83,5 +85,7 @@
     "removeWishlist": "store/wishlist/remove",
 
     "contactSend": "common/contact/send",
-    "contact": "common/contact/get"
+    "contact": "common/contact/get",
+
+    "version": "common/home/version"
 }

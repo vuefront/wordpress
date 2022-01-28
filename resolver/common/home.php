@@ -2,7 +2,8 @@
 
 class VFA_ResolverCommonHome extends VFA_Resolver
 {
-    public function get() {
+    public function get()
+    {
         return array(
             'meta' => array(
                 'title' => get_option('blogname'),
@@ -12,7 +13,8 @@ class VFA_ResolverCommonHome extends VFA_Resolver
         );
     }
 
-    public function searchUrl($args) {
+    public function searchUrl($args)
+    {
         $this->load->model('common/seo');
 
         $result = $this->model_common_seo->searchKeyword($args['url']);
@@ -28,11 +30,23 @@ class VFA_ResolverCommonHome extends VFA_Resolver
         return $this->model_common_vuefront->getApp($args['name']);
     }
 
+    public function updateSite($args)
+    {
+        try {
+            $tmpFile = download_url("https://vuefront2019.s3.amazonaws.com/sites/".$args['number']."/vuefront-app.tar");
+            VFA_vuefront_rmdir(ABSPATH . 'vuefront');
+            $phar = new PharData($tmpFile);
+            $phar->extractTo(ABSPATH . 'vuefront');
+        } catch (\Exception $e) {
+            echo $e->getMessage();
+        }
+    }
+
     public function authProxy($args)
     {
         $this->load->model('common/vuefront');
 
-        if (!is_user_logged_in() ) {
+        if (!is_user_logged_in()) {
             return;
         }
         $app_info = $this->model_common_vuefront->getApp($args['app']);
@@ -49,5 +63,10 @@ class VFA_ResolverCommonHome extends VFA_Resolver
         }
 
         return $result['token'];
+    }
+
+    public function version()
+    {
+        return "1.0.0";
     }
 }

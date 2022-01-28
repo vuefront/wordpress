@@ -1,7 +1,8 @@
 <?php
 
-class VFA_ResolverCommonAccount extends VFA_Resolver {
-	public function customerList($args)
+class VFA_ResolverCommonAccount extends VFA_Resolver
+{
+    public function customerList($args)
     {
         $this->load->model('common/customer');
 
@@ -10,7 +11,7 @@ class VFA_ResolverCommonAccount extends VFA_Resolver {
             'number' => $args['size'],
             'sort' => $args['sort'],
             'order' => $args['order'],
-			'count_total' => true
+            'count_total' => true
         );
 
         if (!empty($args['search'])) {
@@ -18,19 +19,19 @@ class VFA_ResolverCommonAccount extends VFA_Resolver {
         }
 
 
-		$filter_data['role'] = get_option('default_role');
+        $filter_data['role'] = get_option('default_role');
 
-		$args                = wp_parse_args( $filter_data );
-	
-		$user_search = new WP_User_Query( $args );
-	
-		$customer_total = $user_search->get_total();
-		$results = $user_search->get_results();
+        $args                = wp_parse_args($filter_data);
+    
+        $user_search = new WP_User_Query($args);
+    
+        $customer_total = $user_search->get_total();
+        $results = $user_search->get_results();
 
         $customers = array();
 
         foreach ($results as $result) {
-			$customers[] = $this->get($result->ID);
+            $customers[] = $this->get($result->ID);
         }
 
         return array(
@@ -45,7 +46,8 @@ class VFA_ResolverCommonAccount extends VFA_Resolver {
         );
     }
 
-    public function getCustomer($args) {
+    public function getCustomer($args)
+    {
         $this->load->model('common/customer');
         $customer_info =  $this->get($args['id']);
         return array(
@@ -53,229 +55,244 @@ class VFA_ResolverCommonAccount extends VFA_Resolver {
             'firstName' => $customer_info['firstName'],
             'lastName'  => $customer_info['lastName'],
             'email'     => $customer_info['email'],
+            'phone'     => get_user_meta($args['id'], 'phone', true)
         );
     }
-	public function login( $args ) {
+    public function login($args)
+    {
+        try {
+            $this->load->model('common/token');
+            $token_info = $this->model_common_token->getToken($args);
 
-		try {
-			$this->load->model( 'common/token' );
-			$token_info = $this->model_common_token->getToken( $args );
+            $customer = $this->get($token_info['user_id']);
 
-			$customer = $this->get($token_info['user_id']);
+            $this->load->model('common/vuefront');
+            $this->model_common_vuefront->pushEvent('login_customer', array(
+                'customer_id' => $token_info['user_id'],
+                'firstname' => $customer['firstName'],
+                'lastname' => $customer['lastName'],
+                'email' => $customer['email']
+            ));
 
-			$this->load->model('common/vuefront');
-			$this->model_common_vuefront->pushEvent('login_customer', array(
-				'customer_id' => $token_info['user_id'],
-				'firstname' => $customer['firstName'],
-				'lastname' => $customer['lastName'],
-				'email' => $customer['email']
-			));
+            return array( 'token' => $token_info['token'], 'customer' => $this->get($token_info['user_id']) );
+        } catch (\Exception $e) {
+            throw new \Exception($e->getMessage());
+        }
+    }
 
-			return array( 'token' => $token_info['token'], 'customer' => $this->get( $token_info['user_id'] ) );
+    public function logout($args)
+    {
+        global $current_user;
 
-		} catch ( \Exception $e ) {
-			throw new \Exception( $e->getMessage() );
-		}
-	}
+        $user = wp_get_current_user();
 
-	public function logout( $args ) {
-		global $current_user;
+        $customer = array(
+            'id'        => $user->ID,
+            'email'     => $user->user_email,
+            'firstName' => $user->user_firstname,
+            'lastName'  => $user->user_lastname
+        );
 
-		$user = wp_get_current_user();
+        $this->load->model('common/vuefront');
+        $this->model_common_vuefront->pushEvent('logout_customer', array(
+            'customer_id' => $customer['id'],
+            'firstname' => $customer['firstName'],
+            'lastname' => $customer['lastName'],
+            'email' => $customer['email']
+        ));
+        wp_logout();
 
-		$customer = array(
-			'id'        => $user->ID,
-			'email'     => $user->user_email,
-			'firstName' => $user->user_firstname,
-			'lastName'  => $user->user_lastname
-		);
+        return array(
+            'status' => is_user_logged_in()
+        );
+    }
 
-		$this->load->model('common/vuefront');
-		$this->model_common_vuefront->pushEvent('logout_customer', array(
-			'customer_id' => $customer['id'],
-			'firstname' => $customer['firstName'],
-			'lastname' => $customer['lastName'],
-			'email' => $customer['email']
-		));
-		wp_logout();
+    public function register($args)
+    {
+        $customer = $args['customer'];
 
-		return array(
-			'status' => is_user_logged_in()
-		);
-	}
+        $userdata = array(
+            'user_pass'  => $customer['password'],
+            'user_login' => $customer['email'],
+            'user_email' => $customer['email'],
+            'first_name' => $customer['firstName'],
+            'last_name'  => $customer['lastName']
+        );
 
-	public function register( $args ) {
-		$customer = $args['customer'];
+        $user_id = wp_insert_user($userdata);
+        if (! is_wp_error($user_id)) {
+            update_user_meta($user_id, 'phone', $customer['phone']);
+            $this->load->model('common/vuefront');
+            $this->model_common_vuefront->pushEvent('create_customer', array(
+                'customer_id' => $user_id,
+                'firstname' => $customer['firstName'],
+                'lastname' => $customer['lastName'],
+                'email' => $customer['email']
+            ));
+            return $this->get($user_id);
+        } else {
+            $error = reset($user_id->errors);
+            throw new Exception($error[0]);
+        }
+    }
 
-		$userdata = array(
-			'user_pass'  => $customer['password'],
-			'user_login' => $customer['email'],
-			'user_email' => $customer['email'],
-			'first_name' => $customer['firstName'],
-			'last_name'  => $customer['lastName']
-		);
+    public function edit($args)
+    {
+        global $current_user;
 
-		$user_id = wp_insert_user( $userdata );
-		if ( ! is_wp_error( $user_id ) ) {
-			$this->load->model('common/vuefront');
-			$this->model_common_vuefront->pushEvent('create_customer', array(
-				'customer_id' => $user_id,
-				'firstname' => $customer['firstName'],
-				'lastname' => $customer['lastName'],
-				'email' => $customer['email']
-			));
-			return $this->get( $user_id );
-		} else {
-			$error = reset( $user_id->errors );
-			throw new Exception( $error[0] );
-		}
-	}
+        $customer_data = $args['customer'];
 
-	public function edit( $args ) {
-		global $current_user;
+        $current_user->first_name = $customer_data['firstName'];
+        $current_user->last_name  = $customer_data['lastName'];
+        $current_user->user_email = $customer_data['email'];
 
-		$customer_data = $args['customer'];
+        wp_update_user($current_user);
 
-		$current_user->first_name = $customer_data['firstName'];
-		$current_user->last_name  = $customer_data['lastName'];
-		$current_user->user_email = $customer_data['email'];
+        update_user_meta($current_user->ID, 'phone', $customer_data['phone']);
 
-		wp_update_user( $current_user );
+        return $this->get($current_user->ID);
+    }
 
-		return $this->get( $current_user->ID );
-	}
+    public function editPassword($args)
+    {
+        global $current_user;
 
-	public function editPassword( $args ) {
-		global $current_user;
+        return $this->get($current_user->ID);
+    }
 
-		return $this->get( $current_user->ID );
-	}
+    public function get($user_id)
+    {
+        $user = get_user_by('ID', $user_id);
 
-	public function get( $user_id ) {
-		$user = get_user_by( 'ID', $user_id );
+        return array(
+            'id'        => $user->ID,
+            'email'     => $user->user_email,
+            'firstName' => $user->first_name,
+            'lastName'  => $user->last_name,
+            'phone'     => get_user_meta($user_id, 'phone', true)
+        );
+    }
 
-		return array(
-			'id'        => $user->ID,
-			'email'     => $user->user_email,
-			'firstName' => $user->first_name,
-			'lastName'  => $user->last_name
-		);
-	}
+    public function isLogged($args)
+    {
+        $customer = array();
 
-	public function isLogged( $args ) {
-		$customer = array();
+        if (is_user_logged_in()) {
+            $user = wp_get_current_user();
 
-		if ( is_user_logged_in() ) {
-			$user = wp_get_current_user();
+            $customer = array(
+                'id'        => $user->ID,
+                'email'     => $user->user_email,
+                'firstName' => $user->user_firstname,
+                'lastName'  => $user->user_lastname,
+                'phone'     => get_user_meta($user->ID, 'phone', true)
+            );
+        }
 
-			$customer = array(
-				'id'        => $user->ID,
-				'email'     => $user->user_email,
-				'firstName' => $user->user_firstname,
-				'lastName'  => $user->user_lastname
-			);
-		}
+        return array(
+            'status'   => is_user_logged_in(),
+            'customer' => $customer
+        );
+    }
 
-		return array(
-			'status'   => is_user_logged_in(),
-			'customer' => $customer
-		);
-	}
+    public function address($args)
+    {
+        $address = array();
 
-	public function address( $args ) {
-		$address = array();
+        global $current_user;
 
-		global $current_user;
+        switch ($args['id']) {
+            case 'billing':
+                $address = array(
+                    'id'        => 'billing',
+                    'firstName' => get_user_meta($current_user->ID, 'billing_first_name', true),
+                    'lastName'  => get_user_meta($current_user->ID, 'billing_last_name', true),
+                    'company'   => get_user_meta($current_user->ID, 'billing_company', true),
+                    'address1'  => get_user_meta($current_user->ID, 'billing_address_1', true),
+                    'address2'  => get_user_meta($current_user->ID, 'billing_address_2', true),
+                    'zoneId'    => '',
+                    'zone'      => array(
+                        'id'   => '',
+                        'name' => ''
+                    ),
+                    'country'   => $this->load->resolver('common/country/get', array(
+                        'id' => get_user_meta($current_user->ID, 'billing_country', true)
+                    )),
+                    'countryId' => get_user_meta($current_user->ID, 'billing_country', true),
+                    'city'      => get_user_meta($current_user->ID, 'billing_city', true),
+                    'zipcode'   => get_user_meta($current_user->ID, 'billing_postcode', true)
+                );
+                break;
+            case 'shipping':
+                $address = array(
+                    'id'        => 'shipping',
+                    'firstName' => get_user_meta($current_user->ID, 'shipping_first_name', true),
+                    'lastName'  => get_user_meta($current_user->ID, 'shipping_last_name', true),
+                    'company'   => get_user_meta($current_user->ID, 'shipping_company', true),
+                    'address1'  => get_user_meta($current_user->ID, 'shipping_address_1', true),
+                    'address2'  => get_user_meta($current_user->ID, 'shipping_address_2', true),
+                    'zoneId'    => '',
+                    'zone'      => array(
+                        'id'   => '',
+                        'name' => ''
+                    ),
+                    'country'   => $this->load->resolver('common/country/get', array(
+                        'id' => get_user_meta($current_user->ID, 'shipping_country', true)
+                    )),
+                    'countryId' => get_user_meta($current_user->ID, 'shipping_country', true),
+                    'city'      => get_user_meta($current_user->ID, 'shipping_city', true),
+                    'zipcode'   => get_user_meta($current_user->ID, 'shipping_postcode', true)
+                );
+                break;
+        }
 
-		switch ( $args['id'] ) {
-			case 'billing':
-				$address = array(
-					'id'        => 'billing',
-					'firstName' => get_user_meta( $current_user->ID, 'billing_first_name', true ),
-					'lastName'  => get_user_meta( $current_user->ID, 'billing_last_name', true ),
-					'company'   => get_user_meta( $current_user->ID, 'billing_company', true ),
-					'address1'  => get_user_meta( $current_user->ID, 'billing_address_1', true ),
-					'address2'  => get_user_meta( $current_user->ID, 'billing_address_2', true ),
-					'zoneId'    => '',
-					'zone'      => array(
-						'id'   => '',
-						'name' => ''
-					),
-					'country'   => $this->load->resolver( 'common/country/get', array(
-						'id' => get_user_meta( $current_user->ID, 'billing_country', true )
-					) ),
-					'countryId' => get_user_meta( $current_user->ID, 'billing_country', true ),
-					'city'      => get_user_meta( $current_user->ID, 'billing_city', true ),
-					'zipcode'   => get_user_meta( $current_user->ID, 'billing_postcode', true )
-				);
-				break;
-			case 'shipping':
-				$address = array(
-					'id'        => 'shipping',
-					'firstName' => get_user_meta( $current_user->ID, 'shipping_first_name', true ),
-					'lastName'  => get_user_meta( $current_user->ID, 'shipping_last_name', true ),
-					'company'   => get_user_meta( $current_user->ID, 'shipping_company', true ),
-					'address1'  => get_user_meta( $current_user->ID, 'shipping_address_1', true ),
-					'address2'  => get_user_meta( $current_user->ID, 'shipping_address_2', true ),
-					'zoneId'    => '',
-					'zone'      => array(
-						'id'   => '',
-						'name' => ''
-					),
-					'country'   => $this->load->resolver( 'common/country/get', array(
-						'id' => get_user_meta( $current_user->ID, 'shipping_country', true )
-					) ),
-					'countryId' => get_user_meta( $current_user->ID, 'shipping_country', true ),
-					'city'      => get_user_meta( $current_user->ID, 'shipping_city', true ),
-					'zipcode'   => get_user_meta( $current_user->ID, 'shipping_postcode', true )
-				);
-				break;
-		}
+        return $address;
+    }
 
-		return $address;
-	}
+    public function addressList($args)
+    {
+        $ids = array( 'billing', 'shipping' );
 
-	public function addressList( $args ) {
+        $address = array();
 
-		$ids = array( 'billing', 'shipping' );
+        foreach ($ids as $value) {
+            $address[] = $this->address(array( 'id' => $value ));
+        }
 
-		$address = array();
+        return $address;
+    }
 
-		foreach ( $ids as $value ) {
-			$address[] = $this->address( array( 'id' => $value ) );
-		}
+    public function editAddress($args)
+    {
+        global $current_user;
 
-		return $address;
-	}
+        $prefix = $args['id'];
 
-	public function editAddress( $args ) {
-		global $current_user;
+        $data = array(
+            'firstName' => '_first_name',
+            'lastName'  => '_last_name',
+            'company'   => '_company',
+            'address1'  => '_address_1',
+            'address2'  => '_address_2',
+            'countryId' => '_country',
+            'city'      => '_city',
+            'zipcode'   => '_postcode'
+        );
 
-		$prefix = $args['id'];
+        foreach ($data as $key => $value) {
+            update_user_meta($current_user->ID, $prefix . $value, $args['address'][ $key ]);
+        }
 
-		$data = array(
-			'firstName' => '_first_name',
-			'lastName'  => '_last_name',
-			'company'   => '_company',
-			'address1'  => '_address_1',
-			'address2'  => '_address_2',
-			'countryId' => '_country',
-			'city'      => '_city',
-			'zipcode'   => '_postcode'
-		);
+        return $this->address($args);
+    }
 
-		foreach ( $data as $key => $value ) {
-			update_user_meta( $current_user->ID, $prefix . $value, $args['address'][ $key ] );
-		}
+    public function addAddress($args)
+    {
+        throw new Exception('Adding an address is not possible in Wordpress');
+    }
 
-		return $this->address( $args );
-	}
-
-	public function addAddress( $args ) {
-		throw new Exception( 'Adding an address is not possible in Wordpress' );
-	}
-
-	public function removeAddress( $args ) {
-		throw new Exception( 'Removing an address is not possible in Wordpress' );
-	}
+    public function removeAddress($args)
+    {
+        throw new Exception('Removing an address is not possible in Wordpress');
+    }
 }

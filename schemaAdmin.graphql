@@ -48,4 +48,5 @@ type RootQueryType {
 }
 type RootMutationType {
    updateApp(name: String, settings: InputAppSetting): AppSetting
+   updateSite(number: Int): Boolean
 }
