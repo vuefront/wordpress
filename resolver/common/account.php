@@ -18,10 +18,9 @@ class VFA_ResolverCommonAccount extends VFA_Resolver
             $filter_data['search'] = $args['search'];
         }
 
-
         $filter_data['role'] = get_option('default_role');
 
-        $args                = wp_parse_args($filter_data);
+        $args = wp_parse_args($filter_data);
     
         $user_search = new WP_User_Query($args);
     

@@ -37,8 +37,9 @@ add_action('wp_ajax_vf_turn_on', 'VFA_vuefront_admin_action_turn_on');
 add_action('wp_ajax_vf_update', 'VFA_vuefront_admin_action_update');
 add_action('wp_ajax_vf_turn_off', 'VFA_vuefront_admin_action_turn_off');
 add_action('wp_ajax_vf_information', 'VFA_vuefront_admin_action_vf_information');
-register_activation_hook (__FILE__, 'VFA_install');
-add_action( 'plugins_loaded', 'VFA_update_db_check' );
+register_activation_hook(__FILE__, 'VFA_install');
+
+add_action('plugins_loaded', 'VFA_update_db_check');
 
 function VFA_vuefront_admin_styles()
 {
@@ -73,24 +74,27 @@ function VFA_vuefront_rmdir($dir)
     }
 }
 
-function VFA_vuefront_admin_action_settings() {
+function VFA_vuefront_admin_action_settings()
+{
     $vfSetting = get_option('vuefront-settings') ? get_option('vuefront-settings') : array();
     echo json_encode(
-        $vfSetting
-    , JSON_FORCE_OBJECT);
+        $vfSetting,
+        JSON_FORCE_OBJECT
+    );
 
     wp_die();
 }
 
-function VFA_vuefront_admin_action_settings_edit() {
-        $vfSetting = json_decode(stripslashes(html_entity_decode($_POST['setting'], ENT_QUOTES, 'UTF-8')), true);
-        update_option('vuefront-settings', $vfSetting);
+function VFA_vuefront_admin_action_settings_edit()
+{
+    $vfSetting = json_decode(stripslashes(html_entity_decode($_POST['setting'], ENT_QUOTES, 'UTF-8')), true);
+    update_option('vuefront-settings', $vfSetting);
 
-        echo json_encode(
-            array('success' => 'success')
-        );
+    echo json_encode(
+        array('success' => 'success')
+    );
     
-        wp_die();
+    wp_die();
 }
 
 function VFA_vuefront_admin_action_vf_information()
@@ -152,14 +156,15 @@ function VFA_vuefront_admin_action_apps_create()
     wp_die();
 }
 
-function VFA_install () {
-   global $wpdb;
+function VFA_install()
+{
+    global $wpdb;
 
-   $table_name = $wpdb->prefix . "vuefront_url"; 
+    $table_name = $wpdb->prefix . "vuefront_url";
 
-   $charset_collate = $wpdb->get_charset_collate();
+    $charset_collate = $wpdb->get_charset_collate();
 
-   $sql = 'CREATE TABLE IF NOT EXISTS `' . $table_name . '` (
+    $sql = 'CREATE TABLE IF NOT EXISTS `' . $table_name . '` (
             `id_url` int(11) unsigned NOT NULL AUTO_INCREMENT,
             `id` varchar( 255 ) NOT NULL,
             `type` varchar(64) NOT NULL,
@@ -167,18 +172,20 @@ function VFA_install () {
             PRIMARY KEY (`id_url`)
         ) '.$charset_collate;
 
-   require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
-    dbDelta( $sql );
+    require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
+    dbDelta($sql);
 }
 
-function VFA_update_db_check() {
+function VFA_update_db_check()
+{
     global $vfa_db_version;
-    if ( get_site_option( 'vfa_db_version' ) != $vfa_db_version ) {
+    if (get_site_option('vfa_db_version') != $vfa_db_version) {
         VFA_install();
     }
 }
 
-function VFA_vuefront_admin_action_apps_edit() {
+function VFA_vuefront_admin_action_apps_edit()
+{
     $setting = get_option('vuefront-apps');
 
     $app = json_decode(stripslashes(html_entity_decode($_POST['app'], ENT_QUOTES, 'UTF-8')), true);
@@ -435,6 +442,7 @@ function VFA_RestApi(WP_REST_Request $request)
     $registry = VFA_Start();
 
     $registry->set('request', $request);
+    $registry->set('response', rest_ensure_response(array()));
 
     $output = $registry->get('load')->resolver('startup/startup');
 
@@ -463,6 +471,11 @@ add_action('rest_api_init', function () {
         'methods'  => 'POST',
         'callback' => 'VFA_RestApi',
     ));
+
+    register_rest_route('vuefront/v1', '/graphql', array(
+      'methods'  => 'GET',
+      'callback' => 'VFA_RestApi',
+  ));
 
     register_rest_route('vuefront/v1', '/callback', array(
         'methods'  => 'POST',

@@ -17,19 +17,24 @@
  * @property VFA_ModelCommonSeo $model_common_seo
  * @property VFA_ModelStoreManufacturer $model_store_manufacturer
  * @property WP_REST_Request $request
+ * @property WP_REST_Response $response
  */
-abstract class VFA_Resolver {
-	protected $registry;
+abstract class VFA_Resolver
+{
+    protected $registry;
 
-	public function __construct($registry) {
-		$this->registry = $registry;
-	}
+    public function __construct($registry)
+    {
+        $this->registry = $registry;
+    }
 
-	public function __get($key) {
-		return $this->registry->get($key);
-	}
+    public function __get($key)
+    {
+        return $this->registry->get($key);
+    }
 
-	public function __set($key, $value) {
-		$this->registry->set($key, $value);
-	}
+    public function __set($key, $value)
+    {
+        $this->registry->set($key, $value);
+    }
 }
